@@ -446,6 +446,22 @@ h1 em { font-style: italic; color: var(--gold); }
   height: fit-content;
 }
 
+/* Desktop-only reveal gating for the left block */
+@media (min-width: 1025px) {
+  .sc-left.sc-left-gated {
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    transition: opacity 320ms ease, transform 320ms ease;
+    will-change: opacity, transform;
+  }
+  .sc-left.sc-left-gated.sc-left-visible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
 /* RIGHT: normal flow — its height drives the section scroll */
 .sc-right {
   padding: 80px 0 200px 0;
@@ -493,6 +509,10 @@ h1 em { font-style: italic; color: var(--gold); }
 #sc-entry-3 .sc-card { width: 100%; }
 /* Spacer between entries creates scroll distance */
 .sc-spacer { height: 75vh; display: block; }
+/* Terminal spacer creates hold-time after Fintech reaches sticky anchor */
+.sc-terminal-spacer { height: 60vh; display: block; }
+/* Keep Fintech fully readable during left-block reveal phase */
+.s-scenarios.phase-left-reveal #sc-entry-3 { opacity: 1; filter: none; transform: none; }
 
 /* ── TAB: now a child of .sc-card, sits at the top ── */
 .sc-card-tab {
@@ -621,6 +641,14 @@ h1 em { font-style: italic; color: var(--gold); }
   .sc-right         { padding: 0 0 60px 0; gap: 24px; }
   .sc-entry         { position: static; top: auto !important; background: transparent; margin-left: 0 !important; margin-bottom: 24px; }
   .sc-spacer        { display: none; }
+  .sc-terminal-spacer { display: none; }
+}
+
+@media (min-width: 1025px) and (prefers-reduced-motion: reduce) {
+  .sc-left.sc-left-gated {
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ╔═══════════════════════════════════════════════╗
@@ -1215,11 +1243,32 @@ h1 em { font-style: italic; color: var(--gold); }
   font-family: var(--f-mono);
   letter-spacing: 0.05em;
 }
+.footer-contact-submit .btn-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.45);
+  border-top-color: #ffffff;
+  animation: btn-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+.footer-contact-submit.is-submitting {
+  opacity: 0.88;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.footer-contact-submit.is-submitting .btn-spinner { display: inline-block; }
+.footer-contact-submit.is-submitting .btn-label { opacity: 0.95; }
 .footer-contact-msg {
   font-size: var(--t-sm);
   color: rgba(255,255,255,0.86);
 }
 .footer-contact-msg.ok { color: var(--gold); }
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .footer-contact-submit .btn-spinner { animation: none; }
+}
 
 /* Global call form popup (iframe to dedicated form file) */
 .call-form-overlay {
@@ -1343,10 +1392,57 @@ h1 em { font-style: italic; color: var(--gold); }
 
   #sprint-tablet .sprint-panel{
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
   }
   #sprint-tablet .sp-left{
+    padding: 20px 16px 14px;
     border-right: none;
     border-bottom: 1px solid var(--line);
+  }
+  #sprint-tablet .sp-day-num{
+    font-size: 2.6rem;
+    line-height: 0.9;
+    margin-bottom: 2px;
+    letter-spacing: -0.03em;
+  }
+  #sprint-tablet .sp-day-lbl{
+    margin-bottom: 10px;
+    font-size: 8px;
+  }
+  #sprint-tablet .sp-title{
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  #sprint-tablet .sp-desc{
+    font-size: 12px;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  #sprint-tablet .sp-right{
+    padding: 10px;
+    min-height: 0;
+  }
+  #sprint-tablet .sp-right > *{
+    width: 100%;
+  }
+  #sprint-tablet .sp-right svg{
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    display: block;
+  }
+  #sprint-tablet .ill-3{
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
+  #sprint-tablet #panel-s1 .task-card{
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+  #sprint-tablet #panel-s2 .security-panel{
+    transform: scale(0.92);
+    transform-origin: top center;
   }
 }
 
@@ -1697,6 +1793,7 @@ h1 em { font-style: italic; color: var(--gold); }
   .offer:hover { margin: 0; padding-left: 0; padding-right: 0; }
   .sprint-panel.on { grid-template-columns: 1fr; }
   .sp-left { border-right: none; border-bottom: 1px solid var(--line); }
+  #sprint-tablet .sp-right { min-height: 0; }
   .sp-right { min-height: 240px; }
   .faq-grid { grid-template-columns: 1fr; }
   .faq-left-sticky { position: static; }
@@ -1716,9 +1813,10 @@ h1 em { font-style: italic; color: var(--gold); }
 
 /* ── Mobile 640px ── */
 @media (max-width: 640px) {
-  .pad, .padM { padding: 56px 16px; }
-  .hero { padding: 0 16px; }
-  .hero-meta { padding-top: 80px; }
+  :root { --mob-gutter: 10px; }
+  .pad, .padM { padding: 56px var(--mob-gutter); }
+  .hero { padding: 80px var(--mob-gutter) 0; }
+  .hero-meta { padding-top: 0; }
   .hero-h h1 { font-size: clamp(2.8rem, 13vw, 4rem); }
   .hero-sub { font-size: 0.95rem; }
   .hero-stats { flex-direction: column; gap: 14px; }
@@ -1726,10 +1824,13 @@ h1 em { font-style: italic; color: var(--gold); }
   .btn { width: 100%; justify-content: center; text-align: center; }
   .stat-n { font-size: 1.6rem; }
   .tl-tab { padding: 10px 14px 9px; font-size: 9px; }
+  #sprint-tablet .sp-left { padding: 16px 14px 12px; }
+  #sprint-tablet .sp-day-num { font-size: 2.1rem; }
   .sp-left { padding: 28px 20px; }
   .sp-day-num { font-size: 4rem; }
   .sp-title { font-size: 1.05rem; }
   .sp-desc { font-size: 12.5px; }
+  #sprint-tablet .sp-right { padding: 8px; min-height: 0; }
   .sp-right { padding: 20px; min-height: 200px; }
   .task-card { padding: 14px; }
   .security-panel { gap: 8px; }
@@ -1744,7 +1845,8 @@ h1 em { font-style: italic; color: var(--gold); }
   .trust-col { padding: 24px 0; }
   .faq-q { font-size: 0.9rem; }
   .cta-btns { flex-direction: column; align-items: center; }
-  .footer { padding: 40px 16px 24px; }
+  .s-cta { padding: 80px var(--mob-gutter); }
+  .footer { padding: 40px var(--mob-gutter) 24px; }
   .footer-links { flex-wrap: wrap; gap: 12px; }
   .footer-contact-form { padding: 14px; }
   .call-form-overlay { padding: 8px; }
@@ -1752,8 +1854,49 @@ h1 em { font-style: italic; color: var(--gold); }
   .call-form-iframe { height: 94vh; border-radius: 14px; }
   .tl-tabs-bar { margin-top: 36px; }
   .hero-canvas { display: none; }
-  .w { padding: 0; }
-  .nav { padding: 0 16px; }
+  .nav { padding: 0 var(--mob-gutter); }
+
+  /* Global mobile gutter for wrapper-based sections */
+  .w,
+  .footer-w {
+    width: 100%;
+    max-width: 100%;
+    padding-left: var(--mob-gutter);
+    padding-right: var(--mob-gutter);
+  }
+
+  /* Avoid double gutter where parent already provides horizontal padding */
+  .pad > .w,
+  .padM > .w,
+  .s-cta > .w,
+  .hero .w,
+  .footer .footer-w {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Mobile width safety */
+  .cols-2 > *,
+  .cols-3 > *,
+  .faq-grid > *,
+  .offers-grid > *,
+  .sc-scroll-outer > *,
+  .hero-bar > *,
+  .hero-actions > *,
+  .hero-stats > * {
+    min-width: 0;
+  }
+
+  .stack-wrap,
+  .stack-panel,
+  .sc-card,
+  .req-card,
+  .ocard,
+  .deck-card,
+  .fit-result {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* ── SECTION VISUAL SEPARATORS ── */
@@ -2202,6 +2345,7 @@ h1 em { font-style: italic; color: var(--gold); }
             </div>
           </div>
         </div>
+        <div class="sc-terminal-spacer" aria-hidden="true"></div>
 
       </div><!-- /sc-right -->
     </div><!-- /sc-scroll-outer -->
@@ -2964,7 +3108,8 @@ h1 em { font-style: italic; color: var(--gold); }
         </div>
         <div class="footer-contact-actions">
           <button type="submit" class="btn btn-gold footer-contact-submit">
-            <span class="fr">Envoyer</span><span class="en">Send</span>
+            <span class="btn-label"><span class="fr">Envoyer</span><span class="en">Send</span></span>
+            <span class="btn-spinner" aria-hidden="true"></span>
           </button>
           <p class="footer-contact-msg" id="footer-contact-msg" role="status" aria-live="polite"></p>
         </div>
@@ -2987,7 +3132,7 @@ h1 em { font-style: italic; color: var(--gold); }
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script src="./forms-integration.js"></script>
+<script src="./forms-integration.js?v=20260225r2"></script>
 <script>
 'use strict';
 
@@ -3320,6 +3465,8 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
   const panel = document.getElementById('footer-contact-panel');
   const form = document.getElementById('footer-contact-form');
   const msg = document.getElementById('footer-contact-msg');
+  const submitBtn = form ? form.querySelector('.footer-contact-submit') : null;
+  const SUBMIT_FEEDBACK_MS = 500;
   if (!toggle || !panel || !form) return;
 
   function setOpen(open) {
@@ -3327,6 +3474,14 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
     panel.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+  }
+
+  function setSubmitting(isSubmitting) {
+    form.dataset.submitting = isSubmitting ? '1' : '0';
+    form.setAttribute('aria-busy', isSubmitting ? 'true' : 'false');
+    if (!submitBtn) return;
+    submitBtn.disabled = isSubmitting;
+    submitBtn.classList.toggle('is-submitting', isSubmitting);
   }
 
   toggle.addEventListener('click', e => {
@@ -3345,6 +3500,7 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (form.dataset.submitting === '1') return;
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
@@ -3357,21 +3513,33 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
       message: (form.elements.message && form.elements.message.value || '').trim()
     };
     const website = (form.elements.website && form.elements.website.value || '').trim();
-    if (window.SAAFormsBridge && typeof window.SAAFormsBridge.submitFooter === 'function') {
-      window.SAAFormsBridge.submitFooter(data, {
-        lang,
-        page_url: window.location.href,
-        form_started_at: Number(form.dataset.startedAt || Date.now()),
-        website
-      });
-    }
     if (msg) {
-      msg.classList.add('ok');
-      msg.textContent = lang === 'fr'
-        ? 'Message reçu. Nous revenons vers vous sous 24h.'
-        : 'Message received. We will get back to you within 24 hours.';
+      msg.classList.remove('ok');
+      msg.textContent = '';
     }
-    form.reset();
+    setSubmitting(true);
+    try {
+      if (window.SAAFormsBridge && typeof window.SAAFormsBridge.submitFooter === 'function') {
+        window.SAAFormsBridge.submitFooter(data, {
+          lang,
+          page_url: window.location.href,
+          form_started_at: Number(form.dataset.startedAt || Date.now()),
+          website
+        });
+      }
+    } catch (_) {
+      // UX stays optimistic by design; submit bridge errors are non-blocking here.
+    }
+    window.setTimeout(() => {
+      if (msg) {
+        msg.classList.add('ok');
+        msg.textContent = lang === 'fr'
+          ? 'Message reçu. Nous revenons vers vous sous 24h.'
+          : 'Message received. We will get back to you within 24 hours.';
+      }
+      form.reset();
+      setSubmitting(false);
+    }, SUBMIT_FEEDBACK_MS);
   });
 })();
 
@@ -3482,8 +3650,17 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
 
 /* ═══ SCROLL STACK — Active card state (bidirectional, stable) ═══ */
 (function() {
-  const entries = Array.from(document.querySelectorAll('.sc-entry'));
+  const section = document.getElementById('s-scenarios');
+  if (!section) return;
+
+  const entries = Array.from(section.querySelectorAll('.sc-entry'));
   if (!entries.length) return;
+  const leftBlock = section.querySelector('.sc-left');
+  const terminalSpacer = section.querySelector('.sc-terminal-spacer');
+  const fintechEntry = section.querySelector('#sc-entry-3');
+  const desktopMq = window.matchMedia('(min-width: 1025px)');
+
+  if (leftBlock) leftBlock.classList.add('sc-left-gated');
 
   // Default active = first card
   let activeEl = entries[0];
@@ -3499,9 +3676,35 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
     const y = window.scrollY || 0;
     if (y !== lastY) dir = y > lastY ? 1 : -1;
     lastY = y;
+    updateLeftRevealState();
   }, { passive: true });
 
   const EPS = 0.5; // px tolerance for "same position" comparisons
+  const STICKY_ANCHOR_RATIO = 0.10;
+  const TERMINAL_TRIGGER_RATIO = 0.70;
+  const ANCHOR_TOLERANCE = 6;
+
+  function setLeftRevealState(show) {
+    if (!leftBlock) return;
+    leftBlock.classList.toggle('sc-left-visible', !!show);
+    section.classList.toggle('phase-left-reveal', !!show);
+  }
+
+  function updateLeftRevealState() {
+    if (!leftBlock || !terminalSpacer || !fintechEntry) return;
+    if (!desktopMq.matches) {
+      setLeftRevealState(false);
+      return;
+    }
+    const anchorTop = window.innerHeight * STICKY_ANCHOR_RATIO;
+    const fintechTop = fintechEntry.getBoundingClientRect().top;
+    const fintechAnchored = Math.abs(fintechTop - anchorTop) <= ANCHOR_TOLERANCE;
+    const terminalTop = terminalSpacer.getBoundingClientRect().top;
+    const reachedTerminalZone = terminalTop <= window.innerHeight * TERMINAL_TRIGGER_RATIO;
+    const fintechActive = activeEl === fintechEntry;
+
+    setLeftRevealState(fintechActive && fintechAnchored && reachedTerminalZone);
+  }
 
   function pickBestActive() {
     const mid = window.innerHeight * 0.5;
@@ -3521,7 +3724,10 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
       });
     }
 
-    if (!candidates.length) return;
+    if (!candidates.length) {
+      setLeftRevealState(false);
+      return;
+    }
 
     // Primary: closest to viewport middle.
     // Secondary: higher intersection ratio.
@@ -3541,6 +3747,7 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
       entries.forEach(e => e.classList.toggle('is-active', e === best));
       activeEl = best;
     }
+    updateLeftRevealState();
   }
 
   const io = new IntersectionObserver(records => {
@@ -3557,6 +3764,10 @@ document.querySelectorAll('.nav-drawer-a').forEach(a => {
   });
 
   entries.forEach(e => io.observe(e));
+  window.addEventListener('resize', updateLeftRevealState, { passive: true });
+  if (desktopMq.addEventListener) desktopMq.addEventListener('change', updateLeftRevealState);
+  else if (desktopMq.addListener) desktopMq.addListener(updateLeftRevealState);
+  updateLeftRevealState();
 })();
 
 /* ═══ OFFERS — Cards & Timeline ═══ */
