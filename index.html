@@ -778,12 +778,56 @@ h1 em { font-style: italic; color: var(--gold); }
   font-size: var(--t-sm); color: var(--ink-3); line-height: 1.72;
 }
 .ocard-hint {
-  font-family: var(--f-mono); font-size: var(--t-label);
-  letter-spacing: 0.07em; color: var(--viv-blue);
-  display: flex; align-items: center; gap: 6px; margin-top: 12px;
-  transition: gap 0.22s var(--smooth);
+  font-family: var(--f-mono); font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.06em; color: var(--viv-blue);
+  display: inline-flex; align-items: center; gap: 0; margin-top: 12px;
+  width: fit-content;
+  transition: color 0.2s var(--smooth);
 }
-.ocard:hover .ocard-hint { gap: 10px; }
+.ocard-hint .hint-label {
+  position: relative;
+  display: inline-block;
+  line-height: 1.2;
+}
+.ocard-hint .hint-label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1.5px;
+  background: currentColor;
+  transform-origin: left center;
+  transform: scaleX(0.16);
+  opacity: 0.45;
+  animation: hint-underline-sweep 1.8s var(--smooth) infinite;
+}
+.ocard:hover .ocard-hint,
+.ocard:focus-within .ocard-hint {
+  color: var(--viv-blue-h);
+}
+.ocard:hover .ocard-hint .hint-label::after,
+.ocard:focus-within .ocard-hint .hint-label::after {
+  animation-duration: 1.3s;
+  opacity: 1;
+}
+.ocard.active .ocard-hint .hint-label::after { animation: none; }
+.ocard.active .ocard-hint .hint-label::after {
+  transform: scaleX(1);
+  opacity: 0.8;
+}
+@keyframes hint-underline-sweep {
+  0%, 100% { transform: scaleX(0.16); opacity: 0.36; }
+  40% { transform: scaleX(1); opacity: 0.92; }
+  70% { transform: scaleX(0.56); opacity: 0.55; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ocard-hint .hint-label::after { animation: none; }
+  .ocard-hint .hint-label::after {
+    transform: scaleX(1);
+    opacity: 0.75;
+  }
+}
 
 /* Expanded panel */
 .ocard-panel {
@@ -927,6 +971,7 @@ h1 em { font-style: italic; color: var(--gold); }
   .pain-item:nth-child(2) { border-right: none; }
   .pain-item:nth-child(1), .pain-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.08); }
   .offers-grid { grid-template-columns: 1fr; }
+  .ocard-hint { font-size: 0.82rem; }
   .offers-grid .ocard.is-core { order: -1; }
   .offers-reassurance { grid-template-columns: 1fr; }
   .ritem { border-right: none; }
@@ -1163,14 +1208,30 @@ h1 em { font-style: italic; color: var(--gold); }
 .footer-links a:hover { color: var(--gold); }
 .footer-link-hidden { display: none !important; }
 .footer-contact-toggle {
-  color: rgba(255,255,255,0.74) !important;
-  transform-origin: left center;
-  transition: color 0.2s, transform 0.28s var(--spring), letter-spacing 0.22s var(--smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,0.32);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.9) !important;
+  letter-spacing: 0.1em;
+  transform-origin: center;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.24s var(--spring), letter-spacing 0.22s var(--smooth);
+}
+.footer-contact-toggle:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.48);
+  color: #ffffff !important;
 }
 .footer-contact-toggle.open {
   color: #ffffff !important;
-  transform: scale(1.14);
-  letter-spacing: 0.1em;
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.58);
+  transform: scale(1.04);
+  letter-spacing: 0.11em;
 }
 .footer-contact-panel {
   max-height: 0;
@@ -1291,7 +1352,8 @@ h1 em { font-style: italic; color: var(--gold); }
 }
 .call-form-dialog {
   position: relative;
-  width: min(580px, calc(100vw - 24px));
+  /* Canonical popup width: keep parent shell aligned with real form modal */
+  width: min(500px, calc(100vw - 24px));
   transform: translateY(12px) scale(0.985);
   transition: transform 0.28s var(--smooth);
 }
@@ -1300,7 +1362,8 @@ h1 em { font-style: italic; color: var(--gold); }
 }
 .call-form-iframe {
   width: 100%;
-  height: clamp(520px, 82vh, 740px);
+  /* Canonical popup height: match real modal behavior */
+  height: clamp(420px, 84vh, 620px);
   border: none;
   border-radius: 18px;
   background: transparent;
@@ -1847,14 +1910,32 @@ h1 em { font-style: italic; color: var(--gold); }
   .cta-btns { flex-direction: column; align-items: center; }
   .s-cta { padding: 80px var(--mob-gutter); }
   .footer { padding: 40px var(--mob-gutter) 24px; }
-  .footer-links { flex-wrap: wrap; gap: 12px; }
+  .footer-links { width: 100%; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+  .footer-contact-toggle { margin-inline: auto; }
   .footer-contact-form { padding: 14px; }
   .call-form-overlay { padding: 8px; }
   .call-form-dialog { width: calc(100vw - 12px); }
-  .call-form-iframe { height: 94vh; border-radius: 14px; }
+  .call-form-iframe { height: min(84vh, 84dvh); border-radius: 14px; }
   .tl-tabs-bar { margin-top: 36px; }
   .hero-canvas { display: none; }
   .nav { padding: 0 var(--mob-gutter); }
+  .s-what-r { overflow-x: hidden; }
+  .stack-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: 100%; max-width: 100%; }
+  .stack-wrap { padding-right: 0; overflow: hidden; max-width: 100%; }
+  .stack-panel { max-width: 100%; }
+  .stack-btn {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 8px;
+    font-size: 10px;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+  }
+  .stack-btn .fr,
+  .stack-btn .en {
+    white-space: normal;
+  }
 
   /* Global mobile gutter for wrapper-based sections */
   .w,
@@ -2121,23 +2202,6 @@ h1 em { font-style: italic; color: var(--gold); }
         </p>
         <a href="#s-scenarios" class="btn btn-outline fr">Voir des exemples concrets</a>
         <a href="#s-scenarios" class="btn btn-outline en" style="display:none">See real examples</a>
-        <div class="s-what-proof stagger">
-          <div>
-            <div class="proof-n">48h</div>
-            <div class="proof-l fr">Premier goulot<br>diagnostiqué</div>
-            <div class="proof-l en">First bottleneck<br>diagnosed</div>
-          </div>
-          <div>
-            <div class="proof-n">4</div>
-            <div class="proof-l fr">Secteurs,<br>une méthode</div>
-            <div class="proof-l en">Sectors,<br>one method</div>
-          </div>
-          <div>
-            <div class="proof-n">0</div>
-            <div class="proof-l fr">Dépendance<br>fournisseur</div>
-            <div class="proof-l en">Vendor<br>lock-in</div>
-          </div>
-        </div>
       </div>
 
       <div class="s-what-r rv d2">
@@ -2210,10 +2274,790 @@ h1 em { font-style: italic; color: var(--gold); }
             </div>
           </div>
         </div>
+        <div class="s-what-proof stagger">
+          <div>
+            <div class="proof-n">48h</div>
+            <div class="proof-l fr">Premier goulot<br>diagnostiqué</div>
+            <div class="proof-l en">First bottleneck<br>diagnosed</div>
+          </div>
+          <div>
+            <div class="proof-n">4</div>
+            <div class="proof-l fr">Secteurs,<br>une méthode</div>
+            <div class="proof-l en">Sectors,<br>one method</div>
+          </div>
+          <div>
+            <div class="proof-n">0</div>
+            <div class="proof-l fr">Dépendance<br>fournisseur</div>
+            <div class="proof-l en">Vendor<br>lock-in</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ══════════ PROJECTS — DEPLOYED SYSTEMS ══════════ -->
+
+<style>
+/* ╔═══════════════════════════════════════════════╗
+   ║  SECTION: PROJECTS — DEPLOYED SYSTEMS          ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-projects {
+  background: var(--dark-2);
+  padding: 120px 48px 100px;
+  position: relative;
+  overflow: hidden;
+}
+.s-projects::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(245,158,11,0.2) 30%, rgba(245,158,11,0.2) 70%, transparent 100%);
+}
+.s-projects::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.06) 70%, transparent 100%);
+}
+
+/* ── Header ── */
+.proj-header {
+  max-width: 1160px;
+  margin: 0 auto 56px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 60px;
+  align-items: end;
+}
+.proj-eyebrow {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+  display: block;
+}
+.proj-headline {
+  font-family: var(--f-display);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: rgba(255,255,255,0.95);
+}
+.proj-headline em {
+  font-style: italic;
+  color: var(--gold);
+}
+.proj-intro {
+  font-size: var(--t-body);
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+  max-width: 42ch;
+  padding-bottom: 4px;
+}
+.proj-intro strong {
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+}
+
+/* ── Cards grid ── */
+.proj-grid {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ── Card ── */
+.proj-card {
+  background: #ffffff;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s var(--smooth), box-shadow 0.35s var(--smooth);
+  opacity: 0;
+  transform: translateY(24px);
+}
+.proj-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s var(--smooth), transform 0.55s var(--smooth), box-shadow 0.35s var(--smooth);
+}
+.proj-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 44px rgba(0,0,0,0.25);
+}
+
+/* ── Illustration zone ── */
+.proj-illust {
+  height: 210px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.proj-illust svg {
+  width: 100%;
+  height: 100%;
+}
+.proj-illust-num {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  opacity: 0.45;
+}
+
+/* ── Card body ── */
+.proj-body {
+  padding: 20px 20px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.proj-tag {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.proj-title {
+  font-family: var(--f-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.proj-desc {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  line-height: 1.75;
+  flex: 1;
+}
+
+/* ── Outcome strip ── */
+.proj-outcome {
+  padding: 14px 20px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.proj-outcome-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--viv-green);
+  flex-shrink: 0;
+  margin-top: 5px;
+  animation: breathe 2.5s infinite;
+}
+.proj-outcome-txt {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  line-height: 1.55;
+}
+.proj-outcome-txt strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ── Keywords ── */
+.proj-keys {
+  padding: 10px 20px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.proj-key {
+  font-family: var(--f-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 7px;
+}
+
+/* ── Signal bar ── */
+.proj-signal {
+  max-width: 1160px;
+  margin: 48px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.proj-signal-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.proj-signal-n {
+  font-family: var(--f-display);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: rgba(255,255,255,0.95);
+  line-height: 1;
+}
+.proj-signal-l {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.07em;
+  color: rgba(255,255,255,0.4);
+}
+.proj-signal-sep {
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.proj-signal-cta {
+  margin-left: auto;
+}
+
+/* ── SVG illustration internals ── */
+/* draw-line, node-pop, etc. already exist globally */
+/* Project-scoped animations for scroll trigger */
+.proj-illust .pi-block,
+.proj-illust .pi-line,
+.proj-illust .pi-label,
+.proj-illust .pi-bar,
+.proj-illust .pi-badge {
+  opacity: 0;
+}
+.proj-card.is-visible .pi-block  { animation: pi-fade-up 0.4s var(--smooth) forwards; }
+.proj-card.is-visible .pi-line   { animation: pi-draw 0.5s var(--smooth) forwards; }
+.proj-card.is-visible .pi-label  { animation: pi-fade 0.35s var(--smooth) forwards; }
+.proj-card.is-visible .pi-bar    { animation: pi-grow 0.7s var(--smooth) forwards; }
+.proj-card.is-visible .pi-badge  { animation: pi-pop 0.3s var(--spring) forwards; }
+
+/* Stagger delays via nth-child inside each SVG */
+.proj-card.is-visible .pi-d1 { animation-delay: 0.08s; }
+.proj-card.is-visible .pi-d2 { animation-delay: 0.18s; }
+.proj-card.is-visible .pi-d3 { animation-delay: 0.28s; }
+.proj-card.is-visible .pi-d4 { animation-delay: 0.38s; }
+.proj-card.is-visible .pi-d5 { animation-delay: 0.48s; }
+.proj-card.is-visible .pi-d6 { animation-delay: 0.58s; }
+.proj-card.is-visible .pi-d7 { animation-delay: 0.68s; }
+.proj-card.is-visible .pi-d8 { animation-delay: 0.78s; }
+.proj-card.is-visible .pi-d9 { animation-delay: 0.88s; }
+.proj-card.is-visible .pi-d10 { animation-delay: 0.98s; }
+
+@keyframes pi-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pi-draw {
+  from { stroke-dashoffset: 200; opacity: 1; }
+  to   { stroke-dashoffset: 0;   opacity: 1; }
+}
+@keyframes pi-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pi-grow {
+  from { opacity: 1; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+@keyframes pi-pop {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Pulse for live dot inside illustrations */
+@keyframes pi-pulse {
+  0%, 100% { opacity: 1; r: 3; }
+  50%      { opacity: 0.4; r: 5; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .s-projects { padding: 80px 24px 72px; }
+  .proj-header { grid-template-columns: 1fr; gap: 16px; }
+  .proj-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .proj-signal { flex-wrap: wrap; gap: 20px; }
+}
+@media (max-width: 640px) {
+  .s-projects { padding: 64px 20px 56px; }
+  .proj-grid { grid-template-columns: 1fr; gap: 16px; }
+  .proj-illust { height: 180px; }
+  .proj-signal { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .proj-signal-cta { margin-left: 0; width: 100%; }
+  .proj-signal-cta .btn { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .proj-card { opacity: 1; transform: none; }
+  .proj-illust .pi-block,
+  .proj-illust .pi-line,
+  .proj-illust .pi-label,
+  .proj-illust .pi-bar,
+  .proj-illust .pi-badge { opacity: 1; }
+}
+</style>
+
+<section class="s-projects" id="s-projects">
+  <div class="proj-header">
+    <div>
+      <span class="proj-eyebrow fr">Projets déployés</span>
+      <span class="proj-eyebrow en">Deployed projects</span>
+      <h2 class="proj-headline fr">Ce n'est pas une promesse.<br>C'est <em>déjà en production.</em></h2>
+      <h2 class="proj-headline en">This isn't a promise.<br>It's <em>already in production.</em></h2>
+    </div>
+    <p class="proj-intro">
+      <span class="fr">Quatre contextes où les outils existants avaient échoué. <strong>Chaque projet a livré un système opérationnel en conditions réelles</strong> — pas une démo, pas un POC.</span>
+      <span class="en">Four contexts where existing tools had failed. <strong>Each project delivered a working system under real conditions</strong> — not a demo, not a POC.</span>
+    </p>
+  </div>
+
+  <div class="proj-grid" id="proj-grid">
+
+    <!-- ═══════════════════════════════════════════
+         CARD 1 — PILOTAGE INSTITUTIONNEL
+         Dashboard consolidation from field cards
+         ═══════════════════════════════════════════ -->
+    <div class="proj-card" data-delay="0">
+      <div class="proj-illust">
+        <span class="proj-illust-num">01</span>
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Field source cards (left stack) -->
+          <!-- Card: THIÈS -->
+          <rect class="pi-block pi-d1" x="10" y="16" width="72" height="34" rx="6" fill="#ffffff" stroke="#1565C0" stroke-width="1.5"/>
+          <text class="pi-label pi-d2" x="22" y="30" font-family="JetBrains Mono,monospace" font-size="7" font-weight="600" fill="#1565C0">THIÈS</text>
+          <rect class="pi-label pi-d2" x="22" y="35" width="32" height="3" rx="1.5" fill="#E3F2FD"/>
+          <circle class="pi-badge pi-d3" cx="70" cy="28" r="3" fill="#3DB869"/>
+
+          <!-- Card: ZIGUINCHOR -->
+          <rect class="pi-block pi-d2" x="10" y="60" width="72" height="34" rx="6" fill="#ffffff" stroke="#7B1FA2" stroke-width="1.5"/>
+          <text class="pi-label pi-d3" x="22" y="74" font-family="JetBrains Mono,monospace" font-size="6.5" font-weight="600" fill="#7B1FA2">ZIGUINCHOR</text>
+          <rect class="pi-label pi-d3" x="22" y="79" width="28" height="3" rx="1.5" fill="#F3E5F5"/>
+          <circle class="pi-badge pi-d4" cx="70" cy="72" r="3" fill="#3DB869"/>
+
+          <!-- Card: KAOLACK -->
+          <rect class="pi-block pi-d3" x="10" y="104" width="72" height="34" rx="6" fill="#ffffff" stroke="#F9A825" stroke-width="1.5"/>
+          <text class="pi-label pi-d4" x="22" y="118" font-family="JetBrains Mono,monospace" font-size="7" font-weight="600" fill="#F9A825">KAOLACK</text>
+          <rect class="pi-label pi-d4" x="22" y="123" width="24" height="3" rx="1.5" fill="#FFF8E1"/>
+          <circle class="pi-badge pi-d5" cx="70" cy="116" r="3" fill="#F59E0B"/>
+
+          <!-- Directional arrows: field → dashboard -->
+          <line class="pi-line pi-d4" x1="88" y1="33" x2="128" y2="62" stroke="#BDBDBD" stroke-width="1.5" stroke-dasharray="200"/>
+          <line class="pi-line pi-d5" x1="88" y1="77" x2="128" y2="77" stroke="#BDBDBD" stroke-width="1.5" stroke-dasharray="200"/>
+          <line class="pi-line pi-d5" x1="88" y1="121" x2="128" y2="92" stroke="#BDBDBD" stroke-width="1.5" stroke-dasharray="200"/>
+
+          <!-- Convergence arrow heads -->
+          <path class="pi-label pi-d6" d="M124 58 L130 62 L124 66" stroke="#BDBDBD" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path class="pi-label pi-d6" d="M124 73 L130 77 L124 81" stroke="#BDBDBD" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path class="pi-label pi-d6" d="M124 88 L130 92 L124 96" stroke="#BDBDBD" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+          <!-- Dashboard panel (right) -->
+          <rect class="pi-block pi-d6" x="136" y="26" width="114" height="108" rx="8" fill="#ffffff" stroke="#D94F1E" stroke-width="2"/>
+          <!-- Dashboard header bar -->
+          <rect class="pi-label pi-d7" x="136" y="26" width="114" height="22" rx="8" fill="#FBE9E7"/>
+          <rect class="pi-label pi-d7" x="136" y="40" width="114" height="8" rx="0" fill="#FBE9E7"/>
+          <text class="pi-label pi-d7" x="148" y="40" font-family="JetBrains Mono,monospace" font-size="7" font-weight="700" fill="#D94F1E">TABLEAU DE BORD</text>
+
+          <!-- Dashboard content: progress bars -->
+          <text class="pi-label pi-d8" x="148" y="63" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#64748B">COLLECTE TERRAIN</text>
+          <rect class="pi-label pi-d8" x="148" y="67" width="88" height="5" rx="2.5" fill="#E2E8F0"/>
+          <rect class="pi-bar pi-d8" x="148" y="67" width="76" height="5" rx="2.5" fill="#1565C0" style="transform-origin: 148px center;"/>
+
+          <text class="pi-label pi-d9" x="148" y="84" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#64748B">RAPPORTS VALIDÉS</text>
+          <rect class="pi-label pi-d9" x="148" y="88" width="88" height="5" rx="2.5" fill="#E2E8F0"/>
+          <rect class="pi-bar pi-d9" x="148" y="88" width="62" height="5" rx="2.5" fill="#2E7D32" style="transform-origin: 148px center;"/>
+
+          <text class="pi-label pi-d10" x="148" y="105" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#64748B">INDICATEURS SYNC.</text>
+          <rect class="pi-label pi-d10" x="148" y="109" width="88" height="5" rx="2.5" fill="#E2E8F0"/>
+          <rect class="pi-bar pi-d10" x="148" y="109" width="84" height="5" rx="2.5" fill="#F9A825" style="transform-origin: 148px center;"/>
+
+          <!-- CONSOLIDÉ badge bottom-right -->
+          <rect class="pi-badge pi-d10" x="192" y="120" width="52" height="14" rx="3" fill="#D1FAE5"/>
+          <text class="pi-label pi-d10" x="200" y="130" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#10B981">CONSOLIDÉ</text>
+
+          <!-- Subtle watermark label -->
+          <text class="pi-label pi-d1" x="10" y="162" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#CBD5E1" letter-spacing="0.08em">REMONTÉE TERRAIN → DIRECTION</text>
+        </svg>
+      </div>
+      <div class="proj-body">
+        <div class="proj-tag fr">Pilotage institutionnel</div>
+        <div class="proj-tag en">Institutional governance</div>
+        <h3 class="proj-title fr">Reprendre le contrôle sur la donnée terrain</h3>
+        <h3 class="proj-title en">Regaining control of field data</h3>
+        <p class="proj-desc fr">Les rapports arrivaient tard, incohérents, reconstitués à la main. Un cadre unique de remontée — du terrain à la direction — une seule vérité, consolidée et traçable.</p>
+        <p class="proj-desc en">Reports arrived late, inconsistent, manually assembled. A single reporting framework — from the field to leadership — one truth, consolidated and traceable.</p>
+      </div>
+      <div class="proj-outcome">
+        <span class="proj-outcome-dot"></span>
+        <span class="proj-outcome-txt fr"><strong>Résultat</strong> — Pilotage centralisé, arbitrages sur données consolidées</span>
+        <span class="proj-outcome-txt en"><strong>Result</strong> — Centralized oversight, decisions on consolidated data</span>
+      </div>
+      <div class="proj-keys">
+        <span class="proj-key">Gouvernance</span>
+        <span class="proj-key">Indicateurs</span>
+        <span class="proj-key">Coordination</span>
+        <span class="proj-key">Traçabilité</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         CARD 2 — FINANCE TERRAIN
+         Transaction ledger with audit trail
+         ═══════════════════════════════════════════ -->
+    <div class="proj-card" data-delay="100">
+      <div class="proj-illust">
+        <span class="proj-illust-num">02</span>
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Ledger container -->
+          <rect class="pi-block pi-d1" x="24" y="10" width="212" height="126" rx="8" fill="#ffffff" stroke="#E2E8F0" stroke-width="1.5"/>
+
+          <!-- Header row -->
+          <rect class="pi-label pi-d1" x="24" y="10" width="212" height="22" rx="8" fill="#F5F4F2"/>
+          <rect class="pi-label pi-d1" x="24" y="24" width="212" height="8" rx="0" fill="#F5F4F2"/>
+          <text class="pi-label pi-d2" x="36" y="26" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#64748B" letter-spacing="0.1em">REF.</text>
+          <text class="pi-label pi-d2" x="90" y="26" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#64748B" letter-spacing="0.1em">MONTANT</text>
+          <text class="pi-label pi-d2" x="152" y="26" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#64748B" letter-spacing="0.1em">AGENT</text>
+          <text class="pi-label pi-d2" x="202" y="26" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#64748B" letter-spacing="0.1em">STATUT</text>
+
+          <!-- Row 1 -->
+          <line class="pi-label pi-d3" x1="36" y1="50" x2="224" y2="50" stroke="#E2E8F0" stroke-width="1"/>
+          <text class="pi-label pi-d3" x="36" y="45" font-family="JetBrains Mono,monospace" font-size="7" fill="#334155">TXN-0041</text>
+          <text class="pi-label pi-d3" x="90" y="45" font-family="Inter,sans-serif" font-size="7.5" font-weight="500" fill="#0F172A">245 000 F</text>
+          <text class="pi-label pi-d3" x="152" y="45" font-family="Inter,sans-serif" font-size="7" fill="#64748B">Mamadou D.</text>
+          <rect class="pi-badge pi-d4" x="200" y="37" width="32" height="12" rx="3" fill="#D1FAE5"/>
+          <text class="pi-label pi-d4" x="205" y="46" font-family="JetBrains Mono,monospace" font-size="5.5" font-weight="600" fill="#10B981">VÉRIFIÉ</text>
+
+          <!-- Row 2 -->
+          <line class="pi-label pi-d4" x1="36" y1="70" x2="224" y2="70" stroke="#E2E8F0" stroke-width="1"/>
+          <text class="pi-label pi-d4" x="36" y="65" font-family="JetBrains Mono,monospace" font-size="7" fill="#334155">TXN-0042</text>
+          <text class="pi-label pi-d4" x="90" y="65" font-family="Inter,sans-serif" font-size="7.5" font-weight="500" fill="#0F172A">180 500 F</text>
+          <text class="pi-label pi-d4" x="152" y="65" font-family="Inter,sans-serif" font-size="7" fill="#64748B">Awa S.</text>
+          <rect class="pi-badge pi-d5" x="200" y="57" width="32" height="12" rx="3" fill="#D1FAE5"/>
+          <text class="pi-label pi-d5" x="205" y="66" font-family="JetBrains Mono,monospace" font-size="5.5" font-weight="600" fill="#10B981">VÉRIFIÉ</text>
+
+          <!-- Row 3 -->
+          <line class="pi-label pi-d5" x1="36" y1="90" x2="224" y2="90" stroke="#E2E8F0" stroke-width="1"/>
+          <text class="pi-label pi-d5" x="36" y="85" font-family="JetBrains Mono,monospace" font-size="7" fill="#334155">TXN-0043</text>
+          <text class="pi-label pi-d5" x="90" y="85" font-family="Inter,sans-serif" font-size="7.5" font-weight="500" fill="#0F172A">92 000 F</text>
+          <text class="pi-label pi-d5" x="152" y="85" font-family="Inter,sans-serif" font-size="7" fill="#64748B">Ibrahima K.</text>
+          <rect class="pi-badge pi-d6" x="196" y="77" width="38" height="12" rx="3" fill="#FEF3C7"/>
+          <text class="pi-label pi-d6" x="200" y="86" font-family="JetBrains Mono,monospace" font-size="5.5" font-weight="600" fill="#D97706">EN COURS</text>
+
+          <!-- Separator -->
+          <line class="pi-line pi-d6" x1="36" y1="100" x2="224" y2="100" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+          <!-- Audit trail block -->
+          <rect class="pi-block pi-d7" x="36" y="106" width="190" height="22" rx="5" fill="#F5F4F2" stroke="#CBD5E1" stroke-width="1"/>
+          <!-- Lock icon (small rect + arc) -->
+          <rect class="pi-label pi-d8" x="44" y="112" width="8" height="9" rx="2" fill="none" stroke="#64748B" stroke-width="1.2"/>
+          <path class="pi-label pi-d8" d="M46 112 V109 a2 2 0 0 1 4 0 V112" stroke="#64748B" stroke-width="1.2" fill="none"/>
+          <text class="pi-label pi-d8" x="58" y="120" font-family="JetBrains Mono,monospace" font-size="6.5" font-weight="600" fill="#64748B">PISTE D'AUDIT COMPLÈTE</text>
+
+          <!-- Bottom label -->
+          <text class="pi-label pi-d1" x="24" y="155" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#CBD5E1" letter-spacing="0.08em">FLUX FORMALISÉS · AUDITABLES · SANS LOURDEUR</text>
+        </svg>
+      </div>
+      <div class="proj-body">
+        <div class="proj-tag fr">Finance terrain</div>
+        <div class="proj-tag en">Field finance</div>
+        <h3 class="proj-title fr">Structurer les flux sans complexifier l'usage</h3>
+        <h3 class="proj-title en">Structuring flows without adding complexity</h3>
+        <p class="proj-desc fr">Des flux financiers portés par des acteurs peu digitalisés, sans traçabilité. Chaque mouvement formalisé — auditable, compréhensible, sans formation lourde.</p>
+        <p class="proj-desc en">Financial flows carried by barely digital actors, no traceability. Every movement formalized — auditable, understandable, no heavy training.</p>
+      </div>
+      <div class="proj-outcome">
+        <span class="proj-outcome-dot"></span>
+        <span class="proj-outcome-txt fr"><strong>Résultat</strong> — Confiance systémique, flux vérifiables, adoption immédiate</span>
+        <span class="proj-outcome-txt en"><strong>Result</strong> — Systemic trust, verifiable flows, immediate adoption</span>
+      </div>
+      <div class="proj-keys">
+        <span class="proj-key">Finance distribuée</span>
+        <span class="proj-key">Low-tech</span>
+        <span class="proj-key">Robustesse</span>
+        <span class="proj-key">Audit</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         CARD 3 — TRANSFORMATION INTERNE
+         Before/After — chaos to pipeline
+         ═══════════════════════════════════════════ -->
+    <div class="proj-card" data-delay="200">
+      <div class="proj-illust">
+        <span class="proj-illust-num">03</span>
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- AVANT label -->
+          <text class="pi-label pi-d1" x="32" y="14" font-family="JetBrains Mono,monospace" font-size="7" font-weight="600" fill="#CBD5E1" letter-spacing="0.1em">AVANT</text>
+
+          <!-- Left panel: messy overlapping blocks -->
+          <rect class="pi-block pi-d1" x="8" y="22" width="108" height="120" rx="7" fill="#F8F8F6" stroke="#E2E8F0" stroke-width="1"/>
+
+          <!-- Disordered blocks inside left panel -->
+          <rect class="pi-block pi-d2" x="16" y="32" width="52" height="20" rx="4" fill="#ffffff" stroke="#BDBDBD" stroke-width="1" transform="rotate(-3 42 42)"/>
+          <rect class="pi-label pi-d2" x="22" y="38" width="22" height="3" rx="1.5" fill="#E2E8F0"/>
+          <rect class="pi-label pi-d2" x="22" y="43" width="16" height="2.5" rx="1.25" fill="#E2E8F0"/>
+
+          <rect class="pi-block pi-d2" x="48" y="48" width="58" height="20" rx="4" fill="#ffffff" stroke="#BDBDBD" stroke-width="1" transform="rotate(2 77 58)"/>
+          <rect class="pi-label pi-d3" x="54" y="54" width="26" height="3" rx="1.5" fill="#E2E8F0"/>
+          <rect class="pi-label pi-d3" x="54" y="59" width="18" height="2.5" rx="1.25" fill="#E2E8F0"/>
+
+          <rect class="pi-block pi-d3" x="20" y="68" width="48" height="20" rx="4" fill="#ffffff" stroke="#BDBDBD" stroke-width="1" transform="rotate(-1.5 44 78)"/>
+          <rect class="pi-label pi-d3" x="26" y="74" width="20" height="3" rx="1.5" fill="#E2E8F0"/>
+
+          <rect class="pi-block pi-d3" x="38" y="94" width="60" height="20" rx="4" fill="#ffffff" stroke="#BDBDBD" stroke-width="1" transform="rotate(3 68 104)"/>
+          <rect class="pi-label pi-d4" x="44" y="100" width="28" height="3" rx="1.5" fill="#E2E8F0"/>
+          <rect class="pi-label pi-d4" x="44" y="105" width="14" height="2.5" rx="1.25" fill="#E2E8F0"/>
+
+          <!-- Messy crossing lines between left blocks -->
+          <line class="pi-label pi-d3" x1="42" y1="52" x2="62" y2="50" stroke="#BDBDBD" stroke-width="0.8" opacity="0.5"/>
+          <line class="pi-label pi-d3" x1="34" y1="68" x2="68" y2="58" stroke="#BDBDBD" stroke-width="0.8" opacity="0.5"/>
+          <line class="pi-label pi-d4" x1="50" y1="88" x2="58" y2="96" stroke="#BDBDBD" stroke-width="0.8" opacity="0.5"/>
+          <line class="pi-label pi-d4" x1="70" y1="68" x2="48" y2="94" stroke="#BDBDBD" stroke-width="0.8" opacity="0.4"/>
+
+          <!-- Transition arrow -->
+          <path class="pi-line pi-d5" d="M122 82 L140 82" stroke="#D94F1E" stroke-width="2" stroke-dasharray="200"/>
+          <path class="pi-label pi-d5" d="M136 78 L142 82 L136 86" stroke="#D94F1E" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+          <!-- APRÈS label -->
+          <text class="pi-label pi-d5" x="176" y="14" font-family="JetBrains Mono,monospace" font-size="7" font-weight="600" fill="#D94F1E" letter-spacing="0.1em">APRÈS</text>
+
+          <!-- Right panel: clean pipeline -->
+          <rect class="pi-block pi-d5" x="148" y="22" width="104" height="120" rx="7" fill="#ffffff" stroke="#D94F1E" stroke-width="1.5"/>
+
+          <!-- Ordered blocks with numbered pipeline -->
+          <rect class="pi-block pi-d6" x="158" y="32" width="82" height="20" rx="4" fill="#ffffff" stroke="#1565C0" stroke-width="1.5"/>
+          <text class="pi-label pi-d6" x="164" y="44" font-family="JetBrains Mono,monospace" font-size="6.5" font-weight="600" fill="#1565C0">01</text>
+          <text class="pi-label pi-d6" x="178" y="44" font-family="Inter,sans-serif" font-size="7" fill="#334155">Saisie terrain</text>
+
+          <!-- Vertical connector line -->
+          <line class="pi-line pi-d7" x1="199" y1="52" x2="199" y2="60" stroke="#D94F1E" stroke-width="1.5" stroke-dasharray="200"/>
+
+          <rect class="pi-block pi-d7" x="158" y="60" width="82" height="20" rx="4" fill="#ffffff" stroke="#2E7D32" stroke-width="1.5"/>
+          <text class="pi-label pi-d7" x="164" y="72" font-family="JetBrains Mono,monospace" font-size="6.5" font-weight="600" fill="#2E7D32">02</text>
+          <text class="pi-label pi-d7" x="178" y="72" font-family="Inter,sans-serif" font-size="7" fill="#334155">Validation</text>
+
+          <line class="pi-line pi-d8" x1="199" y1="80" x2="199" y2="88" stroke="#D94F1E" stroke-width="1.5" stroke-dasharray="200"/>
+
+          <rect class="pi-block pi-d8" x="158" y="88" width="82" height="20" rx="4" fill="#ffffff" stroke="#7B1FA2" stroke-width="1.5"/>
+          <text class="pi-label pi-d8" x="164" y="100" font-family="JetBrains Mono,monospace" font-size="6.5" font-weight="600" fill="#7B1FA2">03</text>
+          <text class="pi-label pi-d8" x="178" y="100" font-family="Inter,sans-serif" font-size="7" fill="#334155">Traitement</text>
+
+          <line class="pi-line pi-d9" x1="199" y1="108" x2="199" y2="116" stroke="#D94F1E" stroke-width="1.5" stroke-dasharray="200"/>
+
+          <rect class="pi-block pi-d9" x="158" y="116" width="82" height="20" rx="4" fill="#ffffff" stroke="#F9A825" stroke-width="1.5"/>
+          <text class="pi-label pi-d9" x="164" y="128" font-family="JetBrains Mono,monospace" font-size="6.5" font-weight="600" fill="#F9A825">04</text>
+          <text class="pi-label pi-d9" x="178" y="128" font-family="Inter,sans-serif" font-size="7" fill="#334155">Rapport auto</text>
+
+          <!-- Bottom label -->
+          <text class="pi-label pi-d1" x="8" y="160" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#CBD5E1" letter-spacing="0.08em">DÉPENDANCE INDIVIDUS → PROCESSUS STANDARD</text>
+        </svg>
+      </div>
+      <div class="proj-body">
+        <div class="proj-tag fr">Transformation interne</div>
+        <div class="proj-tag en">Internal transformation</div>
+        <h3 class="proj-title fr">Sortir de la dépendance aux individus clés</h3>
+        <h3 class="proj-title en">Ending reliance on key individuals</h3>
+        <p class="proj-desc fr">Outils multiples, données éparpillées, processus portés par quelques personnes. Le digital aligné sur les vrais flux — l'organisation survit aux départs.</p>
+        <p class="proj-desc en">Multiple tools, scattered data, processes carried by a few people. Digital aligned to real workflows — the organization survives departures.</p>
+      </div>
+      <div class="proj-outcome">
+        <span class="proj-outcome-dot"></span>
+        <span class="proj-outcome-txt fr"><strong>Résultat</strong> — Continuité garantie, visibilité transversale, autonomie</span>
+        <span class="proj-outcome-txt en"><strong>Result</strong> — Guaranteed continuity, cross-visibility, autonomy</span>
+      </div>
+      <div class="proj-keys">
+        <span class="proj-key">Standardisation</span>
+        <span class="proj-key">Résilience</span>
+        <span class="proj-key">Processus</span>
+        <span class="proj-key">Continuité</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         CARD 4 — MOBILE TEMPS RÉEL
+         Device with live data + satellite panels
+         ═══════════════════════════════════════════ -->
+    <div class="proj-card" data-delay="300">
+      <div class="proj-illust">
+        <span class="proj-illust-num">04</span>
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Mobile device frame -->
+          <rect class="pi-block pi-d1" x="88" y="8" width="84" height="140" rx="12" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+          <!-- Screen area -->
+          <rect class="pi-block pi-d2" x="94" y="22" width="72" height="108" rx="4" fill="#F8F8F6"/>
+
+          <!-- Screen header bar -->
+          <rect class="pi-label pi-d2" x="94" y="22" width="72" height="16" rx="4" fill="#1B3A5C"/>
+          <rect class="pi-label pi-d2" x="94" y="34" width="72" height="4" rx="0" fill="#1B3A5C"/>
+          <text class="pi-label pi-d3" x="104" y="33" font-family="JetBrains Mono,monospace" font-size="5.5" font-weight="600" fill="#ffffff">SAISIE TERRAIN</text>
+
+          <!-- Live indicator dot on screen -->
+          <circle class="pi-badge pi-d3" cx="156" cy="30" r="2.5" fill="#3DB869">
+            <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Screen content: mini data bars -->
+          <rect class="pi-label pi-d4" x="100" y="44" width="30" height="3" rx="1.5" fill="#CBD5E1"/>
+          <rect class="pi-bar pi-d4" x="100" y="50" width="56" height="6" rx="3" fill="#E2E8F0"/>
+          <rect class="pi-bar pi-d5" x="100" y="50" width="42" height="6" rx="3" fill="#1565C0" style="transform-origin: 100px center;"/>
+
+          <rect class="pi-label pi-d5" x="100" y="62" width="26" height="3" rx="1.5" fill="#CBD5E1"/>
+          <rect class="pi-bar pi-d5" x="100" y="68" width="56" height="6" rx="3" fill="#E2E8F0"/>
+          <rect class="pi-bar pi-d6" x="100" y="68" width="52" height="6" rx="3" fill="#F9A825" style="transform-origin: 100px center;"/>
+
+          <rect class="pi-label pi-d6" x="100" y="80" width="34" height="3" rx="1.5" fill="#CBD5E1"/>
+          <rect class="pi-bar pi-d6" x="100" y="86" width="56" height="6" rx="3" fill="#E2E8F0"/>
+          <rect class="pi-bar pi-d7" x="100" y="86" width="56" height="6" rx="3" fill="#10B981" style="transform-origin: 100px center;"/>
+
+          <!-- Screen action button -->
+          <rect class="pi-block pi-d7" x="100" y="100" width="56" height="14" rx="4" fill="#D94F1E"/>
+          <text class="pi-label pi-d8" x="111" y="110" font-family="JetBrains Mono,monospace" font-size="5.5" font-weight="600" fill="#ffffff">ENVOYER</text>
+
+          <!-- Screen bottom: sync status -->
+          <rect class="pi-label pi-d8" x="100" y="118" width="56" height="8" rx="2" fill="#D1FAE5"/>
+          <circle class="pi-label pi-d8" cx="106" cy="122" r="2" fill="#10B981"/>
+          <text class="pi-label pi-d8" x="111" y="124" font-family="JetBrains Mono,monospace" font-size="5" font-weight="500" fill="#10B981">SYNC OK</text>
+
+          <!-- Home indicator -->
+          <rect class="pi-label pi-d2" x="117" y="136" width="26" height="3" rx="1.5" fill="#CBD5E1"/>
+
+          <!-- Toast notification above device -->
+          <rect class="pi-block pi-d8" x="78" y="-2" width="104" height="18" rx="5" fill="#ffffff" stroke="#10B981" stroke-width="1.5"/>
+          <circle class="pi-badge pi-d9" cx="88" cy="7" r="2.5" fill="#3DB869">
+            <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/>
+          </circle>
+          <text class="pi-label pi-d9" x="95" y="10" font-family="JetBrains Mono,monospace" font-size="5.5" font-weight="600" fill="#334155">NOUVELLE SAISIE · THIÈS</text>
+
+          <!-- LEFT satellite panel: GPS -->
+          <rect class="pi-block pi-d6" x="8" y="50" width="62" height="32" rx="6" fill="#ffffff" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text class="pi-label pi-d7" x="16" y="63" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#1565C0">GPS</text>
+          <text class="pi-label pi-d7" x="16" y="73" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#64748B">14.7°N 17.4°W</text>
+          <!-- Connector line to device -->
+          <line class="pi-line pi-d7" x1="70" y1="66" x2="88" y2="66" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="200"/>
+
+          <!-- RIGHT satellite panel: SYNC -->
+          <rect class="pi-block pi-d7" x="190" y="50" width="62" height="32" rx="6" fill="#ffffff" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text class="pi-label pi-d8" x="198" y="63" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#2E7D32">SYNC</text>
+          <text class="pi-label pi-d8" x="198" y="73" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#64748B">Temps réel</text>
+          <!-- Connector line to device -->
+          <line class="pi-line pi-d8" x1="172" y1="66" x2="190" y2="66" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="200"/>
+
+          <!-- LEFT satellite panel: OFFLINE -->
+          <rect class="pi-block pi-d8" x="8" y="100" width="62" height="32" rx="6" fill="#ffffff" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text class="pi-label pi-d9" x="16" y="113" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#F9A825">OFFLINE</text>
+          <text class="pi-label pi-d9" x="16" y="123" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#64748B">Mode tolérant</text>
+          <line class="pi-line pi-d9" x1="70" y1="116" x2="88" y2="100" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="200"/>
+
+          <!-- RIGHT satellite: DASHBOARD -->
+          <rect class="pi-block pi-d9" x="190" y="100" width="62" height="32" rx="6" fill="#ffffff" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text class="pi-label pi-d10" x="198" y="113" font-family="JetBrains Mono,monospace" font-size="6" font-weight="600" fill="#D94F1E">MGMT</text>
+          <text class="pi-label pi-d10" x="198" y="123" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#64748B">Vue directe</text>
+          <line class="pi-line pi-d10" x1="172" y1="100" x2="190" y2="116" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="200"/>
+
+          <!-- Bottom label -->
+          <text class="pi-label pi-d1" x="8" y="160" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#CBD5E1" letter-spacing="0.08em">MOBILE-FIRST · OFFLINE-READY · TEMPS RÉEL</text>
+        </svg>
+      </div>
+      <div class="proj-body">
+        <div class="proj-tag fr">Système mobile terrain</div>
+        <div class="proj-tag en">Field mobile system</div>
+        <h3 class="proj-title fr">Agir pendant que les choses se passent</h3>
+        <h3 class="proj-title en">Act while things are happening</h3>
+        <p class="proj-desc fr">Données collectées mais inexploitables, connectivité instable. Un système mobile tolérant aux contraintes — la supervision devient proactive, pas corrective.</p>
+        <p class="proj-desc en">Data collected but unusable, unstable connectivity. A constraint-tolerant mobile system — supervision becomes proactive, not corrective.</p>
+      </div>
+      <div class="proj-outcome">
+        <span class="proj-outcome-dot"></span>
+        <span class="proj-outcome-txt fr"><strong>Résultat</strong> — Visibilité temps réel, données exploitables, réactivité</span>
+        <span class="proj-outcome-txt en"><strong>Result</strong> — Real-time visibility, actionable data, responsiveness</span>
+      </div>
+      <div class="proj-keys">
+        <span class="proj-key">Temps réel</span>
+        <span class="proj-key">Mobile-first</span>
+        <span class="proj-key">Terrain</span>
+        <span class="proj-key">Offline</span>
+      </div>
+    </div>
+
+  </div><!-- /proj-grid -->
+
+  <!-- Bottom signal -->
+  <div class="proj-signal">
+    <div class="proj-signal-stat">
+      <span class="proj-signal-n">4</span>
+      <span class="proj-signal-l fr">TYPES DE MISSIONS</span>
+      <span class="proj-signal-l en">ENGAGEMENT TYPES</span>
+    </div>
+    <span class="proj-signal-sep"></span>
+    <div class="proj-signal-stat">
+      <span class="proj-signal-n">14j</span>
+      <span class="proj-signal-l fr">PREMIER SPRINT</span>
+      <span class="proj-signal-l en">FIRST SPRINT</span>
+    </div>
+    <span class="proj-signal-sep"></span>
+    <div class="proj-signal-stat">
+      <span class="proj-signal-n">0</span>
+      <span class="proj-signal-l fr">DÉPENDANCE IMPOSÉE</span>
+      <span class="proj-signal-l en">FORCED DEPENDENCY</span>
+    </div>
+    <div class="proj-signal-cta">
+      <a href="#s-cta" class="btn btn-ghost-light fr">Discuter de votre contexte →</a>
+      <a href="#s-cta" class="btn btn-ghost-light en" style="display:none">Discuss your context →</a>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ═══ PROJECTS — Staggered scroll-reveal ═══ */
+(function() {
+  var cards = document.querySelectorAll('.proj-card');
+  if (!cards.length) return;
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    cards.forEach(function(c) { c.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var delay = parseInt(entry.target.getAttribute('data-delay') || '0', 10);
+        setTimeout(function() {
+          entry.target.classList.add('is-visible');
+        }, delay);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  cards.forEach(function(c) { io.observe(c); });
+})();
+</script>
+
 
 <!-- ══════════ SCENARIOS — SCROLL STACK ══════════ -->
 <section class="s-scenarios" id="s-scenarios">
@@ -2713,8 +3557,8 @@ h1 em { font-style: italic; color: var(--gold); }
         <div class="ocard-preview">
           <span class="fr">Vous avez un problème concret. On le prend, on le transforme en processus qui tourne. Résultat visible dès le J+7.</span>
           <span class="en">You have one concrete problem. We take it, turn it into a running workflow. Visible result by day 7.</span>
-          <div class="ocard-hint fr">Voir le détail <span>→</span></div>
-          <div class="ocard-hint en">See details <span>→</span></div>
+          <div class="ocard-hint fr"><span class="hint-label">Voir le détail</span></div>
+          <div class="ocard-hint en"><span class="hint-label">See details</span></div>
         </div>
         <div class="ocard-panel" id="ocard-panel-pilot">
           <div class="ocard-panel-inner">
@@ -2732,8 +3576,8 @@ h1 em { font-style: italic; color: var(--gold); }
             </ul>
             <div class="ocard-result fr">Résultat · <strong>Processus actif. Équipes qui l'utilisent sans rappel.</strong></div>
             <div class="ocard-result en">Outcome · <strong>Live process. Teams using it without prompting.</strong></div>
-            <a href="#s-cta" class="ocard-cta fr" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
-            <a href="#s-cta" class="ocard-cta en" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta fr js-open-call-form" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta en js-open-call-form" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
           </div>
         </div>
       </div>
@@ -2752,8 +3596,8 @@ h1 em { font-style: italic; color: var(--gold); }
         <div class="ocard-preview">
           <span class="fr">Plusieurs processus connectés. Une source de données fiable. Le management voit, décide, agit — sans attendre 48h.</span>
           <span class="en">Multiple connected workflows. One reliable data source. Management sees, decides, acts — without waiting 48h.</span>
-          <div class="ocard-hint fr">Voir le détail <span>→</span></div>
-          <div class="ocard-hint en">See details <span>→</span></div>
+          <div class="ocard-hint fr"><span class="hint-label">Voir le détail</span></div>
+          <div class="ocard-hint en"><span class="hint-label">See details</span></div>
         </div>
         <div class="ocard-panel" id="ocard-panel-core">
           <div class="ocard-panel-inner">
@@ -2772,8 +3616,8 @@ h1 em { font-style: italic; color: var(--gold); }
             </ul>
             <div class="ocard-result fr">Résultat · <strong>Opérations stables. Données fiables. Direction informée.</strong></div>
             <div class="ocard-result en">Outcome · <strong>Stable operations. Reliable data. Informed leadership.</strong></div>
-            <a href="#s-cta" class="ocard-cta fr" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
-            <a href="#s-cta" class="ocard-cta en" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta fr js-open-call-form" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta en js-open-call-form" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
           </div>
         </div>
       </div>
@@ -2791,8 +3635,8 @@ h1 em { font-style: italic; color: var(--gold); }
         <div class="ocard-preview">
           <span class="fr">Ce qui fonctionne sur un site devient le standard partout. Site par site — uniquement quand le précédent tient.</span>
           <span class="en">What works on one site becomes the standard everywhere. Site by site — only when the previous one holds.</span>
-          <div class="ocard-hint fr">Voir le détail <span>→</span></div>
-          <div class="ocard-hint en">See details <span>→</span></div>
+          <div class="ocard-hint fr"><span class="hint-label">Voir le détail</span></div>
+          <div class="ocard-hint en"><span class="hint-label">See details</span></div>
         </div>
         <div class="ocard-panel" id="ocard-panel-scale">
           <div class="ocard-panel-inner">
@@ -2810,8 +3654,8 @@ h1 em { font-style: italic; color: var(--gold); }
             </ul>
             <div class="ocard-result fr">Résultat · <strong>Ce qui marche ici fonctionne aussi là-bas.</strong></div>
             <div class="ocard-result en">Outcome · <strong>What works here works there too.</strong></div>
-            <a href="#s-cta" class="ocard-cta fr" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
-            <a href="#s-cta" class="ocard-cta en" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta fr js-open-call-form" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta en js-open-call-form" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
           </div>
         </div>
       </div>
@@ -3081,7 +3925,7 @@ h1 em { font-style: italic; color: var(--gold); }
         <a href="#" class="footer-link-hidden"><span class="fr">Confidentialité</span><span class="en">Privacy</span></a>
         <a href="#" class="footer-link-hidden"><span class="fr">Données</span><span class="en">Data</span></a>
         <a href="#" class="footer-contact-toggle" id="footer-contact-toggle" aria-controls="footer-contact-panel" aria-expanded="false">
-          <span class="fr">Contact</span><span class="en">Contact</span>
+          <span class="fr">Nous contacter</span><span class="en">Contact US</span>
         </a>
       </div>
     </div>
