@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxtn2AE0cJGDIAjGSZpFK_FIsXpgvhNg3QryMJM1O1ldwB-JWMJ2BYRpqDIfz8thho5pA/exec';
+  var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxeyQoUaV9pFALezP3dhLJw0TmtqJ_zzq7Qlj2nnY7OtSUEeant-7hfrA1WbDQanM51xA/exec';
   var starts = {
     booking_popup: Date.now(),
     footer_contact: Date.now()
