@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Demander un échange stratégique — Smart Access Africa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  /* ── BRAND COLORS ── */
+  /* Your original Deep Blue for Trust & Authority */
+  --blue: #1B3A5C;
+  
+  /* The "Humble Vivid" Orange for High-Converting CTAs */
+  --orange: #FF5A1F;
+  
+  /* The "Humble Vivid" Gold for warm accents/gradients */
+  --gold: #F59E0B;
+  
+  /* ── FOUNDATION ── */
+  /* Warm Oatmeal Background (Removes clinical coldness) */
+  --bg: #FDFBF7;
+  
+  /* Clean White surface for the Modal to pop against the oatmeal */
+  --surface: #FFFFFF;
+  
+  /* Deep Slate Ink (Softer and richer than pure black) */
+  --ink: #0F172A;
+  --muted: #64748B;
+  
+  /* Softer, warmer borders for the form inputs */
+  --line: #E2E8F0;
+  
+  /* ── TYPOGRAPHY (Untouched) ── */
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-title: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html,body{height:100%;font-family:var(--font-body);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+html.embed-mode,body.embed-mode{background:transparent}
+body.embed-mode .landing{display:none}
+body.embed-mode .backdrop{position:static;display:block;opacity:1;pointer-events:all;padding:0}
+body.embed-mode .backdrop::before{display:none}
+body.embed-mode .modal{opacity:1;transform:none;max-width:560px;max-height:calc(100vh - 8px);margin:0 auto;border-radius:1.25rem}
+
+.landing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden}
+.landing::before{content:'';position:absolute;inset:0;background:radial-gradient(800px 600px at 15% 0%,rgba(27,58,92,.12),transparent 60%),radial-gradient(600px 400px at 85% 100%,rgba(217,79,30,.08),transparent 50%);pointer-events:none}
+.landing>*{position:relative;z-index:1}
+.brand-badge{display:flex;align-items:center;gap:.6rem;margin-bottom:2rem}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px rgba(27,58,92,.12)}
+.brand-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(11,11,11,.45);font-weight:700}
+.landing h1{font-family:var(--font-title);font-size:clamp(2rem,5vw,3rem);font-weight:800;text-align:center;line-height:1.15;max-width:480px;letter-spacing:-.02em}
+.landing h1 span{background:linear-gradient(135deg,var(--blue),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.landing p{margin-top:1rem;text-align:center;color:var(--muted);max-width:400px;line-height:1.6;font-size:.95rem}
+.cta-btn{margin-top:2rem;display:inline-flex;align-items:center;gap:.7rem;padding:.9rem 1.8rem;border-radius:1rem;border:none;background:var(--orange);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;box-shadow:0 12px 40px rgba(217,79,30,.3);transition:transform .15s,box-shadow .15s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(217,79,30,.38)}
+.cta-btn:active{transform:translateY(0)}
+.cta-btn svg{width:18px;height:18px}
+.landing-meta{margin-top:2.5rem;display:flex;align-items:center;gap:1.2rem;font-size:.75rem;color:rgba(11,11,11,.35)}
+.landing-meta .dot{width:6px;height:6px;border-radius:50%;background:var(--blue)}
+
+.backdrop{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.backdrop.open{opacity:1;pointer-events:all}
+.backdrop::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(27,58,92,.12),rgba(217,79,30,.06)),rgba(0,0,0,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+
+.modal{position:relative;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;background:var(--surface);border-radius:1.5rem;box-shadow:0 32px 80px rgba(0,0,0,.22);transform:scale(.95) translateY(16px);transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .2s;opacity:0}
+.backdrop.open .modal{transform:scale(1) translateY(0);opacity:1}
+.modal-bar{height:4px;background:linear-gradient(90deg,var(--blue),var(--orange),var(--gold))}
+
+.modal-header{padding:1.25rem 1.5rem 1rem;display:flex;justify-content:space-between;align-items:flex-start}
+.modal-header h2{font-family:var(--font-title);font-size:1.3rem;font-weight:700;letter-spacing:-.01em}
+.close-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:rgba(11,11,11,.5);cursor:pointer;display:grid;place-items:center;transition:background .15s,color .15s}
+.close-btn:hover{background:rgba(11,11,11,.05);color:var(--ink)}
+.close-btn svg{width:14px;height:14px}
+
+.steps-bar{padding:0 1.5rem .75rem;display:flex;gap:.5rem}
+.step-pill{flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem .5rem;border-radius:.75rem;font-size:.72rem;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.step-pill.idle{background:rgba(11,11,11,.04);color:rgba(11,11,11,.35)}
+.step-pill.done{background:rgba(27,58,92,.1);color:var(--blue)}
+.step-pill svg{width:13px;height:13px}
+.step-pill[data-step="0"].active{background:linear-gradient(135deg,var(--blue),rgba(27,58,92,.8));color:#fff;box-shadow:0 4px 16px rgba(27,58,92,.25)}
+.step-pill[data-step="1"].active{background:linear-gradient(135deg,var(--gold),rgba(200,133,28,.8));color:#fff;box-shadow:0 4px 16px rgba(200,133,28,.25)}
+.step-pill[data-step="2"].active{background:linear-gradient(135deg,var(--orange),rgba(217,79,30,.8));color:#fff;box-shadow:0 4px 16px rgba(217,79,30,.25)}
+
+.progress-track{margin:0 1.5rem .75rem;height:3px;border-radius:4px;background:rgba(11,11,11,.06);overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--orange),var(--gold));transition:width .4s cubic-bezier(.25,.8,.25,1)}
+
+.panels{padding:0 1.5rem 1.5rem;position:relative;overflow:hidden}
+.panel{display:none;animation:panelIn .3s ease forwards}
+.panel.active{display:block}
+@keyframes panelIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+.hint{padding:.75rem 1rem;border-radius:1rem;font-size:.75rem;font-weight:500;line-height:1.5;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.hint .hint-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hint-blue{background:rgba(27,58,92,.06);border:1px solid rgba(27,58,92,.12);color:rgba(27,58,92,.8)}
+.hint-blue .hint-dot{background:var(--blue)}
+.hint-orange{background:rgba(217,79,30,.06);border:1px solid rgba(217,79,30,.12);color:rgba(217,79,30,.8)}
+.hint-orange .hint-dot{background:var(--orange)}
+.hint-gold{background:rgba(200,133,28,.06);border:1px solid rgba(200,133,28,.12);color:rgba(200,133,28,.8)}
+.hint-gold .hint-dot{background:var(--gold)}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.75rem}
+.row .field{margin-bottom:0}
+label{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(11,11,11,.45);font-weight:700}
+label .req{color:var(--orange);font-weight:900}
+input,select,textarea{width:100%;padding:.75rem .9rem;border-radius:.75rem;border:2px solid rgba(11,11,11,.08);background:var(--surface);color:var(--ink);font-family:var(--font-body);font-size:.875rem;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:rgba(27,58,92,.45);box-shadow:0 0 0 4px rgba(27,58,92,.08)}
+textarea{resize:none;min-height:76px}
+select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%230B0B0B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m2 4 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center}
+.field-error input,.field-error select,.field-error textarea{border-color:rgba(217,79,30,.5);box-shadow:0 0 0 4px rgba(217,79,30,.08)}
+.error-msg{font-size:.7rem;color:var(--orange);font-weight:600}
+
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;gap:.5rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1.1rem;border-radius:.75rem;font-size:.85rem;font-weight:650;cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
+.btn svg{width:14px;height:14px}
+.btn-ghost{background:transparent;color:rgba(11,11,11,.45)}
+.btn-ghost:hover{color:var(--ink);background:rgba(11,11,11,.05)}
+.btn-skip{background:rgba(11,11,11,.04);color:rgba(11,11,11,.45);border:1px dashed rgba(11,11,11,.15)}
+.btn-skip:hover{background:rgba(11,11,11,.07);color:rgba(11,11,11,.65)}
+.btn-primary{background:linear-gradient(135deg,var(--orange),rgba(217,79,30,.88));color:#fff;box-shadow:0 8px 24px rgba(217,79,30,.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(217,79,30,.35)}
+.btn-primary:active{transform:translateY(0)}
+
+.success-view{text-align:center;padding:2.5rem 1rem}
+.success-icon{width:56px;height:56px;border-radius:1rem;background:linear-gradient(135deg,var(--blue),rgba(27,58,92,.75));display:grid;place-items:center;margin:0 auto 1rem;box-shadow:0 8px 24px rgba(27,58,92,.25)}
+.success-icon svg{width:26px;height:26px;color:#fff}
+.success-view h3{font-family:var(--font-title);font-size:1.4rem;font-weight:800}
+.success-view p{margin-top:.5rem;color:var(--muted);font-size:.9rem}
+.success-view .btn{margin-top:1.5rem}
+
+.slot-label{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(11,11,11,.45);font-weight:700;margin-bottom:.35rem;display:flex;align-items:center;gap:4px}
+.slot-block{margin-bottom:.75rem}
+
+@media(max-width:560px){
+  body.embed-mode .modal{max-width:100%;border-radius:1.25rem}
+  .modal{max-width:100%;border-radius:1.25rem}
+  .row{grid-template-columns:1fr}
+  .modal-header{padding:1rem 1.25rem .75rem}
+  .steps-bar,.panels{padding-left:1.25rem;padding-right:1.25rem}
+  .progress-track{margin-left:1.25rem;margin-right:1.25rem}
+  .actions{flex-direction:column-reverse}
+  .actions .btn{width:100%;justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="landing">
+  <div class="brand-badge">
+    <div class="brand-dot"></div>
+    <span class="brand-label">Smart Access Africa</span>
+  </div>
+  <h1 id="landing-title">Valider si un sprint est <span>pertinent</span></h1>
+  <p id="landing-sub">30 minutes pour qualifier l'enjeu, le niveau d'impact et la faisabilité d'un premier sprint.</p>
+  <button class="cta-btn" onclick="openModal()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span id="landing-cta">Demander un échange stratégique</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
+  <div class="landing-meta">
+    <span style="display:flex;align-items:center;gap:6px"><span class="dot"></span><span id="landing-meta-1">Réponse sous 24h ouvrées</span></span>
+    <span>•</span><span id="landing-meta-2">30 min</span><span>•</span><span id="landing-meta-3">Sans engagement</span>
+  </div>
+</div>
+
+<div class="backdrop" id="backdrop" onclick="if(event.target===this)closeModal()">
+<div class="modal" onclick="event.stopPropagation()">
+  <div class="modal-bar"></div>
+
+  <div class="modal-header">
+    <div>
+      <div class="brand-badge" style="margin-bottom:.5rem">
+        <div class="brand-dot" style="width:7px;height:7px;box-shadow:0 0 0 4px rgba(27,58,92,.1)"></div>
+        <span class="brand-label">Smart Access Africa</span>
+      </div>
+      <h2 id="modal-title">Échange de cadrage — 30 min</h2>
+    </div>
+    <button class="close-btn" id="close-btn" onclick="closeModal()" aria-label="Fermer la fenêtre">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="steps-bar">
+    <button class="step-pill active" data-step="0" onclick="goToStep(0)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="step-0-label">Contexte</span>
+    </button>
+    <button class="step-pill idle" data-step="1" onclick="goToStep(1)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span id="step-1-label">Priorités</span>
+    </button>
+    <button class="step-pill idle" data-step="2" onclick="goToStep(2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span id="step-2-label">Disponibilités</span>
+    </button>
+  </div>
+
+  <div class="progress-track"><div class="progress-fill" id="progress" style="width:33%"></div></div>
+
+  <div class="panels">
+
+    <div class="panel active" id="panel-0">
+      <div class="hint hint-blue"><span class="hint-dot"></span><span id="hint-0">4 informations pour qualifier rapidement votre contexte de décision.</span></div>
+      <input type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
+
+      <div class="row">
+        <div class="field" id="f-name">
+          <label><span id="lbl-name">Prénom & Nom</span> <span class="req">*</span></label>
+          <input id="name" placeholder="Jean Dupont"/>
+        </div>
+        <div class="field" id="f-org">
+          <label><span id="lbl-org">Organisation</span> <span class="req">*</span></label>
+          <input id="org" placeholder="Votre structure"/>
+        </div>
+      </div>
+
+      <div class="field" id="f-email">
+        <label><span id="lbl-email">Email professionnel</span> <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="prenom@entreprise.com"/>
+      </div>
+
+      <div class="field" id="f-problem">
+        <label><span id="lbl-problem">Enjeu prioritaire</span> <span class="req">*</span></label>
+        <textarea id="problem" placeholder="Décrivez le blocage principal, son impact business, et le résultat attendu."></textarea>
+      </div>
+
+      <div class="actions">
+        <span></span>
+        <button class="btn btn-primary" onclick="nextStep()">
+          <span id="btn-next-0">Continuer</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-1">
+      <div class="hint hint-gold"><span class="hint-dot"></span><span id="hint-1">Optionnel — pour rendre l'échange plus concret.</span></div>
+
+      <div class="row">
+        <div class="field">
+          <label id="lbl-role">Votre rôle</label>
+          <select id="role">
+            <option value="">Choisir…</option>
+            <option value="ceo_dg">CEO / DG</option>
+            <option value="coo_ops">COO / Ops / Programme</option>
+            <option value="functional">Direction fonctionnelle</option>
+            <option value="sponsor_other">Autre sponsor</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="lbl-urgency">Fenêtre de décision</label>
+          <select id="urgency">
+            <option value="">Choisir…</option>
+            <option value="2w">Décision sous 2 semaines</option>
+            <option value="1_3m">Décision sous 1 à 3 mois</option>
+            <option value="3m_plus">Décision au-delà de 3 mois</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label id="lbl-blocker">Blocage principal</label>
+          <select id="blocker">
+            <option value="">Choisir…</option>
+            <option value="visibility">Visibilité / pilotage</option>
+            <option value="cycle">Cycle trop long</option>
+            <option value="quality">Qualité opérationnelle</option>
+            <option value="traceability">Traçabilité & conformité</option>
+            <option value="late_decisions">Décisions tardives</option>
+            <option value="other">Autre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="lbl-timeline">Horizon de résultat</label>
+          <select id="timeline">
+            <option value="">Horizon…</option>
+            <option value="lt_30">Moins de 30 jours</option>
+            <option value="30_90">30 à 90 jours</option>
+            <option value="3_6">3 à 6 mois</option>
+            <option value="gt_6">Plus de 6 mois</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span id="btn-back-1">Retour</span>
+        </button>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-skip" onclick="skipToStep(2)">
+            <span id="btn-skip-1">Passer cette étape</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12 12 5 19 12"/><polyline points="5 19 12 12 19 19"/></svg>
+          </button>
+          <button class="btn btn-primary" onclick="nextStep()">
+            <span id="btn-next-1">Continuer</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-2">
+      <div class="hint hint-orange"><span class="hint-dot"></span><span id="hint-2">Proposez 2 disponibilités. Nous confirmons un créneau sous 24h ouvrées.</span></div>
+
+      <div class="slot-block" id="f-slot1">
+        <div class="slot-label"><span id="slot-1-label">Disponibilité 1</span> <span class="req">*</span></div>
+        <div class="row">
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="date1"/>
+          </div>
+          <div class="field">
+            <label>Heure</label>
+            <input type="time" id="time1"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="slot-block" id="f-slot2">
+        <div class="slot-label"><span id="slot-2-label">Disponibilité 2</span> <span class="req">*</span></div>
+        <div class="row">
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="date2"/>
+          </div>
+          <div class="field">
+            <label>Heure</label>
+            <input type="time" id="time2"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="lbl-timezone">Fuseau horaire</label>
+        <select id="timezone">
+          <option value="Africa/Dakar">Africa/Dakar (GMT)</option>
+          <option value="Europe/Paris">Europe/Paris</option>
+          <option value="Europe/London">Europe/London</option>
+          <option value="UTC">UTC</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span id="btn-back-2">Retour</span>
+        </button>
+        <button class="btn btn-primary" onclick="submitForm()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span id="btn-submit">Confirmer la demande</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-success">
+      <div class="success-view">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 id="success-title">Demande reçue.</h3>
+        <p id="success-body">Nous revenons vers vous sous 24h ouvrées avec un créneau confirmé et un agenda de cadrage.</p>
+        <button class="btn btn-ghost" onclick="closeModal()" style="margin:1.5rem auto 0;background:rgba(11,11,11,.06)"><span id="btn-close-success">Fermer</span></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="./forms-integration.js"></script>
+<script>
+var queryParams = new URLSearchParams(window.location.search);
+var uiLang = queryParams.get('lang') === 'en' ? 'en' : 'fr';
+
+var COPY = {
+  fr: {
+    title: "Demander un échange stratégique — Smart Access Africa",
+    landingTitleHtml: "Valider si un sprint est <span>pertinent</span>",
+    landingSub: "30 minutes pour qualifier l'enjeu, le niveau d'impact et la faisabilité d'un premier sprint.",
+    landingCta: "Demander un échange stratégique",
+    landingMeta1: "Réponse sous 24h ouvrées",
+    landingMeta2: "30 min",
+    landingMeta3: "Sans engagement",
+    modalTitle: "Échange de cadrage — 30 min",
+    closeAria: "Fermer la fenêtre",
+    step0: "Contexte",
+    step1: "Priorités",
+    step2: "Disponibilités",
+    hint0: "4 informations pour qualifier rapidement votre contexte de décision.",
+    hint1: "Optionnel — pour rendre l'échange plus concret.",
+    hint2: "Proposez 2 disponibilités. Nous confirmons un créneau sous 24h ouvrées.",
+    lblName: "Prénom & Nom",
+    lblOrg: "Organisation",
+    lblEmail: "Email professionnel",
+    lblProblem: "Enjeu prioritaire",
+    lblRole: "Votre rôle",
+    lblUrgency: "Fenêtre de décision",
+    lblBlocker: "Blocage principal",
+    lblTimeline: "Horizon de résultat",
+    lblTimezone: "Fuseau horaire",
+    slot1: "Disponibilité 1",
+    slot2: "Disponibilité 2",
+    phName: "Jean Dupont",
+    phOrg: "Votre structure",
+    phEmail: "prenom@entreprise.com",
+    phProblem: "Décrivez le blocage principal, son impact business, et le résultat attendu.",
+    btnNext: "Continuer",
+    btnBack: "Retour",
+    btnSkip: "Passer cette étape",
+    btnSubmit: "Confirmer la demande",
+    btnClose: "Fermer",
+    successTitle: "Demande reçue.",
+    successBody: "Nous revenons vers vous sous 24h ouvrées avec un créneau confirmé et un agenda de cadrage.",
+    roleOptions: [
+      { value: "", text: "Choisir…" },
+      { value: "ceo_dg", text: "CEO / DG" },
+      { value: "coo_ops", text: "COO / Ops / Programme" },
+      { value: "functional", text: "Direction fonctionnelle" },
+      { value: "sponsor_other", text: "Autre sponsor" }
+    ],
+    urgencyOptions: [
+      { value: "", text: "Choisir…" },
+      { value: "2w", text: "Décision sous 2 semaines" },
+      { value: "1_3m", text: "Décision sous 1 à 3 mois" },
+      { value: "3m_plus", text: "Décision au-delà de 3 mois" }
+    ],
+    blockerOptions: [
+      { value: "", text: "Choisir…" },
+      { value: "visibility", text: "Visibilité / pilotage" },
+      { value: "cycle", text: "Cycle trop long" },
+      { value: "quality", text: "Qualité opérationnelle" },
+      { value: "traceability", text: "Traçabilité & conformité" },
+      { value: "late_decisions", text: "Décisions tardives" },
+      { value: "other", text: "Autre" }
+    ],
+    timelineOptions: [
+      { value: "", text: "Horizon…" },
+      { value: "lt_30", text: "Moins de 30 jours" },
+      { value: "30_90", text: "30 à 90 jours" },
+      { value: "3_6", text: "3 à 6 mois" },
+      { value: "gt_6", text: "Plus de 6 mois" }
+    ],
+    errors: {
+      required: "Requis",
+      emailInvalid: "Email invalide",
+      slotRequired: "Date et heure requises",
+      slotDifferent: "Choisissez un créneau différent"
+    }
+  },
+  en: {
+    title: "Request a Strategic Call — Smart Access Africa",
+    landingTitleHtml: "Validate if a sprint is <span>worth it</span>",
+    landingSub: "30 minutes to qualify the issue, expected impact, and feasibility of a first sprint.",
+    landingCta: "Request a strategic call",
+    landingMeta1: "Reply within 24 business hours",
+    landingMeta2: "30 min",
+    landingMeta3: "No commitment",
+    modalTitle: "Scoping call — 30 min",
+    closeAria: "Close dialog",
+    step0: "Context",
+    step1: "Priorities",
+    step2: "Availability",
+    hint0: "4 details to quickly qualify your decision context.",
+    hint1: "Optional — helps make the call more concrete.",
+    hint2: "Share 2 availability options. We confirm one slot within 24 business hours.",
+    lblName: "Full name",
+    lblOrg: "Organization",
+    lblEmail: "Work email",
+    lblProblem: "Primary business issue",
+    lblRole: "Your role",
+    lblUrgency: "Decision window",
+    lblBlocker: "Primary bottleneck",
+    lblTimeline: "Expected outcome horizon",
+    lblTimezone: "Time zone",
+    slot1: "Availability 1",
+    slot2: "Availability 2",
+    phName: "Jane Doe",
+    phOrg: "Your organization",
+    phEmail: "name@company.com",
+    phProblem: "Describe the bottleneck, business impact, and expected outcome.",
+    btnNext: "Continue",
+    btnBack: "Back",
+    btnSkip: "Skip this step",
+    btnSubmit: "Confirm request",
+    btnClose: "Close",
+    successTitle: "Request received.",
+    successBody: "We will reply within 24 business hours with a confirmed slot and a focused agenda.",
+    roleOptions: [
+      { value: "", text: "Select…" },
+      { value: "ceo_dg", text: "CEO / Managing Director" },
+      { value: "coo_ops", text: "COO / Operations / Program" },
+      { value: "functional", text: "Functional leadership" },
+      { value: "sponsor_other", text: "Other sponsor" }
+    ],
+    urgencyOptions: [
+      { value: "", text: "Select…" },
+      { value: "2w", text: "Decision within 2 weeks" },
+      { value: "1_3m", text: "Decision within 1 to 3 months" },
+      { value: "3m_plus", text: "Decision in 3+ months" }
+    ],
+    blockerOptions: [
+      { value: "", text: "Select…" },
+      { value: "visibility", text: "Visibility / steering" },
+      { value: "cycle", text: "Cycle time" },
+      { value: "quality", text: "Operational quality" },
+      { value: "traceability", text: "Traceability & compliance" },
+      { value: "late_decisions", text: "Late decisions" },
+      { value: "other", text: "Other" }
+    ],
+    timelineOptions: [
+      { value: "", text: "Time horizon…" },
+      { value: "lt_30", text: "Under 30 days" },
+      { value: "30_90", text: "30 to 90 days" },
+      { value: "3_6", text: "3 to 6 months" },
+      { value: "gt_6", text: "Over 6 months" }
+    ],
+    errors: {
+      required: "Required",
+      emailInvalid: "Invalid email",
+      slotRequired: "Date and time required",
+      slotDifferent: "Choose a different slot"
+    }
+  }
+};
+
+var activeCopy = COPY[uiLang] || COPY.fr;
+
+function setText(id, value){
+  var el = document.getElementById(id);
+  if(el) el.textContent = value;
+}
+
+function setHtml(id, value){
+  var el = document.getElementById(id);
+  if(el) el.innerHTML = value;
+}
+
+function setOptions(selectId, options){
+  var sel = document.getElementById(selectId);
+  if(!sel) return;
+  sel.innerHTML = "";
+  options.forEach(function(opt){
+    var node = document.createElement('option');
+    node.value = opt.value;
+    node.textContent = opt.text;
+    sel.appendChild(node);
+  });
+}
+
+function applyCopy(lang){
+  var c = COPY[lang] || COPY.fr;
+  activeCopy = c;
+  document.documentElement.lang = lang;
+  document.title = c.title;
+
+  setHtml('landing-title', c.landingTitleHtml);
+  setText('landing-sub', c.landingSub);
+  setText('landing-cta', c.landingCta);
+  setText('landing-meta-1', c.landingMeta1);
+  setText('landing-meta-2', c.landingMeta2);
+  setText('landing-meta-3', c.landingMeta3);
+  setText('modal-title', c.modalTitle);
+  setText('step-0-label', c.step0);
+  setText('step-1-label', c.step1);
+  setText('step-2-label', c.step2);
+  setText('hint-0', c.hint0);
+  setText('hint-1', c.hint1);
+  setText('hint-2', c.hint2);
+  setText('lbl-name', c.lblName);
+  setText('lbl-org', c.lblOrg);
+  setText('lbl-email', c.lblEmail);
+  setText('lbl-problem', c.lblProblem);
+  setText('lbl-role', c.lblRole);
+  setText('lbl-urgency', c.lblUrgency);
+  setText('lbl-blocker', c.lblBlocker);
+  setText('lbl-timeline', c.lblTimeline);
+  setText('lbl-timezone', c.lblTimezone);
+  setText('slot-1-label', c.slot1);
+  setText('slot-2-label', c.slot2);
+  setText('btn-next-0', c.btnNext);
+  setText('btn-next-1', c.btnNext);
+  setText('btn-back-1', c.btnBack);
+  setText('btn-back-2', c.btnBack);
+  setText('btn-skip-1', c.btnSkip);
+  setText('btn-submit', c.btnSubmit);
+  setText('btn-close-success', c.btnClose);
+  setText('success-title', c.successTitle);
+  setText('success-body', c.successBody);
+
+  var closeBtn = document.getElementById('close-btn');
+  if(closeBtn) closeBtn.setAttribute('aria-label', c.closeAria);
+
+  var nameInput = document.getElementById('name');
+  var orgInput = document.getElementById('org');
+  var emailInput = document.getElementById('email');
+  var problemInput = document.getElementById('problem');
+  if(nameInput) nameInput.placeholder = c.phName;
+  if(orgInput) orgInput.placeholder = c.phOrg;
+  if(emailInput) emailInput.placeholder = c.phEmail;
+  if(problemInput) problemInput.placeholder = c.phProblem;
+
+  setOptions('role', c.roleOptions);
+  setOptions('urgency', c.urgencyOptions);
+  setOptions('blocker', c.blockerOptions);
+  setOptions('timeline', c.timelineOptions);
+}
+
+applyCopy(uiLang);
+if (window.SAAFormsBridge && typeof window.SAAFormsBridge.markStart === 'function') {
+  window.SAAFormsBridge.markStart('booking_popup');
+}
+
+(function(){
+  var embed = queryParams.get('embed') === '1';
+  if(embed){
+    document.documentElement.classList.add('embed-mode');
+    document.body.classList.add('embed-mode');
+    document.getElementById('backdrop').classList.add('open');
+    if (window.SAAFormsBridge && typeof window.SAAFormsBridge.markStart === 'function') {
+      window.SAAFormsBridge.markStart('booking_popup');
+    }
+  }
+})();
+
+(function(){
+  var today = new Date().toISOString().split('T')[0];
+  ['date1','date2'].forEach(function(id){
+    document.getElementById(id).setAttribute('min',today);
+  });
+})();
+
+var current = 0;
+var pills = document.querySelectorAll('.step-pill');
+var panels = document.querySelectorAll('.panel');
+var progress = document.getElementById('progress');
+
+function openModal(){
+  if (window.SAAFormsBridge && typeof window.SAAFormsBridge.markStart === 'function') {
+    window.SAAFormsBridge.markStart('booking_popup');
+  }
+  document.getElementById('backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  if(document.body.classList.contains('embed-mode')){
+    if(window.parent && window.parent !== window){
+      window.parent.postMessage({ type:'saa-close-call-form' }, '*');
+    }
+    return;
+  }
+  document.getElementById('backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(resetForm,300);
+}
+
+function resetForm(){
+  current = 0;
+  updateUI();
+  document.querySelectorAll('input,textarea').forEach(function(el){el.value='';});
+  document.querySelectorAll('select').forEach(function(el){el.selectedIndex=0;});
+  clearErrors();
+  document.getElementById('panel-success').classList.remove('active');
+}
+
+function updateUI(){
+  panels.forEach(function(p){p.classList.remove('active');});
+  var panel = document.getElementById('panel-'+current);
+  if(panel) panel.classList.add('active');
+
+  pills.forEach(function(p,i){
+    p.className = 'step-pill';
+    if(i===current) p.classList.add('active');
+    else if(i<current) p.classList.add('done');
+    else p.classList.add('idle');
+  });
+
+  progress.style.width = ((current+1)/3*100)+'%';
+}
+
+function clearErrors(){
+  document.querySelectorAll('.field-error').forEach(function(f){f.classList.remove('field-error');});
+  document.querySelectorAll('.error-msg').forEach(function(e){e.remove();});
+}
+
+function showError(fieldId, msg){
+  var f = document.getElementById('f-'+fieldId);
+  if(!f) return;
+  f.classList.add('field-error');
+  var em = document.createElement('span');
+  em.className = 'error-msg';
+  em.textContent = msg;
+  f.appendChild(em);
+}
+
+function getSlot(n){
+  var d = document.getElementById('date'+n).value;
+  var t = document.getElementById('time'+n).value;
+  if(!d||!t) return null;
+  return d+' '+t;
+}
+
+function validateStep(n){
+  clearErrors();
+  var ok = true;
+
+  if(n===0){
+    if(!document.getElementById('name').value.trim()){ showError('name', activeCopy.errors.required); ok=false; }
+    if(!document.getElementById('org').value.trim()){ showError('org', activeCopy.errors.required); ok=false; }
+    var email = document.getElementById('email').value.trim();
+    if(!email){ showError('email', activeCopy.errors.required); ok=false; }
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showError('email', activeCopy.errors.emailInvalid); ok=false; }
+    if(!document.getElementById('problem').value.trim()){ showError('problem', activeCopy.errors.required); ok=false; }
+  }
+
+  if(n===2){
+    var s1 = getSlot(1);
+    var s2 = getSlot(2);
+    if(!s1){ showError('slot1', activeCopy.errors.slotRequired); ok=false; }
+    if(!s2){ showError('slot2', activeCopy.errors.slotRequired); ok=false; }
+    if(s1 && s2 && s1===s2){ showError('slot2', activeCopy.errors.slotDifferent); ok=false; }
+  }
+
+  return ok;
+}
+
+function goToStep(target){
+  if(target>current){
+    if(current===0 && !validateStep(0)) return;
+  }
+  current = target;
+  updateUI();
+}
+
+function skipToStep(target){
+  current = target;
+  updateUI();
+}
+
+function nextStep(){
+  if(current===1){
+    current = 2;
+    updateUI();
+    return;
+  }
+  if(validateStep(current)){
+    current = Math.min(2,current+1);
+    updateUI();
+  }
+}
+
+function prevStep(){
+  current = Math.max(0,current-1);
+  updateUI();
+}
+
+function submitForm(){
+  if(!validateStep(0)){ current=0; updateUI(); return; }
+  if(!validateStep(2)){ current=2; updateUI(); return; }
+
+  panels.forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-success').classList.add('active');
+  pills.forEach(function(p){p.classList.add('done');p.classList.remove('active','idle');});
+  progress.style.width = '100%';
+
+  var formData = {
+    name: document.getElementById('name').value,
+    org: document.getElementById('org').value,
+    email: document.getElementById('email').value,
+    problem: document.getElementById('problem').value,
+    slot_1: getSlot(1),
+    slot_2: getSlot(2),
+    timezone: document.getElementById('timezone').value,
+    role: document.getElementById('role').value,
+    urgency: document.getElementById('urgency').value,
+    blocker: document.getElementById('blocker').value,
+    timeline: document.getElementById('timeline').value
+  };
+  var sourcePage = queryParams.get('origin') || window.location.href;
+  var website = (document.getElementById('website') && document.getElementById('website').value || '').trim();
+  if (window.SAAFormsBridge && typeof window.SAAFormsBridge.submitBooking === 'function') {
+    window.SAAFormsBridge.submitBooking(formData, {
+      lang: uiLang,
+      page_url: sourcePage,
+      website: website
+    });
+  }
+}
+</script>
+</body>
+</html>

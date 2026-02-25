@@ -1,0 +1,3655 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Access Africa — Opérations qui fonctionnent</title>
+<meta name="description" content="Smart Access Africa conçoit et déploie des systèmes opérationnels qui fonctionnent dans des conditions réelles, en Afrique.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  DESIGN TOKEN SYSTEM — Apple-grade            ║
+   ╚═══════════════════════════════════════════════╝ */
+   :root {
+  /* ── NEUTRAL FOUNDATION (Humble Vivid Warmth) ── */
+  --bg:         #FDFBF7;
+  --bg-subtle:  #F2EFE9;
+  --ink:        #0F172A;
+  --ink-2:      #334155;
+  --ink-3:      #64748B;
+  --line:       #E2E8F0;
+  --line-str:   #CBD5E1;
+
+  /* ── VALUE GOLD ── */
+  --gold:       #F59E0B;
+  --gold-h:     #D97706;
+  --gold-s:     rgba(245,158,11,0.10);
+  --gold-b:     rgba(245,158,11,0.18);
+
+  /* ── EXECUTION ORANGE — primary CTA only ── */
+  --viv:        #FF5A1F;
+  --viv-h:      #E04006;
+  --viv-s:      rgba(255,90,31,0.08);
+  --viv-b:      rgba(255,90,31,0.15);
+
+  /* ── OPERATIONAL BLUE — tech, authority, navigation (Original Deep Blue) ── */
+  --viv-blue:   #1B3A5C;
+  --viv-blue-h: #0F2744;
+  --viv-blue-s: rgba(27,58,92,0.08);
+  --viv-blue-b: rgba(27,58,92,0.14);
+
+  /* ── STABILITY GREEN — done / secure / complete only ── */
+  --viv-green:  #10B981;
+  --viv-green-s:#D1FAE5;
+
+  /* ── DARK SURFACE — Night Forest, warm not cold (Humble Vivid Midnight) ── */
+  --dark:       #0B1120;
+  --dark-2:     #1E293B;
+  --dark-line:  #334155;
+  --dark-text:  rgba(255,255,255,0.95);
+  --dark-muted: rgba(255,255,255,0.75);
+  --dark-faint: rgba(255,255,255,0.06);
+
+  /* ── TYPOGRAPHY ── */
+  --f-display: 'Fraunces', Georgia, serif;
+  --f-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --f-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── TYPE SCALE ── */
+  --t-hero:    clamp(4.5rem, 9.5vw, 9rem);
+  --t-h1:      clamp(2.8rem, 5vw, 4.8rem);
+  --t-h2:      clamp(2rem, 3.5vw, 3.2rem);
+  --t-h3:      clamp(1.4rem, 2vw, 1.9rem);
+  --t-lead:    1.0625rem;
+  --t-body:    0.9375rem;
+  --t-sm:      0.8125rem;
+  --t-xs:      0.6875rem;
+  --t-label:   0.625rem;
+
+  --spring:    cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --smooth:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img, video { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+::selection { background: rgba(27,58,92,0.10); }
+
+[data-lang="fr"] .en { display: none !important; }
+[data-lang="en"] .fr { display: none !important; }
+
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-thumb { background: var(--line-str); }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  NAVIGATION                                    ║
+   ╚═══════════════════════════════════════════════╝ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  background: #ffffff;
+  transition: background 0.5s var(--smooth), border-color 0.5s;
+  border-bottom: 1px solid transparent;
+}
+.nav.is-solid {
+  background: #ffffff;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-color: var(--line);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.logo-gem {
+  width: 30px; height: 30px; border-radius: 9px;
+  background: var(--dark);
+  display: grid; place-items: center;
+  transition: transform 0.35s var(--spring);
+}
+.logo-gem:hover { transform: rotate(-12deg) scale(1.1); }
+.logo-gem svg { width: 13px; height: 13px; }
+.nav-name { font-size: var(--t-sm); font-weight: 500; letter-spacing: -0.01em; color: var(--ink); }
+.nav-links { display: flex; gap: 2px; }
+.nav-a {
+  font-size: var(--t-sm); font-weight: 400; color: var(--ink-3);
+  padding: 7px 13px; border-radius: 7px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-a:hover { color: var(--viv-blue); background: var(--viv-blue-s); }
+.nav-controls { display: flex; align-items: center; gap: 8px; }
+.lang-pill {
+  display: flex; background: #f0eff0;
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 3px; gap: 2px;
+}
+.lang-opt {
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.06em;
+  padding: 5px 10px; border-radius: 5px; border: none; background: none;
+  color: var(--ink-3); cursor: pointer; transition: all 0.2s;
+}
+.lang-opt.on { background: #ffffff; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.09); }
+.nav-cta {
+  height: 34px; padding: 0 18px;
+  background: var(--viv-blue); color: white;
+  font-size: var(--t-sm); font-weight: 500; letter-spacing: -0.01em;
+  border-radius: 8px; border: none;
+  display: inline-flex; align-items: center;
+  transition: background 0.2s, transform 0.25s var(--spring), box-shadow 0.25s;
+  box-shadow: 0 1px 3px rgba(27,58,92,0.2);
+}
+.nav-cta:hover { background: var(--viv-blue-h); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(27,58,92,0.28); }
+
+/* ── HERO AMBIENT NETWORK CANVAS ── */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  animation: appear 1.2s 0.4s var(--smooth) forwards;
+}
+.hero-canvas canvas {
+  width: 100%; height: 100%;
+  opacity: 0.55;
+}
+/* ── HERO METRIC TICKER ── */
+.hero-ticker {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 36px;
+  overflow: hidden;
+  pointer-events: none;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  animation: appear 0.6s 1.4s var(--smooth) forwards;
+}
+.hero-ticker-track {
+  display: flex;
+  gap: 0;
+  animation: ticker-scroll 32s linear infinite;
+  white-space: nowrap;
+}
+.hero-ticker-item {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+  padding: 0 28px;
+  border-right: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+}
+.hero-ticker-item .tk-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--viv-green);
+  flex-shrink: 0;
+  animation: breathe 2.2s infinite;
+}
+.hero-ticker-item .tk-dot.amber { background: var(--viv-amber); animation-delay: 0.7s; }
+.hero-ticker-item .tk-val { color: var(--ink-2); font-weight: 500; }
+.hero-ticker-item .tk-up { color: var(--viv-green); }
+@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.hero {
+  min-height: 100svh;
+  padding: 0 48px;
+  display: flex; flex-direction: column;
+  background: #ffffff;
+  position: relative; overflow: hidden;
+}
+.hero-ambient {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 15%, rgba(27,58,92,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(17,26,20,0.04) 0%, transparent 60%);
+}
+.hero-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding-top: 96px; margin-bottom: auto;
+}
+.status-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid var(--line-str); border-radius: 40px;
+  padding: 5px 13px 5px 9px;
+  font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.08em;
+  color: var(--ink-2);
+  opacity: 0; animation: appear 0.6s 0.2s var(--smooth) forwards;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #3DB869; animation: breathe 2.5s infinite; }
+@keyframes breathe { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(1.4); } }
+@keyframes appear { to { opacity:1; } }
+.hero-geo { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.1em; color: var(--ink-3); padding-top: 6px; opacity: 0; animation: appear 0.6s 0.3s var(--smooth) forwards; }
+
+.hero-h { padding-bottom: 44px; }
+.hero-h h1 {
+  font-family: var(--f-display);
+  font-size: var(--t-hero);
+  font-weight: 400;
+  line-height: 0.93;
+  letter-spacing: -0.035em;
+  overflow: visible;
+}
+.word-clip { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.word-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: word-up 0.85s var(--smooth) forwards;
+}
+.word-clip:nth-child(1) .word-inner { animation-delay: 0.08s; }
+.word-clip:nth-child(2) .word-inner { animation-delay: 0.16s; }
+.word-clip:nth-child(3) .word-inner { animation-delay: 0.24s; }
+.word-clip:nth-child(4) .word-inner { animation-delay: 0.30s; }
+.word-clip:nth-child(5) .word-inner { animation-delay: 0.36s; }
+.word-clip:nth-child(6) .word-inner { animation-delay: 0.42s; }
+@keyframes word-up { to { transform: translateY(0); } }
+
+h1 em { font-style: italic; color: var(--gold); }
+.hero-sub {
+  font-size: var(--t-lead); color: var(--ink-3); font-weight: 400;
+  letter-spacing: -0.01em; margin-top: 22px;
+  opacity: 0; animation: slide-up 0.7s 0.52s var(--smooth) forwards;
+}
+@keyframes slide-up { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+
+.hero-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 48px;
+  border-top: 1px solid var(--line);
+  gap: 24px;
+  opacity: 0; animation: slide-up 0.7s 0.65s var(--smooth) forwards;
+}
+.hero-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 32px; }
+.stat-n { font-family: var(--f-display); font-size: 2.2rem; font-weight: 400; line-height: 1; letter-spacing: -0.035em; }
+.stat-l { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.07em; color: var(--ink-3); margin-top: 3px; }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  BUTTONS                                       ║
+   ╚═══════════════════════════════════════════════╝ */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--f-body); font-size: var(--t-sm); font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 11px 22px; border-radius: 10px; border: none;
+  transition: all 0.22s var(--smooth);
+  white-space: nowrap; cursor: pointer;
+}
+.btn-gold { background: var(--viv); color: white; box-shadow: 0 2px 8px rgba(217,79,30,0.25); }
+.btn-gold:hover { background: var(--viv-h); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(217,79,30,0.30); }
+/* Secondary authority CTA */
+.btn-blue { background: var(--viv-blue); color: white; box-shadow: 0 2px 8px rgba(27,58,92,0.2); }
+.btn-blue:hover { background: var(--viv-blue-h); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(27,58,92,0.28); }
+.btn-ink { background: var(--ink); color: white; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+.btn-ink:hover { background: var(--dark); transform: translateY(-2px); box-shadow: 0 5px 16px rgba(17,26,20,0.3); }
+.btn-outline { background: transparent; color: var(--ink-2); border: 1.5px solid var(--line-str); }
+.btn-outline:hover { border-color: var(--ink-2); color: var(--ink); background: var(--bg-subtle); }
+.btn-ghost-light { background: rgba(255,255,255,0.12); color: white; border: 1.5px solid rgba(255,255,255,0.22); }
+.btn-ghost-light:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.38); }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  MARQUEE                                       ║
+   ╚═══════════════════════════════════════════════╝ */
+.marquee-strip { background: var(--dark); padding: 13px 0; overflow: hidden; }
+.marquee-track {
+  display: inline-flex; white-space: nowrap;
+  animation: run 40s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.m-item {
+  font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.28);
+  padding: 0 28px; flex-shrink: 0;
+}
+.m-item .dot { color: var(--gold); margin-right: 28px; }
+@keyframes run { to { transform: translateX(-50%); } }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  LAYOUT PRIMITIVES                             ║
+   ╚═══════════════════════════════════════════════╝ */
+.pad  { padding: 120px 48px; }
+.padM { padding: 96px 48px; }
+.w    { max-width: 1160px; margin: 0 auto; }
+
+.eyebrow {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 18px;
+}
+.eyebrow-dim { color: rgba(200,133,28,0.6); }
+
+.t-hero  { font-family: var(--f-display); font-size: var(--t-hero); font-weight: 400; line-height: 0.92; letter-spacing: -0.035em; }
+.t-h1    { font-family: var(--f-display); font-size: var(--t-h1);   font-weight: 400; line-height: 1.04; letter-spacing: -0.025em; }
+.t-h2    { font-family: var(--f-display); font-size: var(--t-h2);   font-weight: 400; line-height: 1.1;  letter-spacing: -0.02em; }
+.t-h3    { font-family: var(--f-display); font-size: var(--t-h3);   font-weight: 400; line-height: 1.2;  letter-spacing: -0.015em; }
+.t-lead  { font-size: var(--t-lead); color: var(--ink-2); line-height: 1.75; }
+.t-body  { font-size: var(--t-body); color: var(--ink-3); line-height: 1.8; }
+.t-sm    { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.7; }
+
+/* Dark surface — BOOSTED contrast */
+.dark-surface { background: var(--dark); }
+.dark-surface .eyebrow { color: var(--gold); }
+.dark-surface .t-h1,
+.dark-surface .t-h2,
+.dark-surface .t-h3 { color: var(--dark-text); }
+.dark-surface .t-lead { color: var(--dark-muted); }
+.dark-surface .t-body { color: var(--dark-muted); }
+.dark-surface .t-sm  { color: rgba(255,255,255,0.78); }
+.dark-surface strong { color: rgba(255,255,255,0.92); font-weight: 500; }
+
+.cols-2  { display: grid; grid-template-columns: 1fr 1fr; }
+.cols-3  { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+
+.rule    { border: none; border-top: 1px solid var(--line); }
+.rule-d  { border: none; border-top: 1px solid var(--dark-line); }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  SECTION 1: WHAT WE DO (white)                ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-what .cols-2 {
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.72fr);
+  gap: 30px;
+  align-items: stretch;
+}
+.s-what-l {
+  order: 2;
+  padding-left: 72px;
+  padding-right: 0;
+  border-left: 1px solid var(--line);
+}
+.s-what-stmt { font-family: var(--f-display); font-size: var(--t-h2); font-weight: 400; line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 20px; }
+.s-what-stmt .cross { text-decoration: line-through; color: var(--line-str); }
+.s-what-stmt em { font-style: italic; color: var(--gold); }
+.s-what-r {
+  order: 1;
+  padding: 8px 0 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  width: 100%;
+  max-width: 560px;
+}
+.s-what-proof { display: flex; gap: 28px; padding-top: 28px; border-top: 1px solid var(--line); margin-top: 36px; }
+.proof-n { font-family: var(--f-display); font-size: 2.6rem; font-weight: 400; letter-spacing: -0.03em; line-height: 1; }
+.proof-l { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.07em; color: var(--ink-3); margin-top: 4px; line-height: 1.5; }
+
+/* Stack tabs */
+.stack-nav { display: flex; gap: 3px; }
+.stack-btn {
+  font-size: var(--t-sm); font-weight: 400; color: var(--ink-3);
+  padding: 9px 17px; border: 1.5px solid transparent; border-bottom: none;
+  background: var(--bg-subtle); border-radius: 9px 9px 0 0;
+  transition: all 0.2s; white-space: nowrap;
+}
+.stack-btn:hover { color: var(--ink); background: #EEEDE9; }
+.stack-btn.on { background: var(--bg); color: var(--ink); font-weight: 500; border-color: var(--line); z-index: 4; }
+.stack-wrap { position: relative; padding: 0 12px 12px 0; }
+.stack-nav,
+.stack-wrap,
+.stack-panel { width: 100%; max-width: 560px; }
+.stack-ghost { position: absolute; border: 1.5px solid var(--line); border-radius: 12px; pointer-events: none; }
+.stack-ghost-1 { inset: 6px 0 0 6px;  background: #E8E7E4; z-index: 2; }
+.stack-ghost-2 { inset: 12px -6px -6px 12px; background: #DEDDDA; z-index: 1; }
+.stack-panel {
+  display: none; background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: 0 12px 12px 12px;
+  overflow: hidden; position: relative; z-index: 3;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+}
+.stack-panel.on { display: block; animation: fade-card 0.25s var(--smooth); }
+@keyframes fade-card { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+.sp-row { padding: 22px 24px; }
+.sp-row + .sp-row { border-top: 1px solid var(--line); }
+.sp-lbl { font-size: var(--t-sm); font-weight: 500; color: var(--ink); margin-bottom: 7px; }
+/* Gold variant — NO left border/bar */
+.sp-lbl-gold { color: var(--gold); font-weight: 600; }
+.sp-txt { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.75; }
+
+/* ╔═══════════════════════════════════════════════════════╗
+   ║  SECTION SCENARIOS — SCROLL STACK (Humble Pattern)   ║
+   ╚═══════════════════════════════════════════════════════╝ */
+.s-scenarios {
+  }
+
+/* 2-col layout: left sticky, right the scroll track */
+.sc-scroll-outer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+/* LEFT: sticky, pinned while right column scrolls */
+.sc-left {
+  position: sticky;
+  top: calc(50vh - 220px);
+  padding: 50px 72px 100px 0;
+  height: fit-content;
+}
+
+/* RIGHT: normal flow — its height drives the section scroll */
+.sc-right {
+  padding: 80px 0 200px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── CARD ENTRIES: sticky, all at the same top ── */
+.sc-entry {
+  position: sticky;
+  top: 10vh;
+  display: flex;
+  flex-direction: column;
+  /* New stack behavior: cards remain visible, previous ones fade/blur/scale */
+  transition: opacity 220ms ease, filter 220ms ease, transform 220ms ease;
+  will-change: opacity, filter, transform;
+}
+/* Active card stays crisp */
+.sc-entry.is-active {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+/* Non-active cards fade/blur/scale (stack remains visible) */
+.sc-entry:not(.is-active) {
+  opacity: 0.3;
+  filter: blur(2px);
+  transform: scale(0.98);
+}
+
+/* z-index stacking: higher entries appear on top */
+#sc-entry-0 { z-index: 10; }
+#sc-entry-1 { z-index: 11; }
+#sc-entry-2 { z-index: 12; }
+#sc-entry-3 { z-index: 13; }
+
+/* Each entry shifts right so its tab appears beside previous tabs */
+#sc-entry-0 { margin-left: 0; }
+#sc-entry-1 { margin-left: 40px; }
+#sc-entry-2 { margin-left: 80px; }
+#sc-entry-3 { margin-left: 120px; }
+
+
+/* Ensure last tile keeps same width as the first (no accidental narrowing) */
+#sc-entry-3 .sc-card { width: 100%; }
+/* Spacer between entries creates scroll distance */
+.sc-spacer { height: 75vh; display: block; }
+
+/* ── TAB: now a child of .sc-card, sits at the top ── */
+.sc-card-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: #ffffff;
+  border-radius: 10px 10px 0 0;
+  padding: 10px 22px;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  border-bottom: none;
+  width: fit-content;
+  /* Sits flush above the card body — negative margin pulls card up */
+  margin-bottom: -1px;
+}
+.sc-tab-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--viv-blue);
+  opacity: 0;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+.sc-entry.is-active .sc-tab-dot { opacity: 1; }
+.sc-entry.is-active .sc-card-tab { color: var(--ink); font-weight: 600; }
+
+/* Card body */
+.sc-card {
+  background: #fff;
+  border-radius: 0 16px 16px 16px;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 16px 48px rgba(0,0,0,0.09);
+  overflow: hidden;
+}
+
+/* Tab — first child inside .sc-card, visually appears as protruding label */
+.sc-card-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: #F0EFED;
+  border-bottom: 1.5px solid rgba(0,0,0,0.07);
+  padding: 10px 22px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.sc-tab-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--viv);
+  opacity: 0;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+.sc-entry.is-active .sc-tab-dot { opacity: 1; }
+.sc-entry.is-active .sc-card-tab { color: var(--ink); font-weight: 600; background: #fff; }
+
+/* Card sections */
+.sc-today {
+  padding: 28px 28px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 16px;
+}
+.sc-today-bar {
+  width: 2px;
+  background: var(--line-str);
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 20px;
+}
+.sc-today-lbl {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.sc-today-txt {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  line-height: 1.78;
+}
+.sc-with {
+  padding: 22px 28px 28px;
+  display: flex;
+  gap: 16px;
+}
+.sc-with-bar {
+  width: 2px;
+  background: var(--viv);
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 20px;
+}
+.sc-with-lbl {
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--viv);
+  margin-bottom: 8px;
+}
+.sc-with-txt {
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.78;
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+  .sc-scroll-outer  { grid-template-columns: 1fr; }
+  .sc-left          { position: static; top: auto; padding: 60px 0 32px 0; }
+  .sc-right         { padding: 0 0 60px 0; gap: 24px; }
+  .sc-entry         { position: static; top: auto !important; background: transparent; margin-left: 0 !important; margin-bottom: 24px; }
+  .sc-spacer        { display: none; }
+}
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  SECTION 3: HOW WE WORK (white)               ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-how { background: #ffffff; }
+.s-how .cols-2 { gap: 100px; align-items: start; }
+.how-italic { font-family: var(--f-display); font-style: italic; font-size: var(--t-h2); font-weight: 400; line-height: 1.2; color: var(--ink); margin-bottom: 44px; letter-spacing: -0.02em; }
+.step {
+  display: grid; grid-template-columns: 52px 1fr;
+  padding: 24px 0; border-top: 1px solid var(--line);
+  gap: 4px;
+}
+.step:last-of-type { border-bottom: 1px solid var(--line); }
+.step-n {
+  font-family: var(--f-mono); font-size: 11px; color: var(--viv-blue);
+  padding-top: 3px; letter-spacing: 0.04em; font-weight: 500;
+  opacity: 0.45;
+}
+.step-h { font-size: var(--t-body); font-weight: 600; color: var(--ink); margin-bottom: 5px; letter-spacing: -0.01em; }
+.step-b { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.72; }
+
+.req-card {
+  border: 1.5px solid var(--line); border-radius: 16px; overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
+}
+.rc-head { padding: 18px 22px; background: var(--viv-blue); }
+.rc-head-l { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.1em; color: rgba(255,255,255,0.72); text-transform: uppercase; }
+.rc-row { display: flex; gap: 14px; padding: 16px 22px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+.rc-row:last-of-type { border-bottom: none; }
+.rc-arr { color: var(--viv-blue); font-family: var(--f-mono); font-size: 11px; flex-shrink: 0; padding-top: 3px; font-weight: 600; }
+.rc-txt { font-size: var(--t-sm); color: var(--ink); line-height: 1.6; }
+.rc-foot { padding: 16px 22px; background: #F5F4F2; border-top: 1px solid var(--line); }
+.rc-note { font-size: var(--t-sm); font-style: italic; color: var(--ink-3); line-height: 1.65; }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  SECTION 5: OFFERS (white)                    ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-offers { background: #ffffff; }
+
+/* ── Offers header ── */
+.offers-headline {
+  font-family: var(--f-display); font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 400; line-height: 1.1; letter-spacing: -0.025em;
+  color: var(--ink); margin-bottom: 14px;
+}
+.offers-headline em { font-style: italic; color: var(--gold); }
+.offers-sub {
+  font-size: var(--t-body); color: var(--ink-3); line-height: 1.8;
+  max-width: 560px; margin-bottom: 48px;
+}
+
+/* ── Pain strip ── */
+.offers-pain {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--ink); border-radius: 12px;
+  margin-bottom: 56px; overflow: hidden;
+}
+.pain-item {
+  padding: 24px 22px; border-right: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+}
+.pain-item::before {
+  content: '';
+  display: block;
+  width: 24px; height: 3px;
+  background: var(--viv);
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+.pain-item:last-child { border-right: none; }
+.pain-label {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.90); margin-bottom: 8px;
+}
+.pain-body { font-size: var(--t-sm); color: rgba(255,255,255,0.52); line-height: 1.65; }
+
+/* ── Cards grid — 3 equal cols ── */
+.offers-grid {
+  display: grid; grid-template-columns: 1fr 1.08fr 1fr;
+  gap: 16px; margin-bottom: 40px;
+  align-items: start;
+}
+.ocard {
+  border: 1.5px solid var(--line); border-radius: 12px;
+  background: #ffffff; cursor: pointer;
+  transition: border-color 0.25s var(--smooth), box-shadow 0.25s var(--smooth), transform 0.25s var(--smooth);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.ocard:hover { border-color: var(--line-str); box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.ocard.active { border-color: var(--viv-blue); box-shadow: 0 8px 32px rgba(27,58,92,0.12); transform: translateY(-2px); }
+.ocard.is-core { border-color: var(--gold-b); border-top: 3px solid var(--gold); }
+.ocard.is-core:hover { border-color: var(--gold); }
+.ocard.is-core.active { border-color: var(--viv-blue); }
+
+/* Card header — always visible */
+.ocard-head { padding: 28px 24px 22px; border-bottom: 1px solid var(--line); }
+.ocard-tag {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+}
+.ocard-name {
+  font-family: var(--f-display); font-size: 1.85rem;
+  font-weight: 400; letter-spacing: -0.02em; line-height: 1;
+  color: var(--ink); margin-bottom: 6px;
+}
+.ocard-name em { font-style: italic; }
+.ocard-scope {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.06em; color: var(--ink-3);
+}
+/* Badge for Core */
+.ocard-badge {
+  display: inline-block; font-family: var(--f-mono);
+  font-size: var(--t-label); letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); background: var(--gold-s);
+  padding: 3px 9px; border-radius: 2px; margin-bottom: 10px;
+}
+
+/* Preview — always visible below header */
+.ocard-preview {
+  padding: 18px 24px;
+  font-size: var(--t-sm); color: var(--ink-3); line-height: 1.72;
+}
+.ocard-hint {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.07em; color: var(--viv-blue);
+  display: flex; align-items: center; gap: 6px; margin-top: 12px;
+  transition: gap 0.22s var(--smooth);
+}
+.ocard:hover .ocard-hint { gap: 10px; }
+
+/* Expanded panel */
+.ocard-panel {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.45s var(--smooth), opacity 0.3s var(--smooth), padding 0.3s var(--smooth);
+  opacity: 0;
+}
+.ocard.active .ocard-panel { max-height: 1200px; opacity: 1; }
+.ocard-panel-inner {
+  padding: 24px 24px 28px;
+  border-top: 2px solid var(--viv-blue);
+  background: #ffffff;
+}
+.ocard.is-core .ocard-panel-inner { border-top-color: var(--viv); }
+.ocard-desc {
+  font-size: var(--t-body); color: var(--ink-2);
+  line-height: 1.78; margin-bottom: 16px;
+}
+.ocard-guarantee {
+  font-size: var(--t-sm); color: var(--ink-3); font-style: italic;
+  line-height: 1.7; padding: 12px 0;
+  border-top: 1px solid var(--line); margin-bottom: 16px;
+}
+.ocard-del-head {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 10px;
+}
+.ocard-del-list { list-style: none; padding: 0; margin: 0 0 18px; }
+.ocard-del-list li {
+  font-size: var(--t-sm); color: var(--ink-3);
+  padding: 6px 0; border-bottom: 1px solid var(--line);
+  display: flex; gap: 10px; line-height: 1.5;
+}
+.ocard-del-list li:last-child { border-bottom: none; }
+.ocard-del-list li::before {
+  content: '—'; color: var(--gold); flex-shrink: 0;
+  font-family: var(--f-mono); font-size: 11px;
+}
+.ocard-result {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.05em; color: var(--ink-3);
+  padding-top: 14px; border-top: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.ocard-result strong { color: var(--ink); font-weight: 400; font-family: var(--f-body); font-size: var(--t-sm); }
+.ocard-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: var(--t-sm); font-weight: 500;
+  padding: 11px 20px; border-radius: 8px;
+  background: var(--ink); color: #fff; border: none;
+  transition: all 0.22s var(--smooth); text-decoration: none;
+}
+.ocard-cta:hover { background: var(--dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(17,26,20,0.22); }
+.ocard.is-core .ocard-cta { background: var(--viv); }
+.ocard.is-core .ocard-cta:hover { background: var(--viv-h); box-shadow: 0 4px 14px rgba(217,79,30,0.28); }
+
+/* ── Reassurance strip ── */
+.offers-reassurance {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1.5px solid var(--line);
+  margin-bottom: 64px;
+  padding-top: 32px;
+  gap: 0;
+}
+.ritem {
+  padding: 0 40px 0 0;
+}
+.ritem:first-child { padding-left: 0; }
+.ritem-label {
+  font-size: var(--t-body); font-weight: 600;
+  color: var(--ink); margin-bottom: 6px; letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 10px;
+}
+.ritem-label::before {
+  content: '';
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--viv-green); flex-shrink: 0;
+}
+.ritem-body { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.7; padding-left: 16px; }
+
+/* ── Timeline ── */
+.offers-tl { border-top: 1px solid var(--line); padding-top: 52px; }
+.tl-eyebrow {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.tl-headline {
+  font-family: var(--f-display); font-size: var(--t-h3);
+  font-weight: 400; letter-spacing: -0.015em;
+  color: var(--ink); margin-bottom: 32px;
+}
+.tl-track {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.tl-step {
+  padding: 22px 18px; border-right: 1px solid var(--line);
+  cursor: pointer; transition: background 0.18s; position: relative;
+}
+.tl-step:last-child { border-right: none; }
+.tl-step:hover { background: var(--bg-subtle); }
+.tl-step.active { background: #ffffff; }
+.tl-step.active::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: var(--viv-blue);
+}
+.tl-day {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.1em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 7px;
+}
+.tl-label { font-size: var(--t-sm); font-weight: 500; color: var(--ink); line-height: 1.35; margin-bottom: 4px; }
+.tl-who { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.05em; color: var(--ink-3); }
+.tl-detail {
+  padding: 28px 32px; border: 1.5px solid var(--line); border-top: none;
+  border-radius: 0 0 10px 10px; background: #ffffff;
+  animation: fade-card 0.28s var(--smooth);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+.tld-day {
+  font-family: var(--f-mono); font-size: var(--t-label);
+  letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; margin-bottom: 6px;
+}
+.tld-title {
+  font-family: var(--f-display); font-size: var(--t-h3);
+  font-weight: 400; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 10px;
+}
+.tld-body { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.8; max-width: 680px; }
+.tld-criterion {
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.05em; color: var(--ink-3);
+}
+.tld-criterion strong { color: var(--ink); font-weight: 400; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .offers-pain { grid-template-columns: 1fr 1fr; }
+  .pain-item:nth-child(2) { border-right: none; }
+  .pain-item:nth-child(1), .pain-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .offers-grid { grid-template-columns: 1fr; }
+  .offers-grid .ocard.is-core { order: -1; }
+  .offers-reassurance { grid-template-columns: 1fr; }
+  .ritem { border-right: none; }
+  .tl-track { grid-template-columns: 1fr 1fr; }
+}
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  SECTION 6: TRUST (DARK) — BOOSTED CONTRAST   ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-trust { background: var(--dark); }
+.trust-cols { border-top: 1px solid var(--dark-line); }
+.trust-col { padding: 40px 36px; border-right: 1px solid var(--dark-line); }
+.trust-col:last-child { border-right: none; }
+.tc-head {
+  font-size: var(--t-sm); font-weight: 500;
+  color: rgba(255,255,255,0.90);
+  margin-bottom: 22px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--dark-line);
+}
+.tc-item {
+  padding: 11px 0; border-bottom: 1px solid var(--dark-line);
+  font-size: var(--t-sm);
+  color: rgba(255,255,255,0.75);      /* Operational White 75% — brand spec */
+  display: flex; gap: 10px; line-height: 1.6;
+}
+.tc-item:last-child { border-bottom: none; }
+.tc-item::before { content: '→'; color: var(--gold); font-size: 0.6rem; line-height: 0.85; flex-shrink: 0; font-family: var(--f-mono); letter-spacing: 0; margin-top: 3px; }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  SECTION 7: FIT TEST (white)                  ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-fit { background: var(--ink); }
+.s-fit .t-h1 { color: rgba(255,255,255,0.95); }
+.s-fit .cols-2 { gap: 80px; align-items: start; margin-top: 56px; }
+.fit-pull {
+  font-family: var(--f-display); font-style: italic; font-size: var(--t-h3);
+  font-weight: 400; line-height: 1.4; color: rgba(255,255,255,0.65);
+  border-top: 1px solid rgba(255,255,255,0.1); padding-top: 22px; margin-top: 22px;
+}
+
+.fq { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.fq:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+.fq-t { font-size: var(--t-sm); color: rgba(255,255,255,0.82); line-height: 1.5; }
+.fq-btns { display: flex; gap: 4px; flex-shrink: 0; transition: gap 0.22s var(--smooth); }
+.fq-btn {
+  font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.06em;
+  padding: 7px 14px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.15);
+  background: transparent; color: rgba(255,255,255,0.45);
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 84px;
+  transition:
+    opacity 0.22s var(--smooth),
+    max-width 0.22s var(--smooth),
+    padding 0.22s var(--smooth),
+    border-width 0.22s var(--smooth),
+    transform 0.22s var(--smooth),
+    color 0.2s var(--smooth),
+    background 0.2s var(--smooth),
+    border-color 0.2s var(--smooth);
+}
+.fq-btn:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+.fq-btn.yes.a { background: var(--viv-blue); border-color: var(--viv-blue); color: white; }
+.fq-btn.no.a  { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.38); }
+.fq-btns.yes-locked { gap: 0; }
+.fq-btns.yes-locked .fq-btn.no {
+  opacity: 0;
+  pointer-events: none;
+  max-width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-width: 0;
+  transform: translateX(-6px);
+}
+.fq-btns.no-locked { gap: 0; }
+.fq-btns.no-locked .fq-btn.yes {
+  opacity: 0;
+  pointer-events: none;
+  max-width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-width: 0;
+  transform: translateX(6px);
+}
+
+/* Progress bar for fit test */
+.fit-progress {
+  height: 2px; background: rgba(255,255,255,0.08); border-radius: 2px;
+  margin-bottom: 32px; overflow: hidden;
+}
+.fit-progress-bar {
+  height: 100%; background: var(--viv-blue); border-radius: 2px;
+  width: 0%; transition: width 0.4s var(--smooth);
+}
+
+/* Fit result */
+.fit-result {
+  margin-top: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: none;
+  animation: fade-card 0.45s var(--smooth);
+}
+.fit-result.show { display: block; }
+.fr-header {
+  padding: 24px 28px 20px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.fr-header-icon {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; margin-top: 2px;
+}
+.fr-score-label {
+  font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.12em;
+  text-transform: uppercase; font-weight: 600; margin-bottom: 4px;
+}
+.fr-score-title {
+  font-family: var(--f-display); font-size: 1.5rem; font-weight: 400;
+  line-height: 1.1; letter-spacing: -0.02em;
+}
+.fr-body {
+  padding: 0 28px 24px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  padding-top: 18px;
+}
+.fr-txt { font-size: var(--t-sm); line-height: 1.78; margin-bottom: 20px; }
+.fr-cta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fr-lnk {
+  font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.07em;
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: gap 0.2s var(--spring); font-weight: 500;
+}
+.fr-lnk:hover { gap: 8px; }
+
+/* State: Fit */
+.fit-result.state-fit .fr-header { background: var(--viv-green-s); }
+.fit-result.state-fit .fr-header-icon { background: var(--viv-green); color: white; }
+.fit-result.state-fit .fr-score-label { color: var(--viv-green); }
+.fit-result.state-fit .fr-score-title { color: var(--ink); }
+.fit-result.state-fit .fr-body { background: #ffffff; }
+.fit-result.state-fit .fr-txt { color: var(--ink-2); }
+.fit-result.state-fit .fr-lnk { color: var(--viv-green); }
+
+/* State: Possible */
+.fit-result.state-possible .fr-header { background: rgba(200,133,28,0.26); }
+.fit-result.state-possible .fr-header-icon { background: var(--gold); color: white; }
+.fit-result.state-possible .fr-score-label { color: rgba(255,255,255,0.86); }
+.fit-result.state-possible .fr-score-title { color: rgba(255,255,255,0.96); }
+.fit-result.state-possible .fr-body { background: #ffffff; }
+.fit-result.state-possible .fr-txt { color: var(--ink-2); }
+.fit-result.state-possible .fr-lnk {
+  color: var(--gold);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 10px 14px;
+  border: 1.5px solid rgba(245,158,11,0.38);
+  border-radius: 10px;
+  background: rgba(245,158,11,0.1);
+}
+.fit-result.state-possible .fr-lnk:hover {
+  color: #ffffff;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+/* State: Not fit */
+.fit-result.state-nofit .fr-header { background: rgba(217,79,30,0.22); }
+.fit-result.state-nofit .fr-header-icon { background: var(--viv); color: white; }
+.fit-result.state-nofit .fr-score-label { color: rgba(255,255,255,0.86); }
+.fit-result.state-nofit .fr-score-title { color: rgba(255,255,255,0.96); }
+.fit-result.state-nofit .fr-body { background: #ffffff; }
+.fit-result.state-nofit .fr-txt { color: var(--ink-2); }
+.fit-result.state-nofit .fr-lnk { color: var(--viv); }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  SECTION 8: FAQ (bg-subtle)                   ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-faq { background: #ffffff; border-top: 1px solid var(--line); }
+.faq-grid { display: grid; grid-template-columns: 320px 1fr; gap: 80px; align-items: start; margin-top: 56px; }
+.faq-intro { font-size: var(--t-body); color: var(--ink-3); line-height: 1.8; margin-bottom: 24px; }
+.faq-left-sticky { position: sticky; top: 88px; }
+.faq-i { border-top: 1px solid var(--line); }
+.faq-i:last-child { border-bottom: 1px solid var(--line); }
+.faq-q {
+  padding: 18px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  cursor: pointer; font-size: var(--t-body); color: var(--ink); line-height: 1.5; user-select: none;
+  transition: color 0.2s;
+}
+.faq-q:hover { color: var(--viv-blue); }
+.faq-icon { font-family: var(--f-mono); font-size: 16px; color: var(--gold); flex-shrink: 0; transition: transform 0.35s var(--smooth); line-height: 1.1; }
+.faq-i.open .faq-icon { transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.45s var(--smooth); }
+.faq-a-inner { padding: 0 0 20px; font-size: var(--t-sm); color: var(--ink-3); line-height: 1.8; max-width: 60ch; }
+.faq-i.open .faq-a { max-height: 400px; }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  FINAL CTA                                    ║
+   ╚═══════════════════════════════════════════════╝ */
+.s-cta { background: var(--dark); padding: 140px 48px; text-align: center; position: relative; overflow: hidden; }
+.cta-watermark {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-family: var(--f-display); font-style: italic;
+  font-size: clamp(8rem, 22vw, 20rem); font-weight: 400;
+  color: rgba(200,133,28,0.06); white-space: nowrap; pointer-events: none;
+  letter-spacing: -0.04em; line-height: 1;
+}
+.cta-inner { position: relative; z-index: 2; }
+.cta-sub { font-size: var(--t-lead); color: var(--ink-3); max-width: 50ch; margin: 14px auto 40px; line-height: 1.78; }
+.cta-btns { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.s-cta .btn-outline {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.42);
+}
+.s-cta .btn-outline:hover {
+  background: #ffffff;
+  color: var(--viv-blue);
+  border-color: #ffffff;
+}
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  FOOTER                                       ║
+   ╚═══════════════════════════════════════════════╝ */
+.footer { background: var(--dark); padding: 52px 48px 32px; }
+.footer-w { max-width: 1160px; margin: 0 auto; }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-tl { font-family: var(--f-display); font-style: italic; font-size: 1.35rem; font-weight: 400; color: rgba(255,255,255,0.6); line-height: 1.4; }
+.footer-tl em { color: rgba(200,133,28,0.85); }
+.footer-links { display: flex; gap: 20px; padding-top: 3px; }
+.footer-links a { font-family: var(--f-mono); font-size: var(--t-label); letter-spacing: 0.07em; color: rgba(255,255,255,0.50); transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-link-hidden { display: none !important; }
+.footer-contact-toggle {
+  color: rgba(255,255,255,0.74) !important;
+  transform-origin: left center;
+  transition: color 0.2s, transform 0.28s var(--spring), letter-spacing 0.22s var(--smooth);
+}
+.footer-contact-toggle.open {
+  color: #ffffff !important;
+  transform: scale(1.14);
+  letter-spacing: 0.1em;
+}
+.footer-contact-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: max-height 0.45s var(--smooth), opacity 0.3s var(--smooth), margin-top 0.3s var(--smooth);
+}
+.footer-contact-panel.open {
+  max-height: 560px;
+  opacity: 1;
+  margin-top: 18px;
+}
+.footer-contact-form {
+  border: 1.5px solid rgba(255,255,255,0.24);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.footer-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.footer-contact-field { display: flex; flex-direction: column; gap: 8px; }
+.footer-contact-field.full { grid-column: 1 / -1; }
+.footer-contact-label {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.86);
+}
+.footer-contact-input,
+.footer-contact-textarea {
+  width: 100%;
+  border: 1.5px solid rgba(15,23,42,0.22);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--t-sm);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.footer-contact-input::placeholder,
+.footer-contact-textarea::placeholder { color: rgba(15,23,42,0.48); }
+.footer-contact-input:focus,
+.footer-contact-textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(245,158,11,0.2);
+  background: #ffffff;
+}
+.footer-contact-textarea {
+  min-height: 108px;
+  resize: vertical;
+}
+.footer-contact-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.footer-contact-submit {
+  padding-left: 16px;
+  padding-right: 16px;
+  font-family: var(--f-mono);
+  letter-spacing: 0.05em;
+}
+.footer-contact-msg {
+  font-size: var(--t-sm);
+  color: rgba(255,255,255,0.86);
+}
+.footer-contact-msg.ok { color: var(--gold); }
+
+/* Global call form popup (iframe to dedicated form file) */
+.call-form-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: rgba(11,17,32,0.58);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s var(--smooth);
+}
+.call-form-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.call-form-dialog {
+  position: relative;
+  width: min(580px, calc(100vw - 24px));
+  transform: translateY(12px) scale(0.985);
+  transition: transform 0.28s var(--smooth);
+}
+.call-form-overlay.open .call-form-dialog {
+  transform: translateY(0) scale(1);
+}
+.call-form-iframe {
+  width: 100%;
+  height: clamp(520px, 82vh, 740px);
+  border: none;
+  border-radius: 18px;
+  background: transparent;
+  box-shadow: 0 22px 70px rgba(0,0,0,0.32);
+}
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 26px; }
+.footer-logo { display: flex; align-items: center; gap: 8px; }
+.footer-gem { width: 24px; height: 24px; background: var(--dark-2); border-radius: 7px; display: grid; place-items: center; }
+.footer-gem svg { width: 11px; height: 11px; }
+.footer-name { font-size: var(--t-sm); color: rgba(255,255,255,0.55); font-weight: 500; }
+.footer-copy { font-family: var(--f-mono); font-size: var(--t-label); color: rgba(255,255,255,0.32); letter-spacing: 0.05em; }
+
+/* ╔═══════════════════════════════════════════════════════════╗
+   ║  TIMELINE — HUMBLE-STYLE TABS + BLACK TABLET BORDER       ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+.s-tl { background: #F5F4F2; }
+.tl-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 0; }
+
+/* ── TABS ABOVE TABLET (Humble pattern) ── */
+.tl-tabs-bar {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 2px solid var(--line);
+  margin-bottom: 28px;
+  margin-top: 10px;
+  position: relative;
+}
+.tl-tab {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 14px 28px 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  position: relative;
+  border-right: 1px solid var(--line);
+  transition: color 0.2s, background 0.15s;
+  white-space: nowrap;
+}
+.tl-tab:first-child { border-left: 1px solid var(--line); }
+.tl-tab:hover { color: var(--ink); background: var(--bg-subtle); }
+.tl-tab.on {
+  color: var(--ink);
+  font-weight: 600;
+  background: var(--bg);
+}
+.tl-tab-underline {
+  position: absolute;
+  bottom: -2px; left: 0;
+  height: 2.5px;
+  background: var(--viv-blue);
+  transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1), width 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+  will-change: transform, width;
+}
+
+
+/* ── TABLET WRAPPER — iPad-like proportions + responsive portrait (Cadence only) ── */
+#sprint-tablet-wrap{
+  width: min(92vw, 860px);
+  margin: 0 auto;
+  perspective: 1400px;
+}
+#sprint-tablet{
+  width: 100%;
+  aspect-ratio: 4 / 3; /* iPad-like landscape */
+}
+
+/* Fill the full tablet height (avoid black empty area below the screen) */
+#sprint-tablet .tablet-inner,
+#sprint-tablet .tablet-body,
+#sprint-tablet .sprint-panel.on{
+  height: 100%;
+}
+#sprint-tablet .tablet-body{
+  min-height: 0; /* allow aspect-ratio to drive height */
+}
+#sprint-tablet .sprint-panel{
+  min-height: 0;
+}
+
+/* Mobile: portrait tablet shell + internal content stacks vertically */
+@media (max-width: 900px){
+  #sprint-tablet-wrap{ width: min(92vw, 520px); }
+  #sprint-tablet{ aspect-ratio: 3 / 4; } /* portrait */
+
+  #sprint-tablet .sprint-panel{
+    grid-template-columns: 1fr;
+  }
+  #sprint-tablet .sp-left{
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+/* JS-driven tablet entrance: disable transform transition while animating */
+#sprint-tablet.tablet-animating{
+  transition: none !important;
+}
+
+/* ── TABLET SHELL — bold black border like image ref ── */
+.tablet {
+  background: #111111;
+  border-radius: 28px;
+  padding: 8px;
+  box-shadow:
+    0 0 0 1px #111,
+    0 12px 40px rgba(0,0,0,0.28),
+    0 40px 80px rgba(0,0,0,0.16);
+  transform: rotateX(14deg) translateY(40px);
+  transform-origin: center bottom;
+  transition: transform 0.6s var(--smooth), box-shadow 0.6s var(--smooth);
+  will-change: transform;
+}
+.tablet:hover {
+  transform: rotateX(0deg) translateY(0px);
+  box-shadow: 0 0 0 1px #111, 0 8px 24px rgba(0,0,0,0.2), 0 24px 56px rgba(0,0,0,0.12);
+}
+.tablet-inner {
+  background: #ffffff;
+  border-radius: 21px;
+  overflow: hidden;
+}
+
+.tablet-body {
+  background: #ffffff;
+  min-height: 400px;
+}
+
+.sprint-panel {
+  display: none;
+  grid-template-columns: 40% 60%;
+  min-height: 400px;
+}
+.sprint-panel.on { display: grid; }
+
+.sp-left {
+  padding: 40px 36px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sp-day-num {
+  font-family: var(--f-display);
+  font-size: 5.5rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--line-str);
+  margin-bottom: 6px;
+}
+.sp-day-lbl {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--viv);
+  margin-bottom: 18px;
+}
+.sp-title {
+  font-family: var(--f-body);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.sp-desc {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.sp-cta {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--viv-blue);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  transition: gap 0.2s var(--spring);
+}
+.sp-cta:hover { gap: 9px; color: var(--viv-blue-h); }
+
+.sp-right {
+  background: #F0EFED;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Sprint illustration animations */
+.conn-line { stroke-dasharray: 120; stroke-dashoffset: 120; }
+.sprint-panel.on .conn-line { animation: draw-line 0.5s var(--smooth) forwards; }
+.sprint-panel.on .conn-line:nth-child(1) { animation-delay: 0.1s; }
+.sprint-panel.on .conn-line:nth-child(2) { animation-delay: 0.25s; }
+.sprint-panel.on .conn-line:nth-child(3) { animation-delay: 0.4s; }
+.sprint-panel.on .conn-line:nth-child(4) { animation-delay: 0.55s; }
+.sprint-panel.on .conn-line:nth-child(5) { animation-delay: 0.7s; }
+@keyframes draw-line { to { stroke-dashoffset: 0; } }
+
+.wf-node { opacity: 0; transform-origin: center; }
+.sprint-panel.on .wf-node { animation: node-pop 0.4s var(--smooth) forwards; }
+.sprint-panel.on .wf-node:nth-child(6)  { animation-delay: 0.05s; }
+.sprint-panel.on .wf-node:nth-child(7)  { animation-delay: 0.15s; }
+.sprint-panel.on .wf-node:nth-child(8)  { animation-delay: 0.3s; }
+.sprint-panel.on .wf-node:nth-child(9)  { animation-delay: 0.45s; }
+.sprint-panel.on .wf-node:nth-child(10) { animation-delay: 0.6s; }
+.sprint-panel.on .wf-node:nth-child(11) { animation-delay: 0.75s; }
+@keyframes node-pop { from { opacity:0; transform: scale(0.3); } to { opacity:1; transform: scale(1); } }
+
+.bottleneck-ring { opacity: 0; transform-origin: center; }
+.sprint-panel.on .bottleneck-ring { animation: ring-appear 0.4s 0.9s var(--smooth) forwards, ring-pulse 2s 1.3s ease-in-out infinite; }
+@keyframes ring-appear { to { opacity: 1; } }
+@keyframes ring-pulse { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.18); opacity: 1; } }
+
+.wf-label { opacity: 0; }
+.sprint-panel.on .wf-label { animation: label-in 0.35s var(--smooth) forwards; }
+.sprint-panel.on .wf-label:nth-child(12) { animation-delay: 0.2s; }
+.sprint-panel.on .wf-label:nth-child(13) { animation-delay: 0.35s; }
+.sprint-panel.on .wf-label:nth-child(14) { animation-delay: 0.5s; }
+.sprint-panel.on .wf-label:nth-child(15) { animation-delay: 0.65s; }
+.sprint-panel.on .wf-label:nth-child(16) { animation-delay: 0.8s; }
+@keyframes label-in { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: none; } }
+
+/* Sprint 1 */
+.task-card { background: white; border-radius: 12px; border: 1.5px solid var(--line); padding: 18px; width: 100%; box-shadow: 0 2px 12px rgba(0,0,0,0.06); opacity: 0; }
+.sprint-panel.on .task-card { animation: fade-card 0.4s 0.1s var(--smooth) forwards; }
+.task-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.task-status { display: inline-flex; align-items: center; gap: 5px; font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase; padding: 4px 9px; border-radius: 20px; background: rgba(61,184,105,0.1); color: #2A9A5A; opacity: 0; }
+.sprint-panel.on .task-status { animation: fade-card 0.3s 0.5s var(--smooth) forwards; }
+.task-status-dot { width: 5px; height: 5px; background: #3DB869; border-radius: 50%; animation: breathe 2s infinite; }
+.task-name { font-size: 13px; font-weight: 500; color: var(--ink); opacity: 0; }
+.sprint-panel.on .task-name { animation: fade-card 0.3s 0.2s var(--smooth) forwards; }
+.task-meta { font-family: var(--f-mono); font-size: 9px; color: var(--ink-3); margin-bottom: 12px; opacity: 0; }
+.sprint-panel.on .task-meta { animation: fade-card 0.3s 0.3s var(--smooth) forwards; }
+.prog-track { background: var(--line); border-radius: 4px; height: 6px; overflow: hidden; margin-bottom: 8px; opacity: 0; }
+.sprint-panel.on .prog-track { animation: fade-card 0.3s 0.4s var(--smooth) forwards; }
+.prog-bar { height: 100%; background: var(--viv); border-radius: 4px; width: 0%; transition: width 1.2s 0.7s cubic-bezier(0.25, 1, 0.5, 1); }
+.sprint-panel.on .prog-bar { width: 68%; }
+.prog-label { font-family: var(--f-mono); font-size: 9.5px; color: var(--ink-3); opacity: 0; }
+.sprint-panel.on .prog-label { animation: fade-card 0.3s 0.45s var(--smooth) forwards; }
+.data-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); opacity: 0; }
+.sprint-panel.on .data-row { animation: row-in 0.35s var(--smooth) forwards; }
+.sprint-panel.on .data-row:nth-child(1) { animation-delay: 0.7s; }
+.sprint-panel.on .data-row:nth-child(2) { animation-delay: 0.82s; }
+.sprint-panel.on .data-row:nth-child(3) { animation-delay: 0.94s; }
+.dr-key { font-size: 11px; color: var(--ink-3); }
+.dr-val { font-family: var(--f-mono); font-size: 10px; color: var(--ink); }
+.dr-val.ok { color: #2A9A5A; }
+@keyframes row-in { from { opacity:0; transform: translateX(8px); } to { opacity:1; transform: none; } }
+.next-btn { width: 100%; margin-top: 14px; padding: 12px; background: var(--viv); color: white; border: none; border-radius: 8px; cursor: pointer; font-family: var(--f-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 0; transition: background 0.2s; }
+.sprint-panel.on .next-btn { animation: fade-card 0.35s 1.1s var(--smooth) forwards; }
+.next-btn:hover { background: var(--viv-h); }
+
+/* Sprint 2 */
+.security-panel { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.sec-group { background: white; border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden; opacity: 0; }
+.sprint-panel.on .sec-group { animation: fade-card 0.4s var(--smooth) forwards; }
+.sprint-panel.on .sec-group:nth-child(1) { animation-delay: 0.1s; }
+.sprint-panel.on .sec-group:nth-child(2) { animation-delay: 0.25s; }
+.sprint-panel.on .sec-group:nth-child(3) { animation-delay: 0.4s; }
+.sec-group-head { padding: 9px 14px; background: var(--bg-subtle); border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; justify-content: space-between; }
+.sec-check-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--line); font-size: 11px; color: var(--ink-3); opacity: 0; }
+.sec-check-item:last-child { border-bottom: none; }
+.sprint-panel.on .sec-check-item { animation: fade-card 0.3s var(--smooth) forwards; }
+.sprint-panel.on .sec-group:nth-child(1) .sec-check-item:nth-child(1) { animation-delay: 0.3s; }
+.sprint-panel.on .sec-group:nth-child(1) .sec-check-item:nth-child(2) { animation-delay: 0.44s; }
+.sprint-panel.on .sec-group:nth-child(2) .sec-check-item:nth-child(1) { animation-delay: 0.58s; }
+.sprint-panel.on .sec-group:nth-child(2) .sec-check-item:nth-child(2) { animation-delay: 0.72s; }
+.sprint-panel.on .sec-group:nth-child(3) .sec-check-item:nth-child(1) { animation-delay: 0.86s; }
+.sprint-panel.on .sec-group:nth-child(3) .sec-check-item:nth-child(2) { animation-delay: 1.0s; }
+.check-icon { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 8px; color: transparent; transition: background 0.3s, border-color 0.3s, color 0.3s; }
+.sprint-panel.on .sec-group:nth-child(1) .sec-check-item:nth-child(1) .check-icon { animation: check-fill 0.25s 0.55s forwards; }
+.sprint-panel.on .sec-group:nth-child(1) .sec-check-item:nth-child(2) .check-icon { animation: check-fill 0.25s 0.7s forwards; }
+.sprint-panel.on .sec-group:nth-child(2) .sec-check-item:nth-child(1) .check-icon { animation: check-fill 0.25s 0.84s forwards; }
+.sprint-panel.on .sec-group:nth-child(2) .sec-check-item:nth-child(2) .check-icon { animation: check-fill 0.25s 0.98s forwards; }
+.sprint-panel.on .sec-group:nth-child(3) .sec-check-item:nth-child(1) .check-icon { animation: check-fill 0.25s 1.12s forwards; }
+.sprint-panel.on .sec-group:nth-child(3) .sec-check-item:nth-child(2) .check-icon { animation: check-fill 0.25s 1.26s forwards; }
+@keyframes check-fill { to { background: var(--viv-green); border-color: var(--viv-green); color: white; } }
+.sec-badge { font-family: var(--f-mono); font-size: 8px; font-weight: 500; letter-spacing: 0.07em; padding: 2px 7px; border-radius: 20px; background: var(--viv-green-s); color: var(--viv-green); opacity: 0; }
+.sprint-panel.on .sec-group:nth-child(1) .sec-badge { animation: fade-card 0.3s 0.5s forwards; }
+.sprint-panel.on .sec-group:nth-child(2) .sec-badge { animation: fade-card 0.3s 0.75s forwards; }
+.sprint-panel.on .sec-group:nth-child(3) .sec-badge { animation: fade-card 0.3s 1.0s forwards; }
+
+/* Sprint 3 */
+.ill-3 { width: 100%; height: 300px; }
+.net-line { stroke-dasharray: 200; stroke-dashoffset: 200; opacity: 0; }
+.sprint-panel.on .net-line { animation: net-draw 0.6s var(--smooth) forwards; }
+.sprint-panel.on .net-line:nth-child(1) { animation-delay: 0.5s; }
+.sprint-panel.on .net-line:nth-child(2) { animation-delay: 0.7s; }
+.sprint-panel.on .net-line:nth-child(3) { animation-delay: 0.9s; }
+.sprint-panel.on .net-line:nth-child(4) { animation-delay: 1.1s; }
+@keyframes net-draw { from { stroke-dashoffset: 200; opacity: 1; } to { stroke-dashoffset: 0; opacity: 1; } }
+.site-node { opacity: 0; }
+.sprint-panel.on .site-node { animation: node-pop 0.45s var(--smooth) forwards; }
+.sprint-panel.on .site-node:nth-child(5)  { animation-delay: 0.15s; }
+.sprint-panel.on .site-node:nth-child(6)  { animation-delay: 0.55s; }
+.sprint-panel.on .site-node:nth-child(7)  { animation-delay: 0.75s; }
+.sprint-panel.on .site-node:nth-child(8)  { animation-delay: 0.95s; }
+.sprint-panel.on .site-node:nth-child(9)  { animation-delay: 1.15s; }
+.site-lbl { opacity: 0; }
+.sprint-panel.on .site-lbl { animation: label-in 0.35s var(--smooth) forwards; }
+.sprint-panel.on .site-lbl:nth-child(10) { animation-delay: 0.2s; }
+.sprint-panel.on .site-lbl:nth-child(11) { animation-delay: 0.6s; }
+.sprint-panel.on .site-lbl:nth-child(12) { animation-delay: 0.8s; }
+.sprint-panel.on .site-lbl:nth-child(13) { animation-delay: 1.0s; }
+.sprint-panel.on .site-lbl:nth-child(14) { animation-delay: 1.2s; }
+.hub-ring { transform-origin: center; opacity: 0; }
+.sprint-panel.on .hub-ring { animation: ring-appear 0.3s 0.2s forwards, hub-ripple 2.5s 0.5s ease-out infinite; }
+@keyframes hub-ripple { 0% { transform: scale(1); opacity: 0.4; } 70% { transform: scale(1.6); opacity: 0; } 100% { transform: scale(1.6); opacity: 0; } }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  SCROLL ANIMATIONS                            ║
+   ╚═══════════════════════════════════════════════╝ */
+.rv { opacity: 0; transform: translateY(24px); transition: opacity 0.75s var(--smooth), transform 0.75s var(--smooth); }
+.rv.in { opacity: 1; transform: none; }
+.d1 { transition-delay: 0.07s; }
+.d2 { transition-delay: 0.14s; }
+.d3 { transition-delay: 0.21s; }
+.d4 { transition-delay: 0.28s; }
+.stagger > * { opacity: 0; transform: translateY(16px); transition: opacity 0.6s var(--smooth), transform 0.6s var(--smooth); }
+.stagger.in > * { opacity: 1; transform: none; }
+.stagger.in > *:nth-child(1) { transition-delay: 0.00s; }
+.stagger.in > *:nth-child(2) { transition-delay: 0.08s; }
+.stagger.in > *:nth-child(3) { transition-delay: 0.16s; }
+.stagger.in > *:nth-child(4) { transition-delay: 0.24s; }
+.line-rv .line-c { display: block; overflow: hidden; }
+.line-rv .line-c span { display: block; transform: translateY(100%); transition: transform 0.8s var(--smooth); }
+.line-rv.in .line-c span { transform: translateY(0); }
+.line-rv.in .line-c:nth-child(1) span { transition-delay: 0.00s; }
+.line-rv.in .line-c:nth-child(2) span { transition-delay: 0.09s; }
+.line-rv.in .line-c:nth-child(3) span { transition-delay: 0.18s; }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  MOBILE NAV — Burger + Drawer                 ║
+   ╚═══════════════════════════════════════════════╝ */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  background: none; border: none;
+  cursor: pointer; padding: 6px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.nav-burger:hover { background: var(--bg-subtle); }
+.nav-burger span {
+  display: block;
+  width: 18px; height: 1.5px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.3s var(--smooth), opacity 0.3s;
+  transform-origin: center;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav-drawer {
+  position: fixed;
+  top: 58px; right: 0; bottom: 0;
+  width: min(300px, 85vw);
+  background: var(--bg);
+  border-left: 1px solid var(--line);
+  z-index: 899;
+  display: flex; flex-direction: column;
+  padding: 24px 0;
+  transform: translateX(100%);
+  transition: transform 0.38s var(--smooth);
+  overflow-y: auto;
+}
+.nav-drawer.open { transform: translateX(0); }
+.nav-drawer-a {
+  display: block;
+  font-size: var(--t-sm); font-weight: 400;
+  color: var(--ink-2);
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-drawer-a:hover { background: var(--bg-subtle); color: var(--ink); }
+.nav-drawer-cta {
+  margin: 20px 28px 0;
+  background: var(--viv-blue); color: white;
+  border-radius: 8px; border-bottom: none;
+  text-align: center; font-weight: 500;
+  padding: 14px 28px;
+}
+.nav-drawer-cta:hover { background: var(--viv-blue-h); color: white; }
+.nav-overlay {
+  position: fixed; inset: 0; top: 58px;
+  background: rgba(0,0,0,0.32);
+  z-index: 898;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.nav-overlay.open { opacity: 1; pointer-events: all; }
+
+/* ╔═══════════════════════════════════════════════╗
+   ║  RESPONSIVE                                   ║
+   ╚═══════════════════════════════════════════════╝ */
+
+/* ── Tablet 1024px ── */
+@media (max-width: 1024px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-burger { display: flex; }
+  .pad, .padM { padding: 72px 24px; }
+  .hero { padding: 0 24px; }
+  .hero-geo { display: none; }
+  .hero-h h1 { font-size: clamp(3.2rem, 10vw, 5.5rem); }
+  .hero-ticker { display: none; }
+  .cols-2, .s-what .cols-2, .s-how .cols-2, .s-scenarios .cols-2, .tl-intro, .faq-grid, .s-how-intro {
+    grid-template-columns: 1fr; gap: 36px;
+  }
+  .s-what-l { order: 1; padding-right: 0; padding-left: 0; border-left: none; }
+  .s-what-r { order: 2; padding-left: 0; padding-right: 0; border-left: none; border-top: 1px solid var(--line); padding-top: 36px; }
+  .cols-3, .trust-cols { grid-template-columns: 1fr; }
+  .trust-col { border-right: none; border-bottom: 1px solid var(--dark-line); }
+  .trust-col:last-child { border-bottom: none; }
+  .offer { grid-template-columns: 1fr; gap: 12px; }
+  .offer:hover { margin: 0; padding-left: 0; padding-right: 0; }
+  .sprint-panel.on { grid-template-columns: 1fr; }
+  .sp-left { border-right: none; border-bottom: 1px solid var(--line); }
+  .sp-right { min-height: 240px; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .faq-left-sticky { position: static; }
+  .footer-top { flex-direction: column; gap: 24px; }
+  .footer-contact-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 20px; }
+  .hero-bar { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .tablet { transform: none; padding: 6px; }
+  .tablet:hover { transform: none; }
+  .tl-tabs-bar { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tl-tabs-bar::-webkit-scrollbar { display: none; }
+  .tl-tab { padding: 12px 18px 10px; font-size: 9.5px; letter-spacing: 0.07em; flex-shrink: 0; }
+  .s-cta { padding: 80px 24px; }
+  .tl-intro { margin-bottom: 0; }
+  .cols-2.s-fit { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ── Mobile 640px ── */
+@media (max-width: 640px) {
+  .pad, .padM { padding: 56px 16px; }
+  .hero { padding: 0 16px; }
+  .hero-meta { padding-top: 80px; }
+  .hero-h h1 { font-size: clamp(2.8rem, 13vw, 4rem); }
+  .hero-sub { font-size: 0.95rem; }
+  .hero-stats { flex-direction: column; gap: 14px; }
+  .hero-actions { flex-direction: column; gap: 10px; width: 100%; }
+  .btn { width: 100%; justify-content: center; text-align: center; }
+  .stat-n { font-size: 1.6rem; }
+  .tl-tab { padding: 10px 14px 9px; font-size: 9px; }
+  .sp-left { padding: 28px 20px; }
+  .sp-day-num { font-size: 4rem; }
+  .sp-title { font-size: 1.05rem; }
+  .sp-desc { font-size: 12.5px; }
+  .sp-right { padding: 20px; min-height: 200px; }
+  .task-card { padding: 14px; }
+  .security-panel { gap: 8px; }
+  .sec-check-item { font-size: 10px; padding: 7px 10px; }
+  .sec-group-head { font-size: 8px; padding: 7px 10px; }
+  .offer { padding: 20px 0; }
+  .offer-name { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+  .deck-nav { gap: 4px; flex-wrap: wrap; }
+  .deck-btn { font-size: 10px; padding: 5px 10px; }
+  .deck-card { padding: 18px; }
+  .dc-top, .dc-bot { padding: 14px; }
+  .trust-col { padding: 24px 0; }
+  .faq-q { font-size: 0.9rem; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .footer { padding: 40px 16px 24px; }
+  .footer-links { flex-wrap: wrap; gap: 12px; }
+  .footer-contact-form { padding: 14px; }
+  .call-form-overlay { padding: 8px; }
+  .call-form-dialog { width: calc(100vw - 12px); }
+  .call-form-iframe { height: 94vh; border-radius: 14px; }
+  .tl-tabs-bar { margin-top: 36px; }
+  .hero-canvas { display: none; }
+  .w { padding: 0; }
+  .nav { padding: 0 16px; }
+}
+
+/* ── SECTION VISUAL SEPARATORS ── */
+.section-divider {
+  height: 1px; background: var(--line);
+  margin: 0; border: none;
+}
+
+/* Elevate section headings */
+.section-intro {
+  max-width: 680px;
+  margin-bottom: 56px;
+}
+.section-intro .t-h1, .section-intro .t-h2 {
+  margin-bottom: 16px;
+}
+
+/* ── OFFER CARD: expanded state accent line ── */
+.ocard.active .ocard-head {
+  border-bottom-color: transparent;
+}
+
+/* Timeline track: sharper visual */
+.tl-step.active .tl-label { color: var(--viv-blue); }
+.tl-step.active .tl-day { color: var(--viv-blue); }
+
+/* Proof numbers — visual weight */
+.proof-n em { color: var(--gold); font-style: normal; }
+
+/* s-how full-width intro header before 2-col */
+.s-how-intro {
+  margin-bottom: 64px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav" id="main-nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-gem">
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 1.5L12.5 4.25V9.75L7 12.5L1.5 9.75V4.25L7 1.5Z" fill="#C8851C"/>
+      </svg>
+    </div>
+    <span class="nav-name">Smart Access Africa</span>
+  </a>
+
+  <nav class="nav-links">
+    <a href="#s-what" class="nav-a"><span class="fr">Approche</span><span class="en">Approach</span></a>
+    <a href="#s-scenarios" class="nav-a"><span class="fr">Réalité</span><span class="en">Reality</span></a>
+    <a href="#s-offers" class="nav-a"><span class="fr">Offres</span><span class="en">Offers</span></a>
+    <a href="#s-trust" class="nav-a"><span class="fr">Sécurité</span><span class="en">Security</span></a>
+    <a href="#s-faq" class="nav-a">FAQ</a>
+  </nav>
+
+  <div class="nav-controls">
+    <div class="lang-pill">
+      <button class="lang-opt on" data-l="fr">FR</button>
+      <button class="lang-opt" data-l="en">EN</button>
+    </div>
+    <a href="#s-fit" class="nav-cta">
+      <span class="fr">Test d'adéquation →</span>
+      <span class="en">Check your fit →</span>
+    </a>
+    <button class="nav-burger" id="nav-burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer">
+  <a href="#s-what"     class="nav-drawer-a" onclick="closeDrawer()"><span class="fr">Approche</span><span class="en">Approach</span></a>
+  <a href="#s-scenarios"class="nav-drawer-a" onclick="closeDrawer()"><span class="fr">Réalité</span><span class="en">Reality</span></a>
+  <a href="#s-offers"   class="nav-drawer-a" onclick="closeDrawer()"><span class="fr">Offres</span><span class="en">Offers</span></a>
+  <a href="#s-trust"    class="nav-drawer-a" onclick="closeDrawer()"><span class="fr">Sécurité</span><span class="en">Security</span></a>
+  <a href="#s-faq"      class="nav-drawer-a" onclick="closeDrawer()">FAQ</a>
+  <a href="#s-fit"      class="nav-drawer-a nav-drawer-cta" onclick="closeDrawer()"><span class="fr">Tester l'adéquation</span><span class="en">Check your fit</span></a>
+</div>
+<div class="nav-overlay" id="nav-overlay" onclick="closeDrawer()"></div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="hero">
+  <div class="hero-ambient"></div>
+
+  <!-- Ambient network canvas -->
+  <div class="hero-canvas" id="hero-canvas-wrap">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+
+  <div class="hero-meta w">
+    <div class="status-badge">
+      <div class="badge-dot"></div>
+      <span class="fr">Systèmes opérationnels · Afrique de l'Ouest</span>
+      <span class="en">Operational Systems · West Africa</span>
+    </div>
+    <div class="hero-geo fr">ONG · PME · Réseaux · Fintech</div>
+    <div class="hero-geo en">NGOs · SMEs · Networks · Fintech</div>
+  </div>
+
+  <div class="hero-h w">
+    <h1>
+      <span class="word-clip fr"><span class="word-inner">Nous</span></span><span class="fr"> </span>
+      <span class="word-clip fr"><span class="word-inner">faisons</span></span><br class="fr">
+      <span class="word-clip fr"><span class="word-inner">fonctionner</span></span><span class="fr"> </span>
+      <span class="word-clip fr"><span class="word-inner">vos</span></span><br class="fr">
+      <span class="word-clip fr"><span class="word-inner"><em>opérations.</em></span></span>
+
+      <span class="word-clip en" style="display:none"><span class="word-inner">We</span></span><span class="en" style="display:none"> </span>
+      <span class="word-clip en" style="display:none"><span class="word-inner">make</span></span><br class="en" style="display:none">
+      <span class="word-clip en" style="display:none"><span class="word-inner">your</span></span><span class="en" style="display:none"> </span>
+      <span class="word-clip en" style="display:none"><span class="word-inner"><em>operations</em></span></span><br class="en" style="display:none">
+      <span class="word-clip en" style="display:none"><span class="word-inner">work.</span></span>
+    </h1>
+    <p class="hero-sub fr">Vos équipes sur le terrain. Vos données en direct. Vos décisions sur des faits.</p>
+    <p class="hero-sub en" style="display:none">Your teams in the field. Your data live. Your decisions based on facts.</p>
+  </div>
+
+  <div class="hero-bar w">
+    <div class="hero-actions">
+      <a href="#s-fit" class="btn btn-gold fr">Tester l'adéquation — 60 secondes</a>
+      <a href="#s-fit" class="btn btn-gold en" style="display:none">Check your fit in 60 seconds</a>
+      <a href="#" class="btn btn-blue fr js-open-call-form">Réserver un appel</a>
+      <a href="#" class="btn btn-blue en js-open-call-form" style="display:none">Book a call</a>
+      <a href="#s-offers" class="btn btn-outline fr">Voir les offres</a>
+      <a href="#s-offers" class="btn btn-outline en" style="display:none">See offers</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-n">48h</div>
+        <div class="stat-l fr">Premier diagnostic</div>
+        <div class="stat-l en">First diagnosis</div>
+      </div>
+      <div>
+        <div class="stat-n">7–10j</div>
+        <div class="stat-l fr">Mise en production</div>
+        <div class="stat-l en">Days to go live</div>
+      </div>
+      <div>
+        <div class="stat-n">0</div>
+        <div class="stat-l fr">Dépendance fournisseur</div>
+        <div class="stat-l en">Vendor lock-in</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live metrics ticker -->
+  <div class="hero-ticker">
+    <div class="hero-ticker-track">
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Site Dakar</span><span class="en">Dakar Site</span><span class="tk-val fr">Conformité</span><span class="tk-val en">Compliance</span><span class="tk-up">98.3% ↑</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot amber"></span><span class="fr">Sprint Pilote J+7</span><span class="en">Pilot Sprint D+7</span><span class="tk-val fr">1er workflow actif</span><span class="tk-val en">First workflow live</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Réseau Thiès</span><span class="en">Thiès Network</span><span class="tk-val fr">Sync hors-ligne</span><span class="tk-val en">Offline sync</span><span class="tk-up">✓</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">ONG Partenaire</span><span class="en">NGO Partner</span><span class="tk-val fr">Rapport auto-généré</span><span class="tk-val en">Auto-generated report</span><span class="tk-up">↑</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot amber"></span><span class="fr">Piste d'audit</span><span class="en">Audit trail</span><span class="tk-val fr">1,204 actions tracées</span><span class="tk-val en">1,204 logged actions</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Site Ziguinchor</span><span class="en">Ziguinchor Site</span><span class="tk-val fr">Adoption terrain</span><span class="tk-val en">Field adoption</span><span class="tk-up">94% ↑</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Fintech UEMOA</span><span class="en">UEMOA Fintech</span><span class="tk-val fr">Conformité sprint 2</span><span class="tk-val en">Sprint 2 compliance</span><span class="tk-up">✓</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Site Dakar</span><span class="en">Dakar Site</span><span class="tk-val fr">Conformité</span><span class="tk-val en">Compliance</span><span class="tk-up">98.3% ↑</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot amber"></span><span class="fr">Sprint Pilote J+7</span><span class="en">Pilot Sprint D+7</span><span class="tk-val fr">1er workflow actif</span><span class="tk-val en">First workflow live</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Réseau Thiès</span><span class="en">Thiès Network</span><span class="tk-val fr">Sync hors-ligne</span><span class="tk-val en">Offline sync</span><span class="tk-up">✓</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">ONG Partenaire</span><span class="en">NGO Partner</span><span class="tk-val fr">Rapport auto-généré</span><span class="tk-val en">Auto-generated report</span><span class="tk-up">↑</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot amber"></span><span class="fr">Piste d'audit</span><span class="en">Audit trail</span><span class="tk-val fr">1,204 actions tracées</span><span class="tk-val en">1,204 logged actions</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Site Ziguinchor</span><span class="en">Ziguinchor Site</span><span class="tk-val fr">Adoption terrain</span><span class="tk-val en">Field adoption</span><span class="tk-up">94% ↑</span></span>
+      <span class="hero-ticker-item"><span class="tk-dot"></span><span class="fr">Fintech UEMOA</span><span class="en">UEMOA Fintech</span><span class="tk-val fr">Conformité sprint 2</span><span class="tk-val en">Sprint 2 compliance</span><span class="tk-up">✓</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="m-item fr"><span class="dot">·</span>Adoption terrain par conception</span>
+    <span class="m-item fr"><span class="dot">·</span>Architecture hors-ligne</span>
+    <span class="m-item fr"><span class="dot">·</span>ONG & Institutions</span>
+    <span class="m-item fr"><span class="dot">·</span>Fintech · Zone UEMOA</span>
+    <span class="m-item fr"><span class="dot">·</span>Sécurité dès sprint 0</span>
+    <span class="m-item fr"><span class="dot">·</span>Zéro dépendance</span>
+    <span class="m-item fr"><span class="dot">·</span>PME & Réseaux commerciaux</span>
+    <span class="m-item en"><span class="dot">·</span>Field Adoption by Design</span>
+    <span class="m-item en"><span class="dot">·</span>Offline-First Architecture</span>
+    <span class="m-item en"><span class="dot">·</span>NGOs & Institutions</span>
+    <span class="m-item en"><span class="dot">·</span>Fintech · UEMOA Zone</span>
+    <span class="m-item en"><span class="dot">·</span>Security from Sprint Zero</span>
+    <span class="m-item en"><span class="dot">·</span>No Vendor Lock-In</span>
+    <span class="m-item en"><span class="dot">·</span>SMEs & Commercial Networks</span>
+    <span class="m-item fr"><span class="dot">·</span>Adoption terrain par conception</span>
+    <span class="m-item fr"><span class="dot">·</span>Architecture hors-ligne</span>
+    <span class="m-item fr"><span class="dot">·</span>ONG & Institutions</span>
+    <span class="m-item fr"><span class="dot">·</span>Fintech · Zone UEMOA</span>
+    <span class="m-item fr"><span class="dot">·</span>Sécurité dès sprint 0</span>
+    <span class="m-item fr"><span class="dot">·</span>Zéro dépendance</span>
+    <span class="m-item fr"><span class="dot">·</span>PME & Réseaux commerciaux</span>
+    <span class="m-item en"><span class="dot">·</span>Field Adoption by Design</span>
+    <span class="m-item en"><span class="dot">·</span>Offline-First Architecture</span>
+    <span class="m-item en"><span class="dot">·</span>NGOs & Institutions</span>
+    <span class="m-item en"><span class="dot">·</span>Fintech · UEMOA Zone</span>
+    <span class="m-item en"><span class="dot">·</span>Security from Sprint Zero</span>
+    <span class="m-item en"><span class="dot">·</span>No Vendor Lock-In</span>
+    <span class="m-item en"><span class="dot">·</span>SMEs & Commercial Networks</span>
+  </div>
+</div>
+
+<!-- ══════════ WHAT WE DO ══════════ -->
+<section class="s-what pad" id="s-what">
+  <div class="w">
+    <div class="cols-2 s-what cols-2">
+      <div class="s-what-l rv">
+        <span class="eyebrow fr">Ce que l'on fait</span>
+        <span class="eyebrow en">What we do</span>
+        <div class="s-what-stmt fr">Vous arrêtez de piloter<br>avec des <span class="cross">données fausses.</span><br>Vous décidez sur du <em>réel.</em></div>
+        <div class="s-what-stmt en">You stop making decisions<br>on <span class="cross">stale numbers.</span><br>You decide on <em>real data.</em></div>
+        <p class="t-body" style="max-width:46ch; margin-bottom:26px">
+          <span class="fr">Un processus qui passe par WhatsApp. Un rapport assemblé la veille à 23h. Des équipes qui ignorent l'outil. On prend ce problème précis — et on construit ce qui fonctionne, en semaines.</span>
+          <span class="en">A process running through WhatsApp. A report assembled the night before. Teams ignoring the tool. We take that specific problem — and build what works, in weeks.</span>
+        </p>
+        <a href="#s-scenarios" class="btn btn-outline fr">Voir des exemples concrets</a>
+        <a href="#s-scenarios" class="btn btn-outline en" style="display:none">See real examples</a>
+        <div class="s-what-proof stagger">
+          <div>
+            <div class="proof-n">48h</div>
+            <div class="proof-l fr">Premier goulot<br>diagnostiqué</div>
+            <div class="proof-l en">First bottleneck<br>diagnosed</div>
+          </div>
+          <div>
+            <div class="proof-n">4</div>
+            <div class="proof-l fr">Secteurs,<br>une méthode</div>
+            <div class="proof-l en">Sectors,<br>one method</div>
+          </div>
+          <div>
+            <div class="proof-n">0</div>
+            <div class="proof-l fr">Dépendance<br>fournisseur</div>
+            <div class="proof-l en">Vendor<br>lock-in</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-what-r rv d2">
+        <span class="eyebrow fr">Ce que ça change, concrètement</span>
+        <span class="eyebrow en">What it actually changes</span>
+        <div class="stack-nav">
+          <button class="stack-btn on" data-sp="ngo">ONG</button>
+          <button class="stack-btn" data-sp="sme">PME</button>
+          <button class="stack-btn" data-sp="net"><span class="fr">Réseaux commerciaux</span><span class="en">Networks</span></button>
+          <button class="stack-btn" data-sp="fin">Fintech</button>
+        </div>
+        <div class="stack-wrap">
+          <div class="stack-ghost stack-ghost-2"></div>
+          <div class="stack-ghost stack-ghost-1"></div>
+
+          <div class="stack-panel on" id="sp-ngo">
+            <div class="sp-row">
+              <div class="sp-lbl fr">Ce dont le management a besoin</div>
+              <div class="sp-lbl en">What management needs</div>
+              <p class="sp-txt fr">Données terrain fiables. Rapports en heures, pas en jours. Visibilité sans courir après les coordinateurs.</p>
+              <p class="sp-txt en">Trustworthy field data. Reports in hours. Visibility without chasing coordinators.</p>
+            </div>
+            <div class="sp-row">
+              <div class="sp-lbl sp-lbl-gold fr">Avec Smart Access Africa</div>
+              <div class="sp-lbl sp-lbl-gold en">With Smart Access Africa</div>
+              <p class="sp-txt fr">Les équipes saisissent une fois. Le management voit en direct. Les rapports sont générés — pas assemblés la veille.</p>
+              <p class="sp-txt en">Teams capture once. Management sees live. Reports are generated — not assembled the night before.</p>
+            </div>
+          </div>
+          <div class="stack-panel" id="sp-sme">
+            <div class="sp-row">
+              <div class="sp-lbl fr">Ce dont les opérations ont besoin</div>
+              <div class="sp-lbl en">What operations need</div>
+              <p class="sp-txt fr">Structure sans ralentir le travail quotidien. Systèmes que les équipes utilisent vraiment.</p>
+              <p class="sp-txt en">Structure that doesn't slow daily work. Systems teams actually use.</p>
+            </div>
+            <div class="sp-row">
+              <div class="sp-lbl sp-lbl-gold fr">Avec Smart Access Africa</div>
+              <div class="sp-lbl sp-lbl-gold en">With Smart Access Africa</div>
+              <p class="sp-txt fr">Construit autour de comment votre équipe travaille déjà. Clarté mesurable en deux semaines.</p>
+              <p class="sp-txt en">Built around how your team already works. Measurable clarity by week two.</p>
+            </div>
+          </div>
+          <div class="stack-panel" id="sp-net">
+            <div class="sp-row">
+              <div class="sp-lbl fr">Ce dont les propriétaires ont besoin</div>
+              <div class="sp-lbl en">What owners need</div>
+              <p class="sp-txt fr">Performances cohérentes sur chaque point de vente. Écarts visibles avant de devenir des pertes.</p>
+              <p class="sp-txt en">Consistent performance across every outlet. Variance visible before it becomes loss.</p>
+            </div>
+            <div class="sp-row">
+              <div class="sp-lbl sp-lbl-gold fr">Avec Smart Access Africa</div>
+              <div class="sp-lbl sp-lbl-gold en">With Smart Access Africa</div>
+              <p class="sp-txt fr">Chaque site fonctionne depuis le même système. Les bonnes pratiques se propagent.</p>
+              <p class="sp-txt en">Every location runs from the same system. Best practices spread naturally.</p>
+            </div>
+          </div>
+          <div class="stack-panel" id="sp-fin">
+            <div class="sp-row">
+              <div class="sp-lbl fr">Ce dont la conformité a besoin</div>
+              <div class="sp-lbl en">What compliance needs</div>
+              <p class="sp-txt fr">Pistes d'audit avant que les régulateurs demandent. Données fiables pour la finance.</p>
+              <p class="sp-txt en">Audit trails before regulators ask. Data finance teams can actually trust.</p>
+            </div>
+            <div class="sp-row">
+              <div class="sp-lbl sp-lbl-gold fr">Avec Smart Access Africa</div>
+              <div class="sp-lbl sp-lbl-gold en">With Smart Access Africa</div>
+              <p class="sp-txt fr">Chaque action tracée. Rapports réglementaires générés. La conformité est un résultat des opérations.</p>
+              <p class="sp-txt en">Every action logged. Regulatory reports generated. Compliance is an output of operations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SCENARIOS — SCROLL STACK ══════════ -->
+<section class="s-scenarios" id="s-scenarios">
+  <div class="w">
+    <div class="sc-scroll-outer">
+
+      <!-- LEFT: sticky heading -->
+      <div class="sc-left rv">
+        <span class="eyebrow fr">Vérification de la réalité</span>
+        <span class="eyebrow en">Reality Check</span>
+        <div class="t-h1 line-rv" style="margin-bottom:20px">
+          <span class="line-c fr"><span>Votre équipe sait</span></span>
+          <span class="line-c fr"><span>ce qui coince.</span></span>
+          <span class="line-c fr"><span>La direction ne le <em>voit pas.</em></span></span>
+          <span class="line-c en" style="display:none"><span>Your team knows</span></span>
+          <span class="line-c en" style="display:none"><span>what's broken.</span></span>
+          <span class="line-c en" style="display:none"><span>Leadership can't <em>see it.</em></span></span>
+        </div>
+        <p class="t-body" style="max-width:36ch; margin-bottom:32px; color:var(--ink-2)">
+          <span class="fr">Le rapport arrive trop tard. La décision a déjà été prise sur des chiffres périmés. <strong>On construit le système qui capture le travail au moment où il se fait.</strong></span>
+          <span class="en">The report arrives too late. The decision was already made on stale numbers. <strong>We build the system that captures work as it happens.</strong></span>
+        </p>
+        <a href="#s-cta" class="btn btn-gold fr">Démarrer un sprint — 2 semaines</a>
+        <a href="#s-cta" class="btn btn-gold en" style="display:none">Start a sprint — 2 weeks</a>
+      </div>
+
+      <!-- RIGHT: CSS sticky-stack -->
+      <div class="sc-right" id="sc-right">
+
+        <!-- Card 1: ONG -->
+        <div class="sc-entry is-active" id="sc-entry-0">
+          <div class="sc-card">
+            <div class="sc-card-tab"><span class="sc-tab-dot"></span>ONG</div>
+            <div class="sc-today">
+              <div class="sc-today-bar"></div>
+              <div>
+                <div class="sc-today-lbl fr">Aujourd'hui</div>
+                <div class="sc-today-lbl en">Today</div>
+                <p class="sc-today-txt fr">Coordinateurs → cahiers → WhatsApp → tableur, deux fois par semaine. Au moment où le management voit les chiffres, personne ne sait quelle version est la bonne. Les rapports donateurs sont assemblés la veille.</p>
+                <p class="sc-today-txt en">Coordinators → notebooks → WhatsApp → spreadsheet, twice a week. By the time management sees the numbers, nobody knows which version is current. Donor reports assembled the night before.</p>
+              </div>
+            </div>
+            <div class="sc-with">
+              <div class="sc-with-bar"></div>
+              <div>
+                <div class="sc-with-lbl fr">Avec Smart Access Africa</div>
+                <div class="sc-with-lbl en">With Smart Access Africa</div>
+                <p class="sc-with-txt fr">Les équipes saisissent une seule fois — hors-ligne si besoin. Le management a un dashboard en direct. La qualité est contrôlée à la saisie. Les rapports sont générés automatiquement.</p>
+                <p class="sc-with-txt en">Field teams capture once — offline if needed. Management has a live dashboard. Data quality enforced at entry. Reports generated automatically.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sc-spacer"></div>
+
+        <!-- Card 2: PME -->
+        <div class="sc-entry" id="sc-entry-1">
+          <div class="sc-card">
+            <div class="sc-card-tab"><span class="sc-tab-dot"></span>PME</div>
+            <div class="sc-today">
+              <div class="sc-today-bar"></div>
+              <div>
+                <div class="sc-today-lbl fr">Aujourd'hui</div>
+                <div class="sc-today-lbl en">Today</div>
+                <p class="sc-today-txt fr">Système déployé, formation faite. Trois semaines plus tard, tout le monde est de retour sur WhatsApp et Excel. Le système fonctionne mais ne contient aucune vraie donnée.</p>
+                <p class="sc-today-txt en">System deployed, training done. Three weeks later, everyone is back on WhatsApp and Excel. The system runs but contains no real data.</p>
+              </div>
+            </div>
+            <div class="sc-with">
+              <div class="sc-with-bar"></div>
+              <div>
+                <div class="sc-with-lbl fr">Avec Smart Access Africa</div>
+                <div class="sc-with-lbl en">With Smart Access Africa</div>
+                <p class="sc-with-txt fr">Construit autour de comment vos équipes travaillent réellement. L'interface montre exactement ce qu'il faut pour chaque tâche. L'adoption se fait par conception, pas par décret.</p>
+                <p class="sc-with-txt en">Built around how your teams actually work. The interface shows exactly what's needed for each task. Adoption by design, not by mandate.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sc-spacer"></div>
+
+        <!-- Card 3: Réseaux -->
+        <div class="sc-entry" id="sc-entry-2">
+          <div class="sc-card">
+            <div class="sc-card-tab"><span class="sc-tab-dot"></span><span class="fr">Réseaux commerciaux</span><span class="en">Networks</span></div>
+            <div class="sc-today">
+              <div class="sc-today-bar"></div>
+              <div>
+                <div class="sc-today-lbl fr">Aujourd'hui</div>
+                <div class="sc-today-lbl en">Today</div>
+                <p class="sc-today-txt fr">Cinq sites, cinq façons de faire le même processus. Impossible de comparer les performances car les données n'ont pas de structure commune.</p>
+                <p class="sc-today-txt en">Five outlets, five ways of doing the same process. Impossible to compare performance because the data has no common structure.</p>
+              </div>
+            </div>
+            <div class="sc-with">
+              <div class="sc-with-bar"></div>
+              <div>
+                <div class="sc-with-lbl fr">Avec Smart Access Africa</div>
+                <div class="sc-with-lbl en">With Smart Access Africa</div>
+                <p class="sc-with-txt fr">Chaque site fonctionne depuis le même système. Écarts visibles dans une vue unique. Nouveaux sites intégrés à votre standard.</p>
+                <p class="sc-with-txt en">Every location runs from the same system. Variance visible in one view. New outlets onboard to your standard.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sc-spacer"></div>
+
+        <!-- Card 4: Fintech -->
+        <div class="sc-entry" id="sc-entry-3">
+          <div class="sc-card">
+            <div class="sc-card-tab"><span class="sc-tab-dot"></span>Fintech</div>
+            <div class="sc-today">
+              <div class="sc-today-bar"></div>
+              <div>
+                <div class="sc-today-lbl fr">Aujourd'hui</div>
+                <div class="sc-today-lbl en">Today</div>
+                <p class="sc-today-txt fr">Documentation de conformité assemblée manuellement avant chaque audit. La réponse à une question d'auditeur implique six étapes dans trois systèmes différents.</p>
+                <p class="sc-today-txt en">Compliance documentation assembled manually before every audit. An auditor's question involves six steps through three different systems.</p>
+              </div>
+            </div>
+            <div class="sc-with">
+              <div class="sc-with-bar"></div>
+              <div>
+                <div class="sc-with-lbl fr">Avec Smart Access Africa</div>
+                <div class="sc-with-lbl en">With Smart Access Africa</div>
+                <p class="sc-with-txt fr">Chaque action tracée au point de travail. Rapports générés, pas assemblés. Tout est là lors d'un audit — horodaté, attribué, exportable.</p>
+                <p class="sc-with-txt en">Every action logged at the point of work. Reports generated, not assembled. Everything there at audit — timestamped, attributed, exportable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sc-right -->
+    </div><!-- /sc-scroll-outer -->
+  </div>
+</section>
+
+<!-- ══════════ HOW WE WORK ══════════ -->
+<section class="s-how pad" id="s-how">
+  <div class="w">
+
+    <!-- Full-width intro heading -->
+    <div class="s-how-intro rv">
+      <div>
+        <span class="eyebrow fr">Comment on travaille</span>
+        <span class="eyebrow en">How we work</span>
+        <p class="how-italic fr">Vos équipes connaissent ce qui coince. Nous construisons ce qui tient.</p>
+        <p class="how-italic en">Your teams know what's broken. We build what holds.</p>
+      </div>
+      <div>
+        <p class="t-body fr" style="max-width:44ch; color:var(--ink-2); line-height:1.8">On n'arrive pas avec un logiciel prêt à l'emploi. On commence par cartographier comment votre travail se fait réellement — y compris les raccourcis et les contournements. C'est là que les vrais blocages se cachent.</p>
+        <p class="t-body en" style="max-width:44ch; color:var(--ink-2); line-height:1.8">We don't arrive with ready-made software. We start by mapping how your work is actually done — including the shortcuts and workarounds. That's where the real bottlenecks hide.</p>
+      </div>
+    </div>
+
+    <div class="cols-2 s-how">
+      <div class="rv">
+        <div class="step">
+          <span class="step-n">01</span>
+          <div>
+            <div class="step-h fr">On part du terrain, pas du cahier des charges</div>
+            <div class="step-h en">We start from the field, not the spec doc</div>
+            <p class="step-b fr">On observe comment le travail est réellement fait — y compris les raccourcis WhatsApp et les Excel de remplacement. Le diagnostic prend 48h.</p>
+            <p class="step-b en">We observe how work is actually done — including the WhatsApp shortcuts and backup spreadsheets. Diagnosis takes 48 hours.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-n">02</span>
+          <div>
+            <div class="step-h fr">Un processus à la fois, en production dès J+7</div>
+            <div class="step-h en">One workflow at a time, live by day 7</div>
+            <p class="step-b fr">Un seul goulot. Un seul sprint. Vos équipes l'utilisent sur du vrai travail — pas sur une démonstration. Si ça ne tient pas, on ne ferme pas.</p>
+            <p class="step-b en">One bottleneck. One sprint. Your teams use it on real work — not a demo. If it doesn't hold, we don't close the sprint.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-n">03</span>
+          <div>
+            <div class="step-h fr">L'adoption par conception, pas par décret</div>
+            <div class="step-h en">Adoption by design, not by mandate</div>
+            <p class="step-b fr">On construit autour de comment vos équipes travaillent déjà. Quand l'outil simplifie le travail, les équipes l'utilisent sans rappels.</p>
+            <p class="step-b en">We build around how your teams already work. When the tool makes the job easier, teams use it without reminders.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv d2">
+        <div class="req-card">
+          <div class="rc-head">
+            <div class="rc-head-l fr">Ce que nous exigeons de chaque client</div>
+            <div class="rc-head-l en">What we require from every client</div>
+          </div>
+          <div class="rc-row">
+            <span class="rc-arr">→</span>
+            <span class="rc-txt fr">Un sponsor exécutif avec une autorité de décision réelle</span>
+            <span class="rc-txt en">An executive sponsor with real decision authority</span>
+          </div>
+          <div class="rc-row">
+            <span class="rc-arr">→</span>
+            <span class="rc-txt fr">Un champion opérationnel disponible quotidiennement pendant le sprint</span>
+            <span class="rc-txt en">An operational champion with daily availability during the sprint</span>
+          </div>
+          <div class="rc-row">
+            <span class="rc-arr">→</span>
+            <span class="rc-txt fr">Des cycles de feedback rapides — jours, pas semaines</span>
+            <span class="rc-txt en">Fast feedback cycles — days, not weeks</span>
+          </div>
+          <div class="rc-foot">
+            <p class="rc-note fr">Si ces conditions ne sont pas réunies, on dit non — quel que soit le budget. On ne peut pas garantir l'adoption sans elles.</p>
+            <p class="rc-note en">If these conditions are not in place, we say no — regardless of budget. Without them, we cannot guarantee adoption.</p>
+          </div>
+        </div>
+        <br>
+        <a href="#s-fit" class="btn btn-ink fr">Vérifier les conditions</a>
+        <a href="#s-fit" class="btn btn-ink en" style="display:none">Check if conditions are present</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TIMELINE ══════════ -->
+<section class="s-tl pad" id="s-tl">
+  <div class="w">
+
+    <!-- INTRO — 2 col heading above tabs, like Humble Ops -->
+    <div class="tl-intro rv">
+      <div>
+        <span class="eyebrow fr">Cadence de livraison</span>
+        <span class="eyebrow en">Delivery Cadence</span>
+        <div class="t-h1 fr">Du diagnostic à la <em>production</em><br>en semaines.</div>
+        <div class="t-h1 en">From diagnosis to <em>production</em><br>in weeks.</div>
+      </div>
+      <div style="padding-top:8px">
+        <p class="t-body fr" style="max-width:40ch">Pas de projet de 6 mois avant de voir quelque chose. On déploie sur du vrai travail dès J+7. Vous validez ou on ajuste.</p>
+        <p class="t-body en" style="max-width:40ch">No 6-month project before you see anything. We deploy on real work by day 7. You validate or we adjust.</p>
+      </div>
+    </div>
+
+    <!-- TABS — above the tablet, Humble pattern, separated by vertical dividers -->
+    <div class="tl-tabs-bar rv d1" id="sprint-tabs">
+      <div class="tl-tab-underline" id="tab-indicator"></div>
+      <button class="tl-tab on" data-sprint="s0">Sprint 0</button>
+      <button class="tl-tab" data-sprint="s1">Sprint 1</button>
+      <button class="tl-tab" data-sprint="s2">Sprint 2</button>
+      <button class="tl-tab" data-sprint="s3">Sprint 3</button>
+    </div>
+
+    <!-- TABLET — black border, crisp -->
+    <div class="tablet-wrapper" id="sprint-tablet-wrap">
+    <div class="tablet rv d2" id="sprint-tablet">
+      <div class="tablet-inner">
+        <div class="tablet-body">
+
+          <!-- Sprint 0 — Workflow map, vivid Material colors -->
+          <div class="sprint-panel on" id="panel-s0">
+            <div class="sp-left">
+              <div class="sp-day-num">01</div>
+              <div class="sp-day-lbl fr">Jours 1 – 2</div>
+              <div class="sp-day-lbl en">Day 1 – 2</div>
+              <div class="sp-title fr">Diagnostic du goulot</div>
+              <div class="sp-title en">Bottleneck Diagnosis</div>
+              <p class="sp-desc fr">Nous cartographions comment le travail est réellement fait — y compris les contournements. Workflow et périmètre du sprint définis avec votre champion opérationnel.</p>
+              <p class="sp-desc en">We map how work is actually done — including the workarounds. Workflow design and sprint scope defined with your operational champion.</p>
+              <a href="#s-fit" class="sp-cta fr">Démarrer →</a>
+              <a href="#s-fit" class="sp-cta en">Start →</a>
+            </div>
+            <div class="sp-right">
+              <svg width="100%" height="310" viewBox="0 0 340 290" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Connection lines -->
+                <line class="conn-line" x1="68" y1="95" x2="155" y2="95" stroke="#BDBDBD" stroke-width="2"/>
+                <line class="conn-line" x1="155" y1="95" x2="225" y2="55" stroke="#BDBDBD" stroke-width="2"/>
+                <line class="conn-line" x1="155" y1="95" x2="225" y2="135" stroke="#BDBDBD" stroke-width="2"/>
+                <line class="conn-line" x1="225" y1="135" x2="300" y2="200" stroke="#D94F1E" stroke-width="2.5" stroke-dasharray="6 3"/>
+                <line class="conn-line" x1="68" y1="95" x2="68" y2="200" stroke="#BDBDBD" stroke-width="2"/>
+                <!-- Vivid nodes — each a distinct Material color -->
+                <circle class="wf-node" cx="68"  cy="95"  r="28" fill="#E3F2FD" stroke="#1565C0" stroke-width="2.5"/>
+                <circle class="wf-node" cx="155" cy="95"  r="28" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2.5"/>
+                <circle class="wf-node" cx="225" cy="55"  r="22" fill="#FFF8E1" stroke="#F9A825" stroke-width="2.5"/>
+                <circle class="wf-node" cx="225" cy="135" r="22" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="2.5"/>
+                <circle class="wf-node" cx="68"  cy="200" r="22" fill="#E0F2F1" stroke="#00796B" stroke-width="2.5"/>
+                <!-- Bottleneck — vivid red-orange, pulsing ring -->
+                <circle class="bottleneck-ring" cx="300" cy="200" r="40" fill="none" stroke="#D94F1E" stroke-width="2" opacity="0.2"/>
+                <circle class="wf-node" cx="300" cy="200" r="30" fill="#FBE9E7" stroke="#D94F1E" stroke-width="3"/>
+                <!-- Node labels -->
+                <text class="wf-node" x="68"  y="91"  text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#1565C0" font-weight="600">SAISIE</text>
+                <text class="wf-node" x="68"  y="103" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#1565C0">DATA</text>
+                <text class="wf-node" x="155" y="91"  text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#2E7D32" font-weight="600">VALID.</text>
+                <text class="wf-node" x="155" y="103" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#2E7D32">CHECK</text>
+                <text class="wf-node" x="225" y="51"  text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#F9A825" font-weight="600">APPRO.</text>
+                <text class="wf-node" x="225" y="62"  text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#F9A825">ACHAT</text>
+                <text class="wf-node" x="225" y="131" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#7B1FA2" font-weight="600">STOCK</text>
+                <text class="wf-node" x="225" y="142" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#7B1FA2">MVMT</text>
+                <text class="wf-node" x="68"  y="196" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#00796B" font-weight="600">REPORT</text>
+                <text class="wf-node" x="68"  y="207" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#00796B">AUTO</text>
+                <text class="wf-node" x="300" y="196" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#D94F1E" font-weight="700">GOULOT</text>
+                <text class="wf-node" x="300" y="209" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#D94F1E">IDENTIFIÉ</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Sprint 1 — Task card -->
+          <div class="sprint-panel" id="panel-s1">
+            <div class="sp-left">
+              <div class="sp-day-num">07</div>
+              <div class="sp-day-lbl fr">Jours 7 – 10</div>
+              <div class="sp-day-lbl en">Day 7 – 10</div>
+              <div class="sp-title fr">Premier workflow en production</div>
+              <div class="sp-title en">First Workflow Live</div>
+              <p class="sp-desc fr">Un vrai workflow opérationnel en production. Les équipes terrain l'utilisent sur du vrai travail — pas une démo. Visibilité management dès le premier jour.</p>
+              <p class="sp-desc en">One real operational workflow in production. Field teams using it on real work — not a demo. Management visibility from day one.</p>
+            </div>
+            <div class="sp-right">
+              <div style="width:100%">
+                <div class="task-card">
+                  <div class="task-header">
+                    <span class="task-name fr">Réception fournisseur · Site Dakar</span>
+                    <span class="task-name en">Supplier Intake · Dakar Site</span>
+                    <span class="task-status">
+                      <span class="task-status-dot"></span>
+                      <span class="fr">En cours</span><span class="en">Live</span>
+                    </span>
+                  </div>
+                  <div class="task-meta fr">Démarré · 09:14 · Assigné à Mamadou D.</div>
+                  <div class="task-meta en">Started · 09:14 · Assigned to Mamadou D.</div>
+                  <div class="prog-track"><div class="prog-bar"></div></div>
+                  <div class="prog-label fr">68% complété · ~12 min restantes</div>
+                  <div class="prog-label en">68% complete · ~12 min remaining</div>
+                  <div style="margin-top:12px">
+                    <div class="data-row">
+                      <span class="dr-key fr">Bon de commande</span><span class="dr-key en">Purchase Order</span>
+                      <span class="dr-val">BC-2025-0441</span>
+                    </div>
+                    <div class="data-row">
+                      <span class="dr-key fr">Quantité reçue</span><span class="dr-key en">Qty received</span>
+                      <span class="dr-val ok">24 / 24 ✓</span>
+                    </div>
+                    <div class="data-row">
+                      <span class="dr-key fr">Statut</span><span class="dr-key en">Status</span>
+                      <span class="dr-val fr">Vérification qualité</span><span class="dr-val en">Quality check</span>
+                    </div>
+                  </div>
+                  <button class="next-btn">
+                    <span>→</span>
+                    <span class="fr">Action suivante</span><span class="en">Next Action</span>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sprint 2 — Security dashboard, vivid green badges -->
+        <div class="sprint-panel" id="panel-s2">
+          <div class="sp-left">
+            <div class="sp-day-num">14</div>
+            <div class="sp-day-lbl fr">Semaines 2 – 3</div>
+            <div class="sp-day-lbl en">Week 2 – 3</div>
+            <div class="sp-title fr">Stabilisation</div>
+            <div class="sp-title en">Stabilization</div>
+            <p class="sp-desc fr">Durcissement sécurité, contrôle d'accès basé sur les rôles, documentation de gouvernance. Le système devient une infrastructure fiable — pas un prototype.</p>
+            <p class="sp-desc en">Security hardening, role-based access, governance documentation. The system becomes reliable infrastructure — not a prototype.</p>
+          </div>
+          <div class="sp-right">
+            <div class="security-panel">
+              <div class="sec-group">
+                <div class="sec-group-head">
+                  <span class="fr">Sécurité des accès</span><span class="en">Access Security</span>
+                  <span class="sec-badge fr">Actif</span><span class="sec-badge en">Active</span>
+                </div>
+                <div class="sec-check-item"><div class="check-icon">✓</div><span class="fr">Rôles définis — Admin, Terrain, Manager</span><span class="en">Roles defined — Admin, Field, Manager</span></div>
+                <div class="sec-check-item"><div class="check-icon">✓</div><span class="fr">Authentification à 2 facteurs activée</span><span class="en">2-factor authentication enabled</span></div>
+              </div>
+              <div class="sec-group">
+                <div class="sec-group-head">
+                  <span class="fr">Données & chiffrement</span><span class="en">Data & Encryption</span>
+                  <span class="sec-badge fr">Certifié</span><span class="sec-badge en">Certified</span>
+                </div>
+                <div class="sec-check-item"><div class="check-icon">✓</div><span class="fr">Chiffrement en transit (TLS 1.3)</span><span class="en">Encryption in transit (TLS 1.3)</span></div>
+                <div class="sec-check-item"><div class="check-icon">✓</div><span class="fr">Propriété des données — client uniquement</span><span class="en">Data ownership — client only</span></div>
+              </div>
+              <div class="sec-group">
+                <div class="sec-group-head">
+                  <span class="fr">Gouvernance</span><span class="en">Governance</span>
+                  <span class="sec-badge fr">Complet</span><span class="sec-badge en">Complete</span>
+                </div>
+                <div class="sec-check-item"><div class="check-icon">✓</div><span class="fr">Piste d'audit — toutes actions tracées</span><span class="en">Audit trail — all actions logged</span></div>
+                <div class="sec-check-item"><div class="check-icon">✓</div><span class="fr">Documentation produite automatiquement</span><span class="en">Documentation auto-generated</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sprint 3 — Network map, vivid multi-color nodes -->
+        <div class="sprint-panel" id="panel-s3">
+          <div class="sp-left">
+            <div class="sp-day-num">30</div>
+            <div class="sp-day-lbl fr">Jours 30 – 60</div>
+            <div class="sp-day-lbl en">Day 30 – 60</div>
+            <div class="sp-title fr">Expansion</div>
+            <div class="sp-title en">Expansion</div>
+            <p class="sp-desc fr">Workflows supplémentaires, déploiement multi-sites, transition legacy. Ce qui a prouvé sa valeur en un site devient le standard organisationnel.</p>
+            <p class="sp-desc en">Additional workflows, multi-site rollout, legacy transition. What proved itself in one location becomes the organizational standard.</p>
+          </div>
+          <div class="sp-right">
+            <svg class="ill-3" viewBox="0 0 340 290" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lines — vivid orange -->
+              <line class="net-line" x1="170" y1="145" x2="80"  y2="65"  stroke="#D94F1E" stroke-width="2.5"/>
+              <line class="net-line" x1="170" y1="145" x2="278" y2="65"  stroke="#D94F1E" stroke-width="2.5"/>
+              <line class="net-line" x1="170" y1="145" x2="62"  y2="222" stroke="#D94F1E" stroke-width="2.5"/>
+              <line class="net-line" x1="170" y1="145" x2="280" y2="222" stroke="#D94F1E" stroke-width="2.5"/>
+              <!-- Hub ripple ring -->
+              <circle class="hub-ring" cx="170" cy="145" r="44" fill="none" stroke="#D94F1E" stroke-width="2" opacity="0.18"/>
+              <!-- Hub — orange -->
+              <circle class="site-node" cx="170" cy="145" r="34" fill="#FBE9E7" stroke="#D94F1E" stroke-width="3"/>
+              <!-- Site nodes — each a distinct vivid Material color -->
+              <circle class="site-node" cx="80"  cy="65"  r="26" fill="#E3F2FD" stroke="#1565C0" stroke-width="2.5"/>
+              <circle class="site-node" cx="278" cy="65"  r="26" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2.5"/>
+              <circle class="site-node" cx="62"  cy="222" r="26" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="2.5"/>
+              <circle class="site-node" cx="280" cy="222" r="26" fill="#FFF8E1" stroke="#F9A825" stroke-width="2.5"/>
+              <!-- Hub labels -->
+              <text class="site-lbl" x="170" y="141" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#D94F1E" font-weight="700">HUB</text>
+              <text class="site-lbl" x="170" y="154" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#D94F1E" font-weight="500">DAKAR</text>
+              <!-- Site labels -->
+              <text class="site-lbl" x="80"  y="61"  text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#1565C0" font-weight="600">THIÈS</text>
+              <text class="site-lbl" x="80"  y="73"  text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#64B5F6">Site 2</text>
+              <text class="site-lbl" x="278" y="61"  text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#2E7D32" font-weight="600">SAINT-L.</text>
+              <text class="site-lbl" x="278" y="73"  text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#81C784">Site 3</text>
+              <text class="site-lbl" x="62"  y="218" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#7B1FA2" font-weight="600">ZIGUINCH.</text>
+              <text class="site-lbl" x="62"  y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#CE93D8">Site 4</text>
+              <text class="site-lbl" x="280" y="218" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#F9A825" font-weight="600">KAOLACK</text>
+              <text class="site-lbl" x="280" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#FFD54F">Site 5</text>
+            </svg>
+          </div>
+        </div>
+
+      </div><!-- /tablet-inner -->
+    </div><!-- /tablet -->
+    </div><!-- /tablet-wrapper -->
+
+  </div>
+</section>
+
+<!-- ══════════ OFFERS ══════════ -->
+<section class="s-offers pad" id="s-offers">
+  <div class="w">
+
+    <span class="eyebrow rv fr">Trois niveaux d'intervention</span>
+    <span class="eyebrow rv en">Three levels of engagement</span>
+    <h2 class="offers-headline rv fr">Vous décidez où commencer.<br><em>On livre ce qui tourne.</em></h2>
+    <h2 class="offers-headline rv en">You decide where to start.<br><em>We deliver what runs.</em></h2>
+    <p class="offers-sub rv fr">On entre là où ça bloque. On livre quelque chose qui tourne — pas une présentation, pas un prototype. Un processus utilisé par vos équipes sur du vrai travail.</p>
+    <p class="offers-sub rv en">We enter where it's blocked. We deliver something that runs — not a presentation, not a prototype. A process your teams are actually using on real work.</p>
+
+    <!-- Pain strip -->
+    <p class="t-body rv fr" style="color:var(--ink-3);max-width:52ch;margin-bottom:24px">Voici ce qu'on entend avant chaque premier appel :</p>
+    <p class="t-body rv en" style="color:var(--ink-3);max-width:52ch;margin-bottom:24px">Here's what we hear before every first call:</p>
+    <div class="offers-pain rv">
+      <div class="pain-item">
+        <div class="pain-label fr">Rapport terrain</div>
+        <div class="pain-label en">Field reporting</div>
+        <div class="pain-body fr">Les données arrivent 3 jours après. Vous décidez sur des chiffres qui ne collent plus.</div>
+        <div class="pain-body en">Data arrives 3 days late. You decide on numbers that no longer match reality.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-label fr">Flux fragmentés</div>
+        <div class="pain-label en">Fragmented flows</div>
+        <div class="pain-body fr">5 outils. Aucun ne parle à l'autre. La coordination passe par WhatsApp.</div>
+        <div class="pain-body en">5 tools. None talk to each other. Coordination runs through WhatsApp.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-label fr">Adoption zéro</div>
+        <div class="pain-label en">Zero adoption</div>
+        <div class="pain-body fr">L'outil existe, la formation a eu lieu. Les équipes continuent comme avant.</div>
+        <div class="pain-body en">The tool exists, training happened. Teams carry on as before.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-label fr">Visibilité nulle</div>
+        <div class="pain-label en">No visibility</div>
+        <div class="pain-body fr">Le directeur demande un point. La réponse : un Excel consolidé dans 48 heures.</div>
+        <div class="pain-body en">The director asks for an update. The answer: a consolidated Excel in 48 hours.</div>
+      </div>
+    </div>
+
+    <!-- 3 cards -->
+    <div class="offers-grid rv">
+
+      <!-- Pilote -->
+      <div class="ocard is-pilot" id="ocard-pilot" onclick="ocardExpand('pilot')">
+        <div class="ocard-head">
+          <div class="ocard-tag fr">Point d'entrée</div>
+          <div class="ocard-tag en">Entry point</div>
+          <div class="ocard-name fr">Pilote</div>
+          <div class="ocard-name en">Pilot</div>
+          <div class="ocard-scope fr">1 processus · 7–10 jours</div>
+          <div class="ocard-scope en">1 workflow · 7–10 days</div>
+        </div>
+        <div class="ocard-preview">
+          <span class="fr">Vous avez un problème concret. On le prend, on le transforme en processus qui tourne. Résultat visible dès le J+7.</span>
+          <span class="en">You have one concrete problem. We take it, turn it into a running workflow. Visible result by day 7.</span>
+          <div class="ocard-hint fr">Voir le détail <span>→</span></div>
+          <div class="ocard-hint en">See details <span>→</span></div>
+        </div>
+        <div class="ocard-panel" id="ocard-panel-pilot">
+          <div class="ocard-panel-inner">
+            <p class="ocard-desc fr">Un seul processus bloquant, traité de bout en bout. Vos équipes l'utilisent sur de vrais cas dès le J+7 — pas sur une démonstration. Si ça ne tient pas à l'usage, on ne ferme pas le sprint.</p>
+            <p class="ocard-desc en">One blocking process, handled end-to-end. Your teams use it on real cases by day 7 — not on a demo. If it doesn't hold in real use, we don't close the sprint.</p>
+            <p class="ocard-guarantee fr">Si ça ne fonctionne pas : deux semaines perdues. Pas deux ans, pas deux millions.</p>
+            <p class="ocard-guarantee en">If it doesn't work: two weeks lost. Not two years, not two million.</p>
+            <div class="ocard-del-head fr">Ce que vous recevez</div>
+            <div class="ocard-del-head en">What you receive</div>
+            <ul class="ocard-del-list">
+              <li><span class="fr">Processus déployé et utilisé par vos équipes terrain</span><span class="en">Workflow deployed and used by your field teams</span></li>
+              <li><span class="fr">Tableau de bord simple accessible au management</span><span class="en">Simple dashboard accessible to management</span></li>
+              <li><span class="fr">Données sécurisées, exportables — elles vous appartiennent</span><span class="en">Secured, exportable data — it belongs to you</span></li>
+              <li><span class="fr">Critères de succès écrits avant de commencer</span><span class="en">Success criteria written before we start</span></li>
+            </ul>
+            <div class="ocard-result fr">Résultat · <strong>Processus actif. Équipes qui l'utilisent sans rappel.</strong></div>
+            <div class="ocard-result en">Outcome · <strong>Live process. Teams using it without prompting.</strong></div>
+            <a href="#s-cta" class="ocard-cta fr" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta en" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core -->
+      <div class="ocard is-core" id="ocard-core" onclick="ocardExpand('core')">
+        <div class="ocard-head">
+          <div class="ocard-badge fr">Le plus demandé</div>
+          <div class="ocard-badge en">Most requested</div>
+          <div class="ocard-tag fr">Stabilisation</div>
+          <div class="ocard-tag en">Stabilization</div>
+          <div class="ocard-name"><em>Core</em></div>
+          <div class="ocard-scope fr">2–3 processus · Gouvernance · Source unique</div>
+          <div class="ocard-scope en">2–3 workflows · Governance · Single source</div>
+        </div>
+        <div class="ocard-preview">
+          <span class="fr">Plusieurs processus connectés. Une source de données fiable. Le management voit, décide, agit — sans attendre 48h.</span>
+          <span class="en">Multiple connected workflows. One reliable data source. Management sees, decides, acts — without waiting 48h.</span>
+          <div class="ocard-hint fr">Voir le détail <span>→</span></div>
+          <div class="ocard-hint en">See details <span>→</span></div>
+        </div>
+        <div class="ocard-panel" id="ocard-panel-core">
+          <div class="ocard-panel-inner">
+            <p class="ocard-desc fr">Plusieurs processus connectés, une source de données fiable sur laquelle le management peut vraiment s'appuyer. Chaque processus est validé terrain avant d'ouvrir le suivant. On ne déclare pas un sprint terminé si les équipes n'utilisent pas.</p>
+            <p class="ocard-desc en">Multiple connected workflows, one reliable data source management can actually rely on. Each workflow is validated in the field before opening the next. We don't declare a sprint done if teams aren't using it.</p>
+            <p class="ocard-guarantee fr">On livre de l'adoption, pas du code. Un processus non utilisé n'est pas un processus livré.</p>
+            <p class="ocard-guarantee en">We deliver adoption, not code. An unused process is not a delivered process.</p>
+            <div class="ocard-del-head fr">Ce que vous recevez</div>
+            <div class="ocard-del-head en">What you receive</div>
+            <ul class="ocard-del-list">
+              <li><span class="fr">2 à 3 processus opérationnels, adoptés et documentés</span><span class="en">2 to 3 operational workflows, adopted and documented</span></li>
+              <li><span class="fr">Tableau de bord management — visibilité en temps réel</span><span class="en">Management dashboard — real-time visibility</span></li>
+              <li><span class="fr">Contrôle des accès et des données par rôle</span><span class="en">Role-based access and data control</span></li>
+              <li><span class="fr">Historique complet — qui a fait quoi, quand</span><span class="en">Full history — who did what, when</span></li>
+              <li><span class="fr">Plan d'extension documenté pour la suite</span><span class="en">Documented expansion plan for next phase</span></li>
+            </ul>
+            <div class="ocard-result fr">Résultat · <strong>Opérations stables. Données fiables. Direction informée.</strong></div>
+            <div class="ocard-result en">Outcome · <strong>Stable operations. Reliable data. Informed leadership.</strong></div>
+            <a href="#s-cta" class="ocard-cta fr" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta en" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scale -->
+      <div class="ocard is-scale" id="ocard-scale" onclick="ocardExpand('scale')">
+        <div class="ocard-head">
+          <div class="ocard-tag fr">Extension</div>
+          <div class="ocard-tag en">Expansion</div>
+          <div class="ocard-name fr">Scale</div>
+          <div class="ocard-name en">Scale</div>
+          <div class="ocard-scope fr">Multi-sites · Déploiement organisationnel</div>
+          <div class="ocard-scope en">Multi-site · Org-wide rollout</div>
+        </div>
+        <div class="ocard-preview">
+          <span class="fr">Ce qui fonctionne sur un site devient le standard partout. Site par site — uniquement quand le précédent tient.</span>
+          <span class="en">What works on one site becomes the standard everywhere. Site by site — only when the previous one holds.</span>
+          <div class="ocard-hint fr">Voir le détail <span>→</span></div>
+          <div class="ocard-hint en">See details <span>→</span></div>
+        </div>
+        <div class="ocard-panel" id="ocard-panel-scale">
+          <div class="ocard-panel-inner">
+            <p class="ocard-desc fr">On n'élargit que ce qui fonctionne déjà. Chaque site reçoit le même niveau de rigueur que le premier déploiement. Pas de copier-coller d'un système fragile à grande échelle.</p>
+            <p class="ocard-desc en">We only expand what already works. Every site receives the same rigor as the first deployment. No copy-pasting a fragile system at scale.</p>
+            <p class="ocard-guarantee fr">Chaque nouveau site a ses critères d'entrée. On n'avance que si les conditions sont réunies.</p>
+            <p class="ocard-guarantee en">Each new site has entry criteria. We only move forward when conditions are met.</p>
+            <div class="ocard-del-head fr">Ce que vous recevez</div>
+            <div class="ocard-del-head en">What you receive</div>
+            <ul class="ocard-del-list">
+              <li><span class="fr">Déploiement structuré site par site avec critères d'entrée</span><span class="en">Structured site-by-site rollout with entry criteria</span></li>
+              <li><span class="fr">Formation et transfert de compétences par entité</span><span class="en">Training and skills transfer per entity</span></li>
+              <li><span class="fr">Supervision centralisée multi-entités</span><span class="en">Centralized multi-entity supervision</span></li>
+              <li><span class="fr">Standard organisationnel documenté et reproductible</span><span class="en">Documented and reproducible organizational standard</span></li>
+            </ul>
+            <div class="ocard-result fr">Résultat · <strong>Ce qui marche ici fonctionne aussi là-bas.</strong></div>
+            <div class="ocard-result en">Outcome · <strong>What works here works there too.</strong></div>
+            <a href="#s-cta" class="ocard-cta fr" onclick="event.stopPropagation()">Discuter de votre cas <span>→</span></a>
+            <a href="#s-cta" class="ocard-cta en" onclick="event.stopPropagation()">Discuss your case <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /offers-grid -->
+
+    <!-- Reassurance -->
+    <div class="offers-reassurance rv">
+      <div class="ritem">
+        <div class="ritem-label fr">Vos données</div>
+        <div class="ritem-label en">Your data</div>
+        <div class="ritem-body fr">Tout vous appartient. Exportable à tout moment, sans condition.</div>
+        <div class="ritem-body en">Everything is yours. Exportable at any time, no conditions.</div>
+      </div>
+      <div class="ritem">
+        <div class="ritem-label fr">Zéro dépendance</div>
+        <div class="ritem-label en">Zero dependency</div>
+        <div class="ritem-body fr">L'engagement est stoppable. Les chemins de sortie sont documentés dès le départ.</div>
+        <div class="ritem-body en">The engagement is stoppable. Exit paths are documented from the start.</div>
+      </div>
+      <div class="ritem">
+        <div class="ritem-label fr">Adoption ou rien</div>
+        <div class="ritem-label en">Adoption or nothing</div>
+        <div class="ritem-body fr">Un processus non utilisé par vos équipes n'est pas un processus livré.</div>
+        <div class="ritem-body en">A process not used by your teams is not a delivered process.</div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="offers-tl rv">
+      <div class="tl-eyebrow fr">Comment ça se passe</div>
+      <div class="tl-eyebrow en">How it works</div>
+      <div class="tl-headline fr">De votre problème à un processus qui tourne — en 14 jours.</div>
+      <div class="tl-headline en">From your problem to a running process — in 14 days.</div>
+      <div class="tl-track">
+        <div class="tl-step active" onclick="tlStep(0)">
+          <div class="tl-day fr">J 1–2</div><div class="tl-day en">Day 1–2</div>
+          <div class="tl-label fr">Diagnostic</div><div class="tl-label en">Diagnosis</div>
+          <div class="tl-who fr">Vous + nous</div><div class="tl-who en">You + us</div>
+        </div>
+        <div class="tl-step" onclick="tlStep(1)">
+          <div class="tl-day fr">J 3–5</div><div class="tl-day en">Day 3–5</div>
+          <div class="tl-label fr">Premier déploiement</div><div class="tl-label en">First deployment</div>
+          <div class="tl-who fr">Équipes terrain</div><div class="tl-who en">Field teams</div>
+        </div>
+        <div class="tl-step" onclick="tlStep(2)">
+          <div class="tl-day fr">J 7</div><div class="tl-day en">Day 7</div>
+          <div class="tl-label fr">Premières données</div><div class="tl-label en">First real data</div>
+          <div class="tl-who fr">Direction informée</div><div class="tl-who en">Leadership informed</div>
+        </div>
+        <div class="tl-step" onclick="tlStep(3)">
+          <div class="tl-day fr">J 10</div><div class="tl-day en">Day 10</div>
+          <div class="tl-label fr">Validation terrain</div><div class="tl-label en">Field validation</div>
+          <div class="tl-who fr">Critères d'adoption</div><div class="tl-who en">Adoption criteria</div>
+        </div>
+        <div class="tl-step" onclick="tlStep(4)">
+          <div class="tl-day fr">J 14+</div><div class="tl-day en">Day 14+</div>
+          <div class="tl-label fr">Contrôle & extension</div><div class="tl-label en">Control & expansion</div>
+          <div class="tl-who fr">Vous décidez</div><div class="tl-who en">You decide</div>
+        </div>
+      </div>
+      <div class="tl-detail" id="tl-detail">
+        <div class="tld-day" id="tld-day"></div>
+        <div class="tld-title" id="tld-title"></div>
+        <p class="tld-body" id="tld-body"></p>
+        <div class="tld-criterion"><strong id="tld-crit-label"></strong> <span id="tld-crit"></span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ TRUST (DARK) ══════════ -->
+<section class="s-trust dark-surface pad" id="s-trust">
+  <div class="w">
+    <div class="rv" style="margin-bottom:56px">
+      <span class="eyebrow eyebrow-dim fr">Confiance & Sécurité</span>
+      <span class="eyebrow eyebrow-dim en">Trust & Security</span>
+      <div class="t-h1 fr">La sécurité et la gouvernance<br>ne sont pas des <em>options.</em></div>
+      <div class="t-h1 en">Security and governance<br>are not <em>add-ons.</em></div>
+    </div>
+    <div class="cols-3 trust-cols stagger rv">
+      <div class="trust-col">
+        <div class="tc-head fr">Sécurité</div>
+        <div class="tc-head en">Security</div>
+        <div class="tc-item fr">Audits de sécurité à chaque étape de sprint</div>
+        <div class="tc-item en">Security audits at each sprint milestone</div>
+        <div class="tc-item fr">Données chiffrées en transit et au repos</div>
+        <div class="tc-item en">Data encrypted in transit and at rest</div>
+        <div class="tc-item fr">Contrôle d'accès basé sur les rôles dès sprint 0</div>
+        <div class="tc-item en">Role-based access from sprint zero</div>
+      </div>
+      <div class="trust-col">
+        <div class="tc-head fr">Propriété des données</div>
+        <div class="tc-head en">Data Ownership</div>
+        <div class="tc-item fr">Le client possède toutes les données — inconditionnellement</div>
+        <div class="tc-item en">Client owns all data — unconditionally</div>
+        <div class="tc-item fr">Export complet disponible à tout moment</div>
+        <div class="tc-item en">Full export available at any time</div>
+        <div class="tc-item fr">Zéro dépendance. Chemins de sortie documentés.</div>
+        <div class="tc-item en">No lock-in. Documented exit paths.</div>
+      </div>
+      <div class="trust-col">
+        <div class="tc-head fr">Gouvernance</div>
+        <div class="tc-head en">Governance</div>
+        <div class="tc-item fr">Suivi des changements dès le premier sprint</div>
+        <div class="tc-item en">Change tracking from the first sprint</div>
+        <div class="tc-item fr">Documentation produite par défaut</div>
+        <div class="tc-item en">Documentation produced by default</div>
+        <div class="tc-item fr">Conformité progressive au rythme du système</div>
+        <div class="tc-item en">Progressive compliance as system grows</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FIT TEST ══════════ -->
+<section class="s-fit pad" id="s-fit">
+  <div class="w">
+    <span class="eyebrow rv fr">Test d'adéquation — 60 secondes</span>
+    <span class="eyebrow rv en">60-Second Fit Test</span>
+    <div class="t-h1 rv d1 fr">Savoir en 60 secondes<br>si c'est pertinent.</div>
+    <div class="t-h1 rv d1 en">Know in 60 seconds<br>if this is worth a call.</div>
+    <div class="cols-2 s-fit">
+      <div class="rv d1">
+        <p class="t-body fr" style="margin-bottom:0">Nous travaillons avec des organisations qui ont un problème opérationnel clair et les conditions internes pour avancer vite.<br><br>Nous disons non quand ces conditions ne sont pas réunies.</p>
+        <p class="t-body en" style="margin-bottom:0">We work with organizations that have a clear operational bottleneck and the internal conditions to move fast.<br><br>We say no when those conditions are not in place.</p>
+        <div class="fit-pull fr">"Si ces conditions ne sont pas réunies, nous disons non."</div>
+        <div class="fit-pull en">"If these conditions are missing, we say no."</div>
+      </div>
+      <div class="rv d2">
+        <div class="fq">
+          <span class="fq-t fr">Avez-vous un goulot opérationnel clair ?</span>
+          <span class="fq-t en">Do you have a clear operational bottleneck?</span>
+          <div class="fq-btns"><button class="fq-btn yes" data-v="yes"><span class="fr">Oui</span><span class="en">Yes</span></button><button class="fq-btn no" data-v="no"><span class="fr">Non</span><span class="en">No</span></button></div>
+        </div>
+        <div class="fq">
+          <span class="fq-t fr">Existe-t-il un sponsor exécutif avec autorité de décision ?</span>
+          <span class="fq-t en">Is there an executive sponsor with decision authority?</span>
+          <div class="fq-btns"><button class="fq-btn yes" data-v="yes"><span class="fr">Oui</span><span class="en">Yes</span></button><button class="fq-btn no" data-v="no"><span class="fr">Non</span><span class="en">No</span></button></div>
+        </div>
+        <div class="fq">
+          <span class="fq-t fr">Un champion opérationnel peut-il être disponible quotidiennement ?</span>
+          <span class="fq-t en">Can an operational champion commit daily time during the sprint?</span>
+          <div class="fq-btns"><button class="fq-btn yes" data-v="yes"><span class="fr">Oui</span><span class="en">Yes</span></button><button class="fq-btn no" data-v="no"><span class="fr">Non</span><span class="en">No</span></button></div>
+        </div>
+        <div class="fq">
+          <span class="fq-t fr">Des données opérationnelles minimales sont-elles accessibles ?</span>
+          <span class="fq-t en">Can you access the minimum operational data needed to start?</span>
+          <div class="fq-btns"><button class="fq-btn yes" data-v="yes"><span class="fr">Oui</span><span class="en">Yes</span></button><button class="fq-btn no" data-v="no"><span class="fr">Non</span><span class="en">No</span></button></div>
+        </div>
+        <div class="fq">
+          <span class="fq-t fr">Êtes-vous ouvert à des itérations rapides et des feedbacks quotidiens ?</span>
+          <span class="fq-t en">Are you open to fast iteration and daily feedback cycles?</span>
+          <div class="fq-btns"><button class="fq-btn yes" data-v="yes"><span class="fr">Oui</span><span class="en">Yes</span></button><button class="fq-btn no" data-v="no"><span class="fr">Non</span><span class="en">No</span></button></div>
+        </div>
+
+        <!-- Result card -->
+        <div class="fit-result" id="fit-result">
+          <div class="fr-header">
+            <div class="fr-header-icon" id="fr-icon">✓</div>
+            <div>
+              <div class="fr-score-label" id="fr-tag"></div>
+              <div class="fr-score-title" id="fr-title"></div>
+            </div>
+          </div>
+          <div class="fr-body">
+            <p class="fr-txt" id="fr-txt"></p>
+            <div class="fr-cta-row">
+              <a href="#" class="btn btn-gold fr js-open-call-form" id="fr-btn-fr" style="font-size:var(--t-sm);display:none"></a>
+              <a href="#" class="btn btn-gold en js-open-call-form" id="fr-btn-en" style="font-size:var(--t-sm);display:none"></a>
+              <a href="#" class="fr-lnk fr js-open-call-form" id="fr-lnk-fr" style="display:none"></a>
+              <a href="#" class="fr-lnk en js-open-call-form" id="fr-lnk-en" style="display:none"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="s-faq pad" id="s-faq">
+  <div class="w faq-grid">
+    <div class="rv">
+      <span class="eyebrow">FAQ</span>
+      <div class="t-h2 fr" style="margin-bottom:20px">Les questions de votre équipe procurement.</div>
+      <div class="t-h2 en" style="margin-bottom:20px">The questions your procurement team will ask.</div>
+      <p class="faq-intro fr">Répondues face à des directeurs de programmes ONG, fondateurs de PME et DSI de fintech. Version courte : commencer petit, prouver la valeur, s'étendre.</p>
+      <p class="faq-intro en">These are the questions we hear from NGO program directors, SME founders, and fintech CIOs. Short version: start small, prove value, then scale.</p>
+      <a href="#" class="btn btn-ink fr js-open-call-form">Réserver un appel de 30 min</a>
+      <a href="#" class="btn btn-ink en js-open-call-form" style="display:none">Book a 30-min call</a>
+    </div>
+    <div class="rv d1">
+      <div class="faq-i">
+        <div class="faq-q">
+          <span class="fr">Nous avons déjà été déçus par des déploiements logiciels. En quoi est-ce différent ?</span>
+          <span class="en">We've been burned by software before. How is this different?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner fr">Commencez par un seul processus douloureux. Vos équipes utilisent un vrai logiciel fonctionnel dès le septième jour. Si le sprint ne livre pas, vous avez perdu deux semaines — pas deux ans et un budget procurement. Aucune dépendance, aucune disruption pour le reste.</div><div class="faq-a-inner en">Start with one painful process. Your teams use working software by day seven. If the sprint doesn't deliver, you've lost two weeks — not two years. No lock-in, no disruption to everything else.</div></div>
+      </div>
+      <div class="faq-i">
+        <div class="faq-q">
+          <span class="fr">Nos équipes terrain n'utilisent pas le système actuel. Pourquoi utiliseraient-elles celui-ci ?</span>
+          <span class="en">Our field teams don't use the current system. Why would they use this?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner fr">Parce que ce système est construit pour la façon dont ils travaillent réellement. L'interface montre à chaque personne exactement ce dont elle a besoin pour sa tâche précise. Quand la bonne action est la plus facile, l'adoption se produit par conception.</div><div class="faq-a-inner en">Because this is built for how they actually work. The interface shows each person exactly what they need for their specific task. When the right action is the easiest, adoption happens by design.</div></div>
+      </div>
+      <div class="faq-i">
+        <div class="faq-q">
+          <span class="fr">Comment justifier cela avec des outils déjà en place ?</span>
+          <span class="en">How do we justify this when we already have tools?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner fr">Vous ne remplacez rien — vous résolvez un problème spécifique. Formulez-le comme une expérience de deux semaines. Les outils existants continuent. Une fois que le premier sprint prouve sa valeur, l'expansion se vend d'elle-même.</div><div class="faq-a-inner en">You're not replacing anything — you're fixing one specific problem. Frame it as a two-week experiment. Existing tools stay running. Once the first sprint proves value, expansion sells itself.</div></div>
+      </div>
+      <div class="faq-i">
+        <div class="faq-q">
+          <span class="fr">Comment savoir quel goulot traiter en premier ?</span>
+          <span class="en">How do we know which bottleneck to start with?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner fr">Nous vous aidons à choisir pendant le Sprint 0. Les critères : ça vous coûte quelque chose de mesurable aujourd'hui ; quelqu'un en est propriétaire ; le succès est clairement définissable. Vous n'avez pas besoin d'avoir la réponse avant qu'on se parle.</div><div class="faq-a-inner en">We help you choose during Sprint 0. Criteria: it costs you something measurable today; someone owns it; success is clearly definable. You don't need the answer before we talk.</div></div>
+      </div>
+      <div class="faq-i">
+        <div class="faq-q">
+          <span class="fr">Avons-nous besoin de staff technique en interne ?</span>
+          <span class="en">Do we need technical staff internally?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner fr">Non. Vous avez besoin d'un champion opérationnel qui connaît le processus et peut donner un feedback rapide. Aucune compétence technique requise. Nous gérons l'exécution technique.</div><div class="faq-a-inner en">No. You need an operational champion who knows the process and can give fast feedback. No technical skills required. We handle the technical execution.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<section class="s-cta" id="s-cta">
+  <div class="cta-watermark" aria-hidden="true"><span class="fr">Prêt.</span><span class="en">Ready.</span></div>
+  <div class="cta-inner rv">
+    <span class="eyebrow" style="display:block;text-align:center;margin-bottom:14px">
+      <span class="fr">Prochaine étape</span><span class="en">Next Step</span>
+    </span>
+    <div class="t-h1 fr" style="text-align:center;color:white">Prêt à savoir si nous<br>sommes <em style="color:var(--gold)">compatibles ?</em></div>
+    <div class="t-h1 en" style="text-align:center;color:white">Ready to see<br>if we're the <em style="color:var(--gold)">right fit?</em></div>
+    <p class="cta-sub fr" style="color:rgba(255,255,255,0.6)">Un appel de 30 minutes suffit à déterminer s'il y a un problème que nous pouvons résoudre ensemble — et si les conditions de succès sont présentes.</p>
+    <p class="cta-sub en" style="color:rgba(255,255,255,0.6)">A 30-minute call is enough to confirm whether there is a problem we can solve together — and whether the success conditions are truly in place.</p>
+    <div class="cta-btns">
+      <a href="#s-fit" class="btn btn-gold fr">Prendre le test d'adéquation</a>
+      <a href="#s-fit" class="btn btn-gold en" style="display:none">Take the fit test</a>
+      <a href="#" class="btn btn-outline fr js-open-call-form">Réserver un appel</a>
+      <a href="#" class="btn btn-outline en js-open-call-form" style="display:none">Book a call</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer-w">
+    <div class="footer-top">
+      <div class="footer-tl fr">Systèmes opérationnels à la demande,<br><em>livrés en semaines.</em></div>
+      <div class="footer-tl en">On-demand operational systems,<br><em>delivered in weeks.</em></div>
+      <div class="footer-links">
+        <a href="#" class="footer-link-hidden"><span class="fr">Mentions légales</span><span class="en">Legal</span></a>
+        <a href="#" class="footer-link-hidden"><span class="fr">Confidentialité</span><span class="en">Privacy</span></a>
+        <a href="#" class="footer-link-hidden"><span class="fr">Données</span><span class="en">Data</span></a>
+        <a href="#" class="footer-contact-toggle" id="footer-contact-toggle" aria-controls="footer-contact-panel" aria-expanded="false">
+          <span class="fr">Contact</span><span class="en">Contact</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer-contact-panel" id="footer-contact-panel" aria-hidden="true">
+      <form class="footer-contact-form" id="footer-contact-form">
+        <div class="footer-contact-grid">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
+          <label class="footer-contact-field">
+            <span class="footer-contact-label"><span class="fr">Nom</span><span class="en">Last Name</span></span>
+            <input class="footer-contact-input" type="text" name="last_name" required>
+          </label>
+          <label class="footer-contact-field">
+            <span class="footer-contact-label"><span class="fr">Prénom</span><span class="en">First Name</span></span>
+            <input class="footer-contact-input" type="text" name="first_name" required>
+          </label>
+          <label class="footer-contact-field full">
+            <span class="footer-contact-label"><span class="fr">Mail</span><span class="en">Email</span></span>
+            <input class="footer-contact-input" type="email" name="email" required>
+          </label>
+          <label class="footer-contact-field full">
+            <span class="footer-contact-label"><span class="fr">Message</span><span class="en">Message</span></span>
+            <textarea class="footer-contact-textarea" name="message" required></textarea>
+          </label>
+        </div>
+        <div class="footer-contact-actions">
+          <button type="submit" class="btn btn-gold footer-contact-submit">
+            <span class="fr">Envoyer</span><span class="en">Send</span>
+          </button>
+          <p class="footer-contact-msg" id="footer-contact-msg" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <div class="footer-gem"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5L12.5 4.25V9.75L7 12.5L1.5 9.75V4.25L7 1.5Z" fill="#C8851C"/></svg></div>
+        <span class="footer-name">Smart Access Africa</span>
+      </div>
+      <span class="footer-copy">© 2025 Smart Access Africa. <span class="fr">Tous droits réservés.</span><span class="en">All rights reserved.</span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="call-form-overlay" id="call-form-overlay" aria-hidden="true">
+  <div class="call-form-dialog" id="call-form-dialog" role="dialog" aria-modal="true" aria-label="Réserver un call">
+    <iframe id="call-form-iframe" class="call-form-iframe" title="Formulaire de réservation" loading="lazy"></iframe>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="./forms-integration.js"></script>
+<script>
+'use strict';
+
+/* ═══ NAV ═══ */
+const NAV = document.getElementById('main-nav');
+window.addEventListener('scroll', () => NAV.classList.toggle('is-solid', window.scrollY > 28), { passive: true });
+
+/* ═══ LANGUAGE ═══ */
+const HTML = document.documentElement;
+document.querySelectorAll('.lang-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.dataset.l;
+    HTML.dataset.lang = lang;
+    HTML.lang = lang;
+    document.querySelectorAll('.lang-opt').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+    document.querySelectorAll('.fr, .en').forEach(el => {
+      const isFr = el.classList.contains('fr');
+      const isEn = el.classList.contains('en');
+      if (isFr) el.style.display = lang === 'fr' ? '' : 'none';
+      if (isEn) el.style.display = lang === 'en' ? '' : 'none';
+    });
+    window.dispatchEvent(new Event('app:langchange'));
+  });
+});
+
+/* ═══ SCROLL REVEAL ═══ */
+const REVEAL_IO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); REVEAL_IO.unobserve(e.target); }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -32px 0px' });
+document.querySelectorAll('.rv, .stagger, .line-rv').forEach(el => REVEAL_IO.observe(el));
+
+/* ═══ CARD SWITCH FACTORY ═══ */
+function initDeck(btnSel, cardSel, activeClass = 'on') {
+  document.querySelectorAll(btnSel).forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.sp || btn.dataset.dk;
+      const allBtns = btn.parentElement.querySelectorAll(btnSel);
+      allBtns.forEach(b => b.classList.remove(activeClass));
+      btn.classList.add(activeClass);
+      const scope = btn.closest('section') || btn.parentElement.parentElement;
+      const cards = scope.querySelectorAll(cardSel);
+      cards.forEach(c => c.classList.remove(activeClass));
+      let match = null;
+      if (btn.dataset.sp) match = document.getElementById('sp-' + key);
+      else cards.forEach(c => { if (c.dataset.dk === key) match = c; });
+      if (match) {
+        match.classList.add(activeClass);
+        match.style.animation = 'none';
+        requestAnimationFrame(() => { match.style.animation = ''; match.style.animation = 'fade-card 0.25s cubic-bezier(0.16,1,0.3,1)'; });
+      }
+    });
+  });
+}
+initDeck('.stack-btn', '.stack-panel');
+initDeck('.deck-btn', '.deck-card');
+
+/* ═══ SPRINT TABS ═══ */
+(function() {
+  const tabs      = document.querySelectorAll('.tl-tab');
+  const indicator = document.getElementById('tab-indicator');
+
+  function moveIndicator(tab) {
+    const bar   = document.getElementById('sprint-tabs');
+    const bRect = bar.getBoundingClientRect();
+    const tRect = tab.getBoundingClientRect();
+    indicator.style.width     = tRect.width + 'px';
+    indicator.style.transform = `translateX(${tRect.left - bRect.left}px)`;
+  }
+
+  requestAnimationFrame(() => { if (tabs[0]) moveIndicator(tabs[0]); });
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const key = tab.dataset.sprint;
+      tabs.forEach(t => t.classList.remove('on'));
+      tab.classList.add('on');
+      moveIndicator(tab);
+
+      document.querySelectorAll('.sprint-panel').forEach(p => p.classList.remove('on'));
+
+      const target = document.getElementById('panel-' + key);
+      if (!target) return;
+
+      target.querySelectorAll(
+        '.conn-line, .wf-node, .bottleneck-ring, .wf-label, ' +
+        '.task-card, .task-status, .task-name, .task-meta, ' +
+        '.prog-track, .prog-label, .data-row, .next-btn, ' +
+        '.sec-group, .sec-check-item, .check-icon, .sec-badge, ' +
+        '.net-line, .site-node, .site-lbl, .hub-ring'
+      ).forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+      });
+
+      target.querySelectorAll('.prog-bar').forEach(el => {
+        el.style.transition = 'none';
+        el.style.width = '0%';
+        void el.offsetWidth;
+        el.style.transition = '';
+      });
+
+      setTimeout(() => target.classList.add('on'), 20);
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    const active = document.querySelector('.tl-tab.on');
+    if (active) moveIndicator(active);
+  }, { passive: true });
+})();
+
+/* ═══ FIT TEST ═══ */
+const fitAns = {};
+const fitResultData = {
+  fit: {
+    state: 'state-fit', icon: '✓',
+    tag:   { fr: 'Adéquation confirmée', en: 'Strong fit' },
+    title: { fr: 'Les conditions sont réunies.', en: 'The conditions are in place.' },
+    txt:   { fr: "Vous avez un problème concret, un sponsor décisionnaire, et une équipe disponible. C'est exactement le contexte dans lequel on livre. Prochaine étape : un appel de 30 minutes pour cadrer le premier sprint.", en: "You have a concrete bottleneck, a decision-maker, and an available team. This is exactly where we deliver fast. Next step: a 30-minute call to scope your first sprint." },
+    btn:   { fr: 'Démarrer un sprint →', en: 'Start a sprint →' },
+    lnk:   { fr: '', en: '' }
+  },
+  possible: {
+    state: 'state-possible', icon: '→',
+    tag:   { fr: 'Adéquation probable', en: 'Likely fit' },
+    title: { fr: 'Quelques conditions à vérifier.', en: 'A few conditions need confirmation.' },
+    txt:   { fr: "Il y a un vrai problème à résoudre. Certaines conditions ne sont pas encore claires. Un appel de 30 minutes permet de savoir si on peut avancer — et on vous dira franchement si ce n'est pas le cas.", en: "There is a real problem to solve. A few conditions are still unclear. A 30-minute call is enough to confirm whether we can move forward — and we will tell you directly if the answer is no." },
+    btn:   { fr: '', en: '' },
+    lnk:   { fr: 'Clarifier en 30 minutes →', en: 'Clarify fit in 30 minutes →' }
+  },
+  nofit: {
+    state: 'state-nofit', icon: '✕',
+    tag:   { fr: 'Pas le bon moment', en: 'Not the right moment' },
+    title: { fr: 'Les conditions ne sont pas réunies.', en: "The conditions aren't in place." },
+    txt:   { fr: "Sans sponsor exécutif avec autorité réelle et équipe disponible, on ne peut pas garantir un résultat. Ce n'est pas un refus — c'est une réalité. Revenez quand la situation évolue.", en: "Without an executive sponsor with real authority and an available team, we cannot guarantee an outcome. This is not a rejection, it is an operating reality. Come back when the conditions change." },
+    btn:   { fr: '', en: '' },
+    lnk:   { fr: 'Comprendre pourquoi →', en: 'See why →' }
+  }
+};
+
+function updateFitResult() {
+  const result = document.getElementById('fit-result');
+  if (!result) return;
+
+  if (Object.keys(fitAns).length < 5) {
+    result.classList.remove('show');
+    return;
+  }
+
+  const yes = Object.values(fitAns).filter(v => v === 'yes').length;
+  const lang = document.documentElement.getAttribute('data-lang') || 'fr';
+  const key = yes >= 4 ? 'fit' : yes >= 2 ? 'possible' : 'nofit';
+  const d = fitResultData[key];
+  const firstReveal = !result.classList.contains('show');
+
+  result.classList.remove('state-fit','state-possible','state-nofit');
+  result.classList.add(d.state);
+  document.getElementById('fr-icon').textContent  = d.icon;
+  document.getElementById('fr-tag').textContent   = d.tag[lang];
+  document.getElementById('fr-title').textContent = d.title[lang];
+  document.getElementById('fr-txt').textContent   = d.txt[lang];
+  const bFr = document.getElementById('fr-btn-fr');
+  const bEn = document.getElementById('fr-btn-en');
+  const lFr = document.getElementById('fr-lnk-fr');
+  const lEn = document.getElementById('fr-lnk-en');
+  if (bFr) { bFr.textContent = d.btn.fr; bFr.style.display = d.btn.fr ? '' : 'none'; }
+  if (bEn) { bEn.textContent = d.btn.en; bEn.style.display = d.btn.en ? '' : 'none'; }
+  if (lFr) { lFr.textContent = d.lnk.fr; lFr.style.display = d.lnk.fr ? '' : 'none'; }
+  if (lEn) { lEn.textContent = d.lnk.en; lEn.style.display = d.lnk.en ? '' : 'none'; }
+  result.classList.add('show');
+
+  if (firstReveal) {
+    setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+  }
+}
+
+document.querySelectorAll('.fq').forEach((row, i) => {
+  const btns = row.querySelector('.fq-btns');
+  const yesBtn = row.querySelector('.fq-btn.yes');
+  const noBtn = row.querySelector('.fq-btn.no');
+  row.querySelectorAll('.fq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isYes = btn.dataset.v === 'yes';
+      const alreadyActive = btn.classList.contains('a');
+
+      // Second click on active answer cancels and restores base state for that row.
+      if (alreadyActive) {
+        yesBtn.classList.remove('a');
+        noBtn.classList.remove('a');
+        btns.classList.remove('yes-locked');
+        btns.classList.remove('no-locked');
+        delete fitAns[i];
+        updateFitResult();
+        return;
+      }
+
+      yesBtn.classList.remove('a');
+      noBtn.classList.remove('a');
+      btn.classList.add('a');
+      fitAns[i] = btn.dataset.v;
+
+      btns.classList.remove('yes-locked','no-locked');
+      if (isYes) btns.classList.add('yes-locked');
+      else btns.classList.add('no-locked');
+
+      updateFitResult();
+    });
+  });
+});
+
+/* ═══ FAQ ═══ */
+document.querySelectorAll('.faq-i').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-i').forEach(f => f.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+/* ═══ MAGNETIC CTA ═══ */
+document.querySelectorAll('.btn-gold, .btn-ink').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width  / 2) * 0.12;
+    const y = (e.clientY - r.top  - r.height / 2) * 0.18;
+    btn.style.transform = `translate(${x}px, ${y}px) translateY(-2px)`;
+  });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+});
+
+/* ═══ COUNT-UP ═══ */
+const countIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el  = e.target;
+    const end = parseFloat(el.dataset.count);
+    if (!end) return;
+    const suffix = el.dataset.suffix || '';
+    let start = null;
+    const dur = 1200;
+    const step = ts => {
+      if (!start) start = ts;
+      const p    = Math.min((ts - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * end) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    countIO.unobserve(el);
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('[data-count]').forEach(el => countIO.observe(el));
+
+/* ═══ MOBILE NAV BURGER ═══ */
+const burger  = document.getElementById('nav-burger');
+const drawer  = document.getElementById('nav-drawer');
+const overlay = document.getElementById('nav-overlay');
+function closeDrawer() {
+  burger.classList.remove('open');
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+burger.addEventListener('click', () => {
+  const isOpen = drawer.classList.contains('open');
+  if (isOpen) { closeDrawer(); }
+  else {
+    burger.classList.add('open');
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+});
+// Close on nav-link click inside drawer
+document.querySelectorAll('.nav-drawer-a').forEach(a => {
+  a.addEventListener('click', closeDrawer);
+});
+
+/* ═══ CALL FORM POPUP (iframe) ═══ */
+(() => {
+  const overlay = document.getElementById('call-form-overlay');
+  const iframe = document.getElementById('call-form-iframe');
+  const triggers = document.querySelectorAll('.js-open-call-form');
+  if (!overlay || !iframe || !triggers.length) return;
+
+  const formSrc = 'formulaire.html?embed=1';
+  let prevOverflow = '';
+
+  function openCallFormModal() {
+    prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const pageLang = (document.documentElement.lang || document.documentElement.dataset.lang || 'fr').toLowerCase();
+    const formLang = pageLang.startsWith('en') ? 'en' : 'fr';
+    const originPage = encodeURIComponent(window.location.href);
+    iframe.src = formSrc + '&lang=' + formLang + '&origin=' + originPage + '&r=' + Date.now();
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeCallFormModal() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = prevOverflow;
+  }
+
+  triggers.forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      openCallFormModal();
+    });
+  });
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeCallFormModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeCallFormModal();
+  });
+  window.addEventListener('message', e => {
+    if (e && e.data && e.data.type === 'saa-close-call-form') closeCallFormModal();
+  });
+})();
+
+/* ═══ FOOTER CONTACT TOGGLE ═══ */
+(() => {
+  const toggle = document.getElementById('footer-contact-toggle');
+  const panel = document.getElementById('footer-contact-panel');
+  const form = document.getElementById('footer-contact-form');
+  const msg = document.getElementById('footer-contact-msg');
+  if (!toggle || !panel || !form) return;
+
+  function setOpen(open) {
+    toggle.classList.toggle('open', open);
+    panel.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+  }
+
+  toggle.addEventListener('click', e => {
+    e.preventDefault();
+    const open = !panel.classList.contains('open');
+    setOpen(open);
+    if (open) {
+      const startedAt = Date.now();
+      form.dataset.startedAt = String(startedAt);
+      if (window.SAAFormsBridge && typeof window.SAAFormsBridge.markStart === 'function') {
+        window.SAAFormsBridge.markStart('footer_contact', startedAt);
+      }
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+    }
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const lang = document.documentElement.getAttribute('data-lang') || 'fr';
+    const data = {
+      first_name: (form.elements.first_name && form.elements.first_name.value || '').trim(),
+      last_name: (form.elements.last_name && form.elements.last_name.value || '').trim(),
+      email: (form.elements.email && form.elements.email.value || '').trim(),
+      message: (form.elements.message && form.elements.message.value || '').trim()
+    };
+    const website = (form.elements.website && form.elements.website.value || '').trim();
+    if (window.SAAFormsBridge && typeof window.SAAFormsBridge.submitFooter === 'function') {
+      window.SAAFormsBridge.submitFooter(data, {
+        lang,
+        page_url: window.location.href,
+        form_started_at: Number(form.dataset.startedAt || Date.now()),
+        website
+      });
+    }
+    if (msg) {
+      msg.classList.add('ok');
+      msg.textContent = lang === 'fr'
+        ? 'Message reçu. Nous revenons vers vous sous 24h.'
+        : 'Message received. We will get back to you within 24 hours.';
+    }
+    form.reset();
+  });
+})();
+
+/* ═══ HERO CANVAS — ambient network ═══ */
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    const wrap = canvas.parentElement;
+    canvas.width  = wrap.offsetWidth  * window.devicePixelRatio;
+    canvas.height = wrap.offsetHeight * window.devicePixelRatio;
+    canvas.style.width  = wrap.offsetWidth  + 'px';
+    canvas.style.height = wrap.offsetHeight + 'px';
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  const W = () => canvas.parentElement.offsetWidth;
+  const H = () => canvas.parentElement.offsetHeight;
+
+  // Node colors — vivid Material palette
+  const COLORS = ['#1565C0','#0F7A55','#D97706','#7B1FA2','#D94F1E','#00796B','#1565C0'];
+
+  // Generate nodes
+  const nodes = Array.from({ length: 14 }, (_, i) => ({
+    x: 0.08 + Math.random() * 0.84,
+    y: 0.08 + Math.random() * 0.84,
+    r: 3 + Math.random() * 3,
+    color: COLORS[i % COLORS.length],
+    vx: (Math.random() - 0.5) * 0.00012,
+    vy: (Math.random() - 0.5) * 0.00012,
+    phase: Math.random() * Math.PI * 2,
+    pulse: 0,
+    pulseDir: 1,
+  }));
+
+  // Connections: only connect close nodes
+  function getConnections() {
+    const conns = [];
+    const w = W(), h = H();
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = (nodes[i].x - nodes[j].x) * w;
+        const dy = (nodes[i].y - nodes[j].y) * h;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 260) conns.push({ i, j, dist });
+      }
+    }
+    return conns;
+  }
+
+  let t = 0;
+  function draw() {
+    const w = W(), h = H();
+    ctx.clearRect(0, 0, w, h);
+    t += 0.008;
+
+    // Move nodes
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0.05 || n.x > 0.95) n.vx *= -1;
+      if (n.y < 0.05 || n.y > 0.95) n.vy *= -1;
+      n.pulse += 0.04 * n.pulseDir;
+      if (n.pulse > 1 || n.pulse < 0) n.pulseDir *= -1;
+    });
+
+    const conns = getConnections();
+
+    // Draw connections
+    conns.forEach(({ i, j, dist }) => {
+      const alpha = (1 - dist / 260) * 0.18;
+      ctx.beginPath();
+      ctx.moveTo(nodes[i].x * w, nodes[i].y * h);
+      ctx.lineTo(nodes[j].x * w, nodes[j].y * h);
+      ctx.strokeStyle = `rgba(180,170,160,${alpha})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const x = n.x * w, y = n.y * h;
+      const r = n.r + n.pulse * 1.5;
+      // Outer pulse ring
+      ctx.beginPath();
+      ctx.arc(x, y, r + 4 + n.pulse * 3, 0, Math.PI * 2);
+      ctx.strokeStyle = n.color + '22';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      // Node fill
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = n.color + 'AA';
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  // Delay start slightly
+  setTimeout(() => requestAnimationFrame(draw), 800);
+})();
+
+
+/* ═══ SCROLL STACK — Active card state (bidirectional, stable) ═══ */
+(function() {
+  const entries = Array.from(document.querySelectorAll('.sc-entry'));
+  if (!entries.length) return;
+
+  // Default active = first card
+  let activeEl = entries[0];
+  activeEl.classList.add('is-active');
+
+  // Keep per-entry intersection state (sticky cards can overlap)
+  const state = new Map(entries.map(el => [el, { is: false, ratio: 0 }]));
+
+  // Track scroll direction to resolve overlaps deterministically
+  let lastY = window.scrollY || 0;
+  let dir = 1; // 1 = down, -1 = up
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY || 0;
+    if (y !== lastY) dir = y > lastY ? 1 : -1;
+    lastY = y;
+  }, { passive: true });
+
+  const EPS = 0.5; // px tolerance for "same position" comparisons
+
+  function pickBestActive() {
+    const mid = window.innerHeight * 0.5;
+
+    // Candidates = currently intersecting elements
+    const candidates = [];
+    for (const [el, s] of state.entries()) {
+      if (!s.is) continue;
+      const r = el.getBoundingClientRect();
+      const center = (r.top + r.bottom) / 2;
+      candidates.push({
+        el,
+        ratio: s.ratio,
+        dist: Math.abs(center - mid),
+        idx: entries.indexOf(el),
+        top: r.top
+      });
+    }
+
+    if (!candidates.length) return;
+
+    // Primary: closest to viewport middle.
+    // Secondary: higher intersection ratio.
+    // Tertiary (overlap/tie): scroll direction decides (down => later card, up => earlier).
+    candidates.sort((a, b) => {
+      if (Math.abs(a.dist - b.dist) > EPS) return a.dist - b.dist;
+      if (Math.abs(b.ratio - a.ratio) > 0.001) return b.ratio - a.ratio;
+
+      // If essentially the same position (typical when sticky overlaps), use scroll direction
+      if (dir === 1) return b.idx - a.idx; // down: prefer later
+      return a.idx - b.idx;                // up: prefer earlier
+    });
+
+    const best = candidates[0].el;
+
+    if (best !== activeEl) {
+      entries.forEach(e => e.classList.toggle('is-active', e === best));
+      activeEl = best;
+    }
+  }
+
+  const io = new IntersectionObserver(records => {
+    records.forEach(r => {
+      const s = state.get(r.target);
+      if (!s) return;
+      s.is = !!r.isIntersecting;
+      s.ratio = r.intersectionRatio || 0;
+    });
+    pickBestActive();
+  }, {
+    threshold: [0, 0.25, 0.5, 0.75, 1],
+    rootMargin: "-20% 0px -40% 0px"
+  });
+
+  entries.forEach(e => io.observe(e));
+})();
+
+/* ═══ OFFERS — Cards & Timeline ═══ */
+var ocardActive = null;
+function ocardExpand(id) {
+  ['pilot','core','scale'].forEach(function(c) {
+    document.getElementById('ocard-'+c).classList.remove('active');
+  });
+  if (ocardActive === id) { ocardActive = null; return; }
+  document.getElementById('ocard-'+id).classList.add('active');
+  ocardActive = id;
+  // Smooth scroll so expanded content is visible
+  setTimeout(function() {
+    document.getElementById('ocard-'+id).scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }, 120);
+}
+
+var tlData = [
+  { day:{fr:'J 1–2',en:'Day 1–2'}, title:{fr:'Diagnostic du blocage',en:'Bottleneck diagnosis'}, body:{fr:"On identifie ensemble le blocage prioritaire — celui qui coûte du temps, de l'argent ou de la crédibilité. Les critères de succès sont écrits et validés par les deux parties avant de toucher quoi que ce soit.",en:"We identify together the priority bottleneck — the one costing time, money, or credibility. Success criteria are written and agreed by both sides before anything is changed."}, crit:{fr:"Le blocage est nommé. Les critères de succès sont écrits. Les deux parties s'engagent.",en:"The bottleneck is named. Success criteria are documented. Both sides commit."} },
+  { day:{fr:'J 3–5',en:'Day 3–5'}, title:{fr:'Premier processus déployé',en:'First workflow deployed'}, body:{fr:"Le premier processus est en production sur de vrais cas. Vos équipes l'utilisent sur le terrain — pas dans une salle de formation. C'est là que la valeur commence à apparaître.",en:"The first workflow goes live on real cases. Your teams use it in the field — not in a training room. This is where value starts to show."}, crit:{fr:"Le processus est déployé sur des données réelles. Les équipes l'utilisent sans accompagnement continu.",en:"Workflow live on real data. Teams use it without continuous hand-holding."} },
+  { day:{fr:'J 7',en:'Day 7'}, title:{fr:'Premières données réelles',en:'First real data flowing'}, body:{fr:"Le management reçoit ses premières données issues du terrain en temps réel, sans consolidation Excel. C'est le moment où la décision devient possible sur une base fiable.",en:"Leadership receives its first real-time field data, without Excel consolidation. This is when decisions can finally be made on a reliable base."}, crit:{fr:"Le tableau de bord management affiche des données terrain réelles en moins de 24h.",en:"The management dashboard shows real field data within 24 hours."} },
+  { day:{fr:'J 10',en:'Day 10'}, title:{fr:"Validation terrain de l'adoption",en:'Field adoption validated'}, body:{fr:"On vérifie que les équipes utilisent réellement le processus — pas parce qu'on leur demande, parce que ça leur facilite le travail. Si l'usage n'est pas au niveau convenu, on ne ferme pas le sprint.",en:"We verify that teams are truly using the workflow — not because they are told to, but because it makes work easier. If usage is below the agreed threshold, we do not close the sprint."}, crit:{fr:"Le taux d'utilisation atteint le seuil convenu. Les équipes n'ont pas besoin de rappels.",en:"Usage rate reaches the agreed threshold. Teams do not need reminders."} },
+  { day:{fr:'J 14+',en:'Day 14+'}, title:{fr:'Contrôle complet & extension',en:'Full control and expansion'}, body:{fr:"Le système vous appartient entièrement. Données exportables, accès contrôlés, historique complet. Vous décidez : stabiliser, étendre à d'autres processus, ou déployer sur d'autres sites. Aucune dépendance imposée.",en:"The system is fully yours: exportable data, controlled access, full history. You decide whether to stabilize, expand to other workflows, or roll out to more sites. No forced dependency."}, crit:{fr:"Vous pouvez arrêter, exporter ou étendre le système à tout moment, sans condition.",en:"You can stop, export, or expand the system at any time, with no conditions."} }
+];
+
+function tlStep(idx) {
+  document.querySelectorAll('.tl-step').forEach(function(s,i){ s.classList.toggle('active', i===idx); });
+  var lang = document.documentElement.getAttribute('data-lang') || 'fr';
+  var d = tlData[idx];
+  var det = document.getElementById('tl-detail');
+  document.getElementById('tld-day').textContent   = d.day[lang];
+  document.getElementById('tld-title').textContent = d.title[lang];
+  document.getElementById('tld-body').textContent  = d.body[lang];
+  document.getElementById('tld-crit-label').textContent = lang==='fr' ? 'Critère de livraison :' : 'Delivery criterion:';
+  document.getElementById('tld-crit').textContent  = d.crit[lang];
+  det.style.animation='none'; det.offsetHeight; det.style.animation='fade-card 0.28s var(--smooth)';
+}
+tlStep(0);
+
+</script>
+
+<script>
+/* ═══ TABLET — scroll entrance animation (Cadence de livraison only) ═══ */
+(() => {
+  const wrap = document.getElementById('sprint-tablet-wrap');
+  const tablet = document.getElementById('sprint-tablet');
+  if (!wrap || !tablet) return;
+
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    tablet.style.transform = 'rotateX(0deg) translateY(0px)';
+    return;
+  }
+
+  let raf = 0;
+
+  function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+  function computeProgress() {
+    const rect = wrap.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+
+    // Start when top hits ~85% of viewport; settle by ~35%
+    const start = vh * 0.85;
+    const end   = vh * 0.35;
+
+    const p = (start - rect.top) / (start - end);
+    return clamp01(p);
+  }
+
+  function render() {
+    raf = 0;
+    const p = computeProgress();
+
+    // interpolate: tilt 14deg -> 0deg, y 40px -> 0px
+    const rot = (1 - p) * 14;
+    const ty  = (1 - p) * 40;
+
+    tablet.classList.add('tablet-animating');
+    tablet.style.transform = `rotateX(${rot.toFixed(3)}deg) translateY(${ty.toFixed(2)}px)`;
+  }
+
+  function onScroll(){
+    if (raf) return;
+    raf = requestAnimationFrame(render);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  // initial paint
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
